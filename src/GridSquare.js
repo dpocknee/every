@@ -1,9 +1,9 @@
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Square from './Square';
 import { moveBlock } from './Page';
 import { ItemTypes } from './Constants';
+import { sourcerer } from './Grid';
 import { DropTarget } from 'react-dnd';
 
 const squareTarget = {
@@ -13,9 +13,13 @@ const squareTarget = {
 };
 
 function collect(connect, monitor) {
+  var sourceProps = monitor.getItem()
+  if (sourceProps != null) {
+    sourcerer(sourceProps.index,sourceProps.id);
+  }
   return {
     connectDropTarget: connect.dropTarget(),
-    isOver: monitor.isOver()
+    isOver: monitor.isOver(),
   };
 }
 

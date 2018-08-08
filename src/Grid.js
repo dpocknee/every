@@ -6,9 +6,14 @@ import Block from './Block';
 
 const squareWidth = '100px';
 const squareHeight = '100px';
+var blockFrom = null;
 
 const namearray = ["A","B","C","D","E","F","G","H"];
 const mainarray = [];
+
+export function sourcerer(value,id) {
+  blockFrom = [value,id]
+}
 
 for (let i = 0; i < namearray.length; i++) {
   mainarray.push(namearray[i])
@@ -18,14 +23,12 @@ var starting = null;
 class Grid extends Component {
   render() {
       if (starting != null) {
-        var blockToMove = this.props.blockPosition[1]
+        var blockId = blockFrom[1]
+        var oldPosition = mainarray.findIndex(function(x) {return x===blockId;});
         var newPosition = this.props.blockPosition[0]
-        var oldPosition = mainarray.findIndex(function(x) {return x===blockToMove;});
-        console.log("blockToMove " + blockToMove)
-        console.log("newPosition " + newPosition)
-        console.log("oldPosition " + oldPosition)
+        console.log("blockID " + blockId + " newPosition " + newPosition)
         mainarray.splice(oldPosition,1)
-        mainarray.splice(newPosition,0,blockToMove)
+        mainarray.splice(newPosition,0,blockId)
       } else {
         starting = true
       }
@@ -38,7 +41,7 @@ class Grid extends Component {
           <div key={index}
                style={{ width: squareWidth, height: squareHeight, margin: '10px',border: '2px solid black'}}>
             <GridSquare index={index} value={mainarray[index]} swidth={squareWidth} sheight={squareHeight}>
-              <Block value={mainarray[index]}/>
+              <Block id={mainarray[index]} value={mainarray[index]}/>
             </GridSquare>
           </div>
         );

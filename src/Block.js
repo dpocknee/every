@@ -5,14 +5,14 @@ import { DragSource } from 'react-dnd';
 
 const blockSource = {
   beginDrag(props) {
-    return {};
+    return {id: props.id}
   }
 };
-
+   
 function collect(connect, monitor) {
   return {
     connectDragSource: connect.dragSource(),
-    isDragging: monitor.isDragging()
+    isDragging: monitor.isDragging(),
   }
 }
 
