@@ -9,7 +9,6 @@ observe(blockPosition =>
   ReactDOM.render(
     <div>
 	    <Grid blockPosition={blockPosition}/>
-	    <p>Position: {blockPosition} </p>
     </div>,
     rootEl
   )

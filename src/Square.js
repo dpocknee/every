@@ -7,16 +7,15 @@ export default class Square extends Component {
   };
 
   render() {
-    const { black } = this.props;
-    const fill = black ? 'black' : 'white';
-    const stroke = black ? 'white' : 'black';
+    const fill = 'grey';
+    const stroke = 'black';
 
     return (
       <div style={{
         backgroundColor: fill,
         color: stroke,
         width: '100%',
-        height: '60px',
+        height: '100%',
       }}>
         {this.props.children}
         {this.props.index + ' - ' + this.props.value} 

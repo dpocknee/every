@@ -8,7 +8,7 @@ import { DropTarget } from 'react-dnd';
 
 const squareTarget = {
   drop(props) {
-    moveBlock(props.x, props.y);
+    moveBlock(props.index);
   }
 };
 
@@ -21,8 +21,7 @@ function collect(connect, monitor) {
 
 class GridSquare extends Component {
   render() {
-    const { x, y, index, value, connectDropTarget, isOver } = this.props;
-    const black = (x + y) % 2 === 1;
+    const {index, value, connectDropTarget, isOver } = this.props;
 
     return connectDropTarget(
       <div style={{
@@ -30,7 +29,7 @@ class GridSquare extends Component {
         width: '100%',
         height: '100%'
       }}>
-        <Square black={black} index={index} value={value}>
+        <Square index={index} value={value}>
           {this.props.children}
         </Square>
         {isOver &&
@@ -51,8 +50,6 @@ class GridSquare extends Component {
 }
 
 GridSquare.propTypes = {
-  x: PropTypes.number.isRequired,
-  y: PropTypes.number.isRequired,
   connectDropTarget: PropTypes.func.isRequired,
   isOver: PropTypes.bool.isRequired
 };
