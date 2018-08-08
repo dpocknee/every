@@ -15,27 +15,7 @@ for (let i = 0; i < 64; i++) {
 }
 
 class Grid extends Component {
-
-    renderSquare(swidth,sheight,index,value) {
-    return (
-      <div key={index}
-           style={{ width: swidth, height: sheight, margin: '10px'}}>
-        <GridSquare index={index} value={value} swidth={swidth} sheight={sheight}>
-          {this.renderPiece(index, value)}
-        </GridSquare>
-      </div>
-    );
-  }
-
-
-  renderPiece(index, value) {
-    if (this.props.blockPosition === index) {
-      return (
-       <Block index={index} value={value}/>
-        );
-    }
-  } 
-
+ 
   render() {
       mainarray.splice(oldPosition,1)
       mainarray.splice(this.props.blockPosition,0,mainarray[this.props.blockPosition])
@@ -45,10 +25,17 @@ class Grid extends Component {
         current_order_string.push(mainarray[j] + ' - ');
       }
     const squares = [];
-      for (let i = 0; i < mainarray.length; i++) {
-        squares.push(this.renderSquare(squareWidth,squareHeight,i,mainarray[i]));
-      }
-      console.log("now")
+    for (let index = 0; index < mainarray.length; index++) {
+      squares.push(
+          <div key={index}
+               style={{ width: squareWidth, height: squareHeight, margin: '10px'}}>
+            <GridSquare index={index} value={mainarray[index]} swidth={squareWidth} sheight={squareHeight}>
+              {this.props.blockPosition === index ? <Block index={index} value={mainarray[index]}/>: ' ' }
+            </GridSquare>
+          </div>
+        );
+    }
+    console.log("now")
 
     return (
       <div>
