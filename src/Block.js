@@ -27,7 +27,7 @@ class Block extends Component {
         fontWeight: 'bold',
         cursor: 'move'
       }}>
-        ♘ {this.props.numcheck}
+        ♘ {this.props.value}
       </div>
     );
   }

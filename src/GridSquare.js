@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Square from './Square';
-import { canMoveBlock, moveBlock } from './Page';
+import { moveBlock } from './Page';
 import { ItemTypes } from './Constants';
 import { DropTarget } from 'react-dnd';
 
@@ -21,7 +21,7 @@ function collect(connect, monitor) {
 
 class GridSquare extends Component {
   render() {
-    const { x, y, i, connectDropTarget, isOver } = this.props;
+    const { x, y, index, value, connectDropTarget, isOver } = this.props;
     const black = (x + y) % 2 === 1;
 
     return connectDropTarget(
@@ -30,7 +30,7 @@ class GridSquare extends Component {
         width: '100%',
         height: '100%'
       }}>
-        <Square black={black} num={i}>
+        <Square black={black} index={index} value={value}>
           {this.props.children}
         </Square>
         {isOver &&

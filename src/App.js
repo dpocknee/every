@@ -7,7 +7,12 @@ const rootEl = document.getElementById('root');
 
 observe(blockPosition =>
   ReactDOM.render(
-    <Grid blockPosition={blockPosition} />,
+    <div>
+	    <Grid blockPosition={blockPosition}/>
+	    <p>Position: {blockPosition} </p>
+    </div>,
     rootEl
   )
 );
+
+//    <p>mainarray: {current_order_string}</p>

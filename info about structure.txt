@@ -1,0 +1,12 @@
+Page.js = The whole thing (equivalent of Game.js)
+ |
+ V
+Grid.js = the entire grid (equivalent of Board.js)
+ |
+ V
+GridSquare.js = this controls the drag and drop for each grid square (equivalent of BoardSquare.js)
+ |
+ V
+Square.js = the visual component loaded into each GridSquare (equivalent of Square.js)
+
+Block.js = the block that can be moved around (equivalent of Knight.js)

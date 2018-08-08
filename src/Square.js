@@ -19,7 +19,7 @@ export default class Square extends Component {
         height: '60px',
       }}>
         {this.props.children}
-        {this.props.num}
+        {this.props.index + ' - ' + this.props.value} 
       </div>
     );
   }
