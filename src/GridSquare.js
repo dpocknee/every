@@ -8,7 +8,7 @@ import { DropTarget } from 'react-dnd';
 
 const squareTarget = {
   drop(props) {
-    moveBlock(props.index);
+    moveBlock(props.index,props.value);
   }
 };
 

@@ -17,12 +17,14 @@ var starting = null;
 
 class Grid extends Component {
   render() {
-      var blockToMove = namearray[0]
-      var newPosition = this.props.blockPosition
-      var oldIndex = mainarray.findIndex(function(x) {return x===blockToMove;});
-
       if (starting != null) {
-        mainarray.splice(oldIndex,1)
+        var blockToMove = this.props.blockPosition[1]
+        var newPosition = this.props.blockPosition[0]
+        var oldPosition = mainarray.findIndex(function(x) {return x===blockToMove;});
+        console.log("blockToMove " + blockToMove)
+        console.log("newPosition " + newPosition)
+        console.log("oldPosition " + oldPosition)
+        mainarray.splice(oldPosition,1)
         mainarray.splice(newPosition,0,blockToMove)
       } else {
         starting = true
@@ -36,7 +38,7 @@ class Grid extends Component {
           <div key={index}
                style={{ width: squareWidth, height: squareHeight, margin: '10px',border: '2px solid black'}}>
             <GridSquare index={index} value={mainarray[index]} swidth={squareWidth} sheight={squareHeight}>
-              {newPosition === index ? <Block value={blockToMove}/> : ' '}
+              <Block value={mainarray[index]}/>
             </GridSquare>
           </div>
         );

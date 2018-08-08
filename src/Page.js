@@ -14,7 +14,7 @@ export function observe(o) {
   emitChange();
 }
 
-export function moveBlock(location) {
-  blockPosition = location;
+export function moveBlock(location,name) {
+  blockPosition = [location,name];
   emitChange();
 }
