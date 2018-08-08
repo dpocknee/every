@@ -21,7 +21,7 @@ function collect(connect, monitor) {
 
 class GridSquare extends Component {
   render() {
-    const { x, y, connectDropTarget, isOver } = this.props;
+    const { x, y, i, connectDropTarget, isOver } = this.props;
     const black = (x + y) % 2 === 1;
 
     return connectDropTarget(
@@ -30,7 +30,7 @@ class GridSquare extends Component {
         width: '100%',
         height: '100%'
       }}>
-        <Square black={black}>
+        <Square black={black} num={i}>
           {this.props.children}
         </Square>
         {isOver &&
