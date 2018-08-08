@@ -6,34 +6,37 @@ import Block from './Block';
 
 const squareWidth = '100px';
 const squareHeight = '100px';
-var oldPosition = 0;
 
+const namearray = ["A","B","C","D","E","F","G","H"];
 const mainarray = [];
-for (let i = 0; i < 64; i++) {
-  mainarray.push(i);
-}
 
-//STICK TEST MAINARRAY IN HERE:
-//mainarray
+for (let i = 0; i < namearray.length; i++) {
+  mainarray.push(namearray[i])
+}
+var starting = null;
 
 class Grid extends Component {
   render() {
-      mainarray.splice(oldPosition,1)
-      mainarray.splice(this.props.blockPosition,0,mainarray[this.props.blockPosition])
-      oldPosition = this.props.blockPosition
-      var current_order_string = [];
-    const squares = [];
-    for (let index = 0; index < mainarray.length; index++) {
-      if (this.props.blockPosition === index) {
-        var newValue = "bob"
-        mainarray[index] = newValue;
+      var blockToMove = namearray[0]
+      var newPosition = this.props.blockPosition
+      var oldIndex = mainarray.findIndex(function(x) {return x===blockToMove;});
+
+      if (starting != null) {
+        mainarray.splice(oldIndex,1)
+        mainarray.splice(newPosition,0,blockToMove)
+      } else {
+        starting = true
       }
+
+    var current_order_string = [];
+    const squares = [];
+
+    for (let index = 0; index < mainarray.length; index++) {
       squares.push(
           <div key={index}
-               style={{ width: squareWidth, height: squareHeight, margin: '10px'}}>
+               style={{ width: squareWidth, height: squareHeight, margin: '10px',border: '2px solid black'}}>
             <GridSquare index={index} value={mainarray[index]} swidth={squareWidth} sheight={squareHeight}>
-              {this.props.blockPosition === index ? <Block index={index} value={newValue}/> : ' ' 
-              }
+              {newPosition === index ? <Block value={blockToMove}/> : ' '}
             </GridSquare>
           </div>
         );
