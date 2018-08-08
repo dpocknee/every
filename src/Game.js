@@ -19,7 +19,6 @@ export function moveKnight(toX, toY) {
   emitChange();
 }
 
-
 export function canMoveKnight(toX, toY) {
   const [x, y] = knightPosition;
   const dx = toX - x;
@@ -28,12 +27,3 @@ export function canMoveKnight(toX, toY) {
   return (Math.abs(dx) === 2 && Math.abs(dy) === 1) ||
          (Math.abs(dx) === 1 && Math.abs(dy) === 2);
 }
-
-
-{/*Maybe useful for timing things later
-export function observe(receive) {
-  setInterval(() => receive([
-    Math.floor(Math.random() * 8),
-    Math.floor(Math.random() * 8)
-  ]), 500);
-}*/}

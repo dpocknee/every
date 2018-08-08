@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 export default class Square extends Component {
+  static propTypes = {
+    black: PropTypes.bool
+  };
+
   render() {
     const { black } = this.props;
     const fill = black ? 'black' : 'white';
@@ -12,14 +16,10 @@ export default class Square extends Component {
         backgroundColor: fill,
         color: stroke,
         width: '100%',
-        height: '100%'
+        height: '60px',
       }}>
         {this.props.children}
       </div>
     );
   }
 }
-
-Square.propTypes = {
-  black: PropTypes.bool
-};
