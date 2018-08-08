@@ -1,8 +1,8 @@
-let knightPosition = [1, 7];
+let blockPosition = [1, 7];
 let observer = null;
 
 function emitChange() {
-  observer(knightPosition);
+  observer(blockPosition);
 }
 
 export function observe(o) {
@@ -14,13 +14,13 @@ export function observe(o) {
   emitChange();
 }
 
-export function moveKnight(toX, toY) {
-  knightPosition = [toX, toY];
+export function moveBlock(toX, toY) {
+  blockPosition = [toX, toY];
   emitChange();
 }
 
-export function canMoveKnight(toX, toY) {
-  const [x, y] = knightPosition;
+export function canMoveBlock(toX, toY) {
+  const [x, y] = blockPosition;
   const dx = toX - x;
   const dy = toY - y;
 

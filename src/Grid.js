@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-
 import PropTypes from 'prop-types';
+
+import { canMoveBlock, moveBlock } from './Page';
+import GridSquare from './GridSquare';
 import Square from './Square';
-import BoardSquare from './BoardSquare';
-import Knight from './Knight';
-import { canMoveKnight, moveKnight } from './Game';
+import Block from './Block';
 
 
-class Board extends Component {
+class Grid extends Component {
   static propTypes = {
-    knightPosition: PropTypes.arrayOf(
+    blockPosition: PropTypes.arrayOf(
       PropTypes.number.isRequired
     ).isRequired
   };
@@ -21,24 +21,24 @@ renderSquare(i) {
   return (
     <div key={i}
          style={{ width: '12.5%', height: '12.5%' }}>
-      <BoardSquare x={x}
+      <GridSquare x={x}
                    y={y}>
         {this.renderPiece(x, y)}
-      </BoardSquare>
+      </GridSquare>
     </div>
   );
 }
 
 renderPiece(x, y) {
-  const [knightX, knightY] = this.props.knightPosition;
-  if (x === knightX && y === knightY) {
-    return <Knight />;
+  const [blockX, blockY] = this.props.blockPosition;
+  if (x === blockX && y === blockY) {
+    return <Block />;
   }
 }
 
 handleSquareClick(toX, toY) {
-  if (canMoveKnight(toX, toY)) {
-    moveKnight(toX, toY);
+  if (canMoveBlock(toX, toY)) {
+    moveBlock(toX, toY);
   }
 }
 
@@ -61,4 +61,4 @@ handleSquareClick(toX, toY) {
   }
 }
 
-export default DragDropContext(HTML5Backend)(Board);
+export default DragDropContext(HTML5Backend)(Grid);

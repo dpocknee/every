@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Board from './Board';
-import { observe } from './Game';
+import Grid from './Grid';
+import { observe } from './Page';
 
 const rootEl = document.getElementById('root');
 
-observe(knightPosition =>
+observe(blockPosition =>
   ReactDOM.render(
-    <Board knightPosition={knightPosition} />,
+    <Grid blockPosition={blockPosition} />,
     rootEl
   )
 );

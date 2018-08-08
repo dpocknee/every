@@ -2,13 +2,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Square from './Square';
-import { canMoveKnight, moveKnight } from './Game';
+import { canMoveBlock, moveBlock } from './Page';
 import { ItemTypes } from './Constants';
 import { DropTarget } from 'react-dnd';
 
 const squareTarget = {
   drop(props) {
-    moveKnight(props.x, props.y);
+    moveBlock(props.x, props.y);
   }
 };
 
@@ -19,7 +19,7 @@ function collect(connect, monitor) {
   };
 }
 
-class BoardSquare extends Component {
+class GridSquare extends Component {
   render() {
     const { x, y, connectDropTarget, isOver } = this.props;
     const black = (x + y) % 2 === 1;
@@ -50,11 +50,11 @@ class BoardSquare extends Component {
   }
 }
 
-BoardSquare.propTypes = {
+GridSquare.propTypes = {
   x: PropTypes.number.isRequired,
   y: PropTypes.number.isRequired,
   connectDropTarget: PropTypes.func.isRequired,
   isOver: PropTypes.bool.isRequired
 };
 
-export default DropTarget(ItemTypes.KNIGHT, squareTarget, collect)(BoardSquare);
+export default DropTarget(ItemTypes.BLOCK, squareTarget, collect)(GridSquare);
