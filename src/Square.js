@@ -14,12 +14,13 @@ export default class Square extends Component {
       <div style={{
         backgroundColor: fill,
         color: stroke,
-        width: '100%',
-        height: '100%',
+        width: this.props.swidth,
+        height: this.props.sheight,
       }}>
         {this.props.children}
-        {this.props.index + ' - ' + this.props.value} 
       </div>
     );
   }
 }
+
+//{this.props.index + ' - ' + this.props.value}

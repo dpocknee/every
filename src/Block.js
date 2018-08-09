@@ -18,15 +18,18 @@ function collect(connect, monitor) {
 
 class Block extends Component {
   render() {
+    var eachImage = ('/img/'+ this.props.value.toLowerCase() + '.jpg');
     const { connectDragSource, isDragging } = this.props;
     return connectDragSource(
       <div style={{
         opacity: isDragging ? 0.5 : 1,
-        fontSize: 25,
+        fontSize: 35,
         fontWeight: 'bold',
+        textAlign: 'center',
         cursor: 'move'
       }}>
-        ♘ {this.props.value}
+        <img src={eachImage} alt={'right'}/>
+        {this.props.value}
       </div>
     );
   }

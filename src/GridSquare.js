@@ -25,15 +25,14 @@ function collect(connect, monitor) {
 
 class GridSquare extends Component {
   render() {
-    const {index, value, connectDropTarget, isOver } = this.props;
-
+    const {index, value, connectDropTarget, isOver, swidth, sheight } = this.props;
     return connectDropTarget(
       <div style={{
         position: 'relative',
         width: '100%',
         height: '100%'
       }}>
-        <Square index={index} value={value}>
+        <Square index={index} value={value} swidth={swidth} sheight={sheight}>
           {this.props.children}
         </Square>
         {isOver &&
@@ -46,7 +45,11 @@ class GridSquare extends Component {
             zIndex: 1,
             opacity: 0.5,
             backgroundColor: 'yellow',
-          }} />
+            fontSize: 35,
+            fontWeight: 'bold',
+            textAlign: 'center',
+          }} >
+          </div>
         }
       </div>
     );

@@ -6,10 +6,11 @@ import Block from './Block';
 
 const squareWidth = '100px';
 const squareHeight = '100px';
-var blockFrom = null;
 
 const namearray = ["A","B","C","D","E","F","G","H"];
 const mainarray = [];
+
+var blockFrom = null;
 
 export function sourcerer(value,id) {
   blockFrom = [value,id]
@@ -26,7 +27,7 @@ class Grid extends Component {
         var blockId = blockFrom[1]
         var oldPosition = mainarray.findIndex(function(x) {return x===blockId;});
         var newPosition = this.props.blockPosition[0]
-        console.log("blockID " + blockId + " newPosition " + newPosition)
+        //console.log("blockID " + blockId + " newPosition " + newPosition)
         mainarray.splice(oldPosition,1)
         mainarray.splice(newPosition,0,blockId)
       } else {
@@ -39,16 +40,14 @@ class Grid extends Component {
     for (let index = 0; index < mainarray.length; index++) {
       squares.push(
           <div key={index}
-               style={{ width: squareWidth, height: squareHeight, margin: '10px',border: '2px solid black'}}>
+               style={{ width: squareWidth, height: squareHeight, margin: '10px 10px 40px 10px',border: '2px solid black'}}>
             <GridSquare index={index} value={mainarray[index]} swidth={squareWidth} sheight={squareHeight}>
               <Block id={mainarray[index]} value={mainarray[index]}/>
             </GridSquare>
           </div>
         );
-      current_order_string.push(mainarray[index] + ' - ');
+      current_order_string.push(mainarray[index] + ' ');
     }
-    //console.log(mainarray)
-
     return (
       <div>
       <div style={{
@@ -59,7 +58,7 @@ class Grid extends Component {
       }}>
         {squares}
       </div>
-      <div><p>Position: {current_order_string}</p></div>
+      <div><p>Order: {current_order_string}</p></div>
       </div>
     );
   }
