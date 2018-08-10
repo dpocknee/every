@@ -6,8 +6,8 @@ import Block from './Block';
 import jsondata from './outputdb.json';
 import timingdata from './timing.json';
 
-const squareWidth = '60px';
-const squareHeight = '250px';
+const squareWidth = 60;
+const squareHeight = 250;
 
 var blockFrom = null;
 
@@ -34,10 +34,15 @@ class Grid extends Component {
 
       if (starting != null) {
         var blockId = blockFrom[1]
-        var oldPosition = mainarray.findIndex(function(x) {return x[0] == blockId;});
-        var newPosition = this.props.blockPosition[0]
-        mainarray.splice(oldPosition,1)
-        mainarray.splice(newPosition,0,[blockId,oldPosition])
+        console.log(blockId)
+        console.log(mainarray)
+        var oldPosition = mainarray.findIndex(function(x) {x[0] == blockId});
+        //var oldValue = mainarray[oldPosition];
+        console.log("oldPosition " + oldPosition);
+        //console.log("oldValue " + oldValue)
+        var newPosition = this.props.blockPosition[0];
+        mainarray.splice(oldPosition,1);
+        mainarray.splice(newPosition,0,[blockId,3]);
       } else {
         starting = true
       }
@@ -45,13 +50,13 @@ class Grid extends Component {
     var current_order_string = [];
     const squares = [];
 
-    for (let index = 0; index < mainarray.length; index++) {
+    for (let index = 0; index < 5; index++) {
       var currentvalue = mainarray[index][0]
       var currentindex = mainarray[index][1]
       squares.push(
           <div key={index}
-               style={{ width: squareWidth, height: squareHeight, margin: '10px 5px 20px 5px',border: '0px solid black'}}>
-            <GridSquare index={index} value={currentvalue} swidth={squareWidth} sheight={squareHeight}>
+               style={{ width: squareWidth+'px', height: squareHeight+'px', margin: '10px 5px 20px 5px',border: '0px solid black'}}>
+            <GridSquare index={index} value={currentvalue} swidth={squareWidth+'px'} sheight={squareHeight+'px'}>
               <Block id={currentvalue} 
               name={currentvalue} 
               redvalue={timing[index][3]}
@@ -60,12 +65,13 @@ class Grid extends Component {
               notes={jsondata['chords'][currentindex].notes}
               harmonics={jsondata['chords'][currentindex].harmonic_ratio}
               octaves={jsondata['chords'][currentindex].octavehistogram}
+              swidth={squareWidth}
               />
             </GridSquare>
           </div>
         );
       current_order_string.push(currentvalue + ' ');
-      //console.log(currentindex)
+      console.log("OCTAVE TEST: " + jsondata['chords'][currentindex].octavehistogram)
     }
     return (
       <div>

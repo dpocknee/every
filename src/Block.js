@@ -36,13 +36,43 @@ function collect(connect, monitor) {
   }
 }
 
+function octavemaker (arrayin,octaveheight,graphwidth,topoffset) {
+  var octoutput = [];
+  var bardivision = octaveheight/5;
+  var barwidth = (graphwidth/5)-2;
+  for(let x = 0; x < arrayin.length; x++) {
+    var barheight = (arrayin[x]*bardivision)+1;
+    var topval = (octaveheight - barheight) + topoffset;
+    var leftval = x*(barwidth+2)+1;
+
+    octoutput.push(
+      <div key={x} style={{
+        height: barheight + 'px',
+        position: 'absolute',
+        top: topval + 'px',
+        left: leftval + 'px',
+        width: barwidth + 'px',
+        margin: '0px 1px 0px 1px',
+        boxSizing: 'border-box',
+        backgroundColor: 'lightblue'
+      }}></div>
+      );
+    }
+    return octoutput;
+}
+
 class Block extends Component {
   render() {
+    const { connectDragSource, isDragging } = this.props;
+
     var eachImage = ('/chords/'+ this.props.name + '.png');
     var speedcolor = ('rgb('+ this.props.redvalue + ', ' + this.props.greenvalue + ', 0)');
     var usenotecolor = notecolors[this.props.notes-1]
     var harmonicspread = (Math.round(this.props.harmonics*100) + '%');
-    const { connectDragSource, isDragging } = this.props;
+    var octaveheight = 50;
+    var topoffset = 65; // amount octave graph is offset from the top of the main div
+    var octavearray = octavemaker(this.props.octaves,octaveheight,this.props.swidth,topoffset);
+    
     return connectDragSource(
       <div style={{
         opacity: isDragging ? 0.5 : 1,
@@ -90,20 +120,31 @@ class Block extends Component {
           width: '100%',
           boxSizing: 'border-box',
           backgroundColor: 'white',
-          border: 'solid black 1px',
+          border: 'solid lightgray 1px',
           margin: '1px 1px 10px 1px'
         }} >
-        <div style={{
-          height: '11px',
-          width: harmonicspread,
-          boxSizing: 'border-box',
-          backgroundColor: 'lightblue',
-          fontSize: 8,
-          color: 'black',
-          textAlign: 'center',
-        }} >
-        {harmonicspread}
+          <div style={{
+            height: '11px',
+            width: harmonicspread,
+            boxSizing: 'border-box',
+            backgroundColor: 'lightblue',
+            fontSize: 8,
+            color: 'black',
+            textAlign: 'center',
+          }} >
+          {harmonicspread}
+          </div>
         </div>
+        <div style={{
+          height: '50px',
+          width: '100%',
+          boxSizing: 'border-box',
+          backgroundColor: 'white',
+          border: 'solid lightgray 1px',
+          margin: '1px 1px 10px 1px',
+          verticalAlign: 'bottom',
+        }} >
+        {octavearray}
         </div>
 
         <img src={eachImage} alt={'right'}/>
