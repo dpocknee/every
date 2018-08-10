@@ -70,6 +70,7 @@ class Grid extends Component {
     return (
       <div>
       <h1>The <i>Every</i> Composer App</h1>
+      <p>An app to help compose the guitar piece <i>Every</i>.</p>
       <div style={{
         width: '100%',
         height: '100%',

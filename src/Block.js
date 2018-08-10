@@ -20,6 +20,14 @@ const difficultycolors = [
   'rgb(32, 223, 0)',
   'rgb(0, 255, 0)'
 ];
+
+const notecolors = [
+  '#EEEEEE',
+  '#BBBBBB',
+  '#888888',
+  '#555555',
+  '#222222'
+]
    
 function collect(connect, monitor) {
   return {
@@ -32,7 +40,8 @@ class Block extends Component {
   render() {
     var eachImage = ('/chords/'+ this.props.name + '.png');
     var speedcolor = ('rgb('+ this.props.redvalue + ', ' + this.props.greenvalue + ', 0)');
-    var harmonicspread = ((this.props.harmonics*100) + '%');
+    var usenotecolor = notecolors[this.props.notes-1]
+    var harmonicspread = (Math.round(this.props.harmonics*100) + '%');
     const { connectDragSource, isDragging } = this.props;
     return connectDragSource(
       <div style={{
@@ -41,15 +50,16 @@ class Block extends Component {
         cursor: 'move'
       }}>
           <div style={{
-            height: '20px',
+            height: '15px',
             width: '100%',
             backgroundColor: speedcolor,
             fontSize: 10,
             color: 'white',
             fontWeight: 'bold',
             textAlign: 'center',
+            margin: 1
           }} >
-          <p>{this.props.name}</p>
+          {this.props.name}
         </div>
         <div style={{
           height: '15px',
@@ -58,38 +68,39 @@ class Block extends Component {
           fontSize: 10,
           color: 'white',
           textAlign: 'center',
-          textWeight: 'bold',
-          marginBottom: 10
+          fontWeight: 'bold',
+          margin: 1
         }} >
-        <p>{this.props.difficulty}/9</p>
+        {this.props.difficulty}
         </div>
         <div style={{
           height: '10px',
           width: '100%',
-          backgroundColor: 'lightblue',
-          fontSize: 8,
-          color: 'black',
+          backgroundColor: usenotecolor,
+          fontSize: 9,
+          color: 'white',
           textAlign: 'center',
-          textWeight: 'bold',
-          marginBottom: 10
+          fontWeight: 'bold',
+          margin: 1
         }} >
-        <p>Notes: {this.props.notes}</p>
+        {this.props.notes}
         </div>
         <div style={{
-          height: '10px',
+          height: '13px',
           width: '100%',
+          boxSizing: 'border-box',
           backgroundColor: 'white',
           border: 'solid black 1px',
-          marginBottom: 10
+          margin: '1px 1px 10px 1px'
         }} >
         <div style={{
-          height: '10px',
+          height: '11px',
           width: harmonicspread,
+          boxSizing: 'border-box',
           backgroundColor: 'lightblue',
           fontSize: 8,
           color: 'black',
           textAlign: 'center',
-          textWeight: 'bold'
         }} >
         {harmonicspread}
         </div>

@@ -1,0 +1,2 @@
+@image{svgtest-1}
+@c eof
