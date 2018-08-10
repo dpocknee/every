@@ -32,6 +32,7 @@ class Block extends Component {
   render() {
     var eachImage = ('/chords/'+ this.props.name + '.png');
     var speedcolor = ('rgb('+ this.props.redvalue + ', ' + this.props.greenvalue + ', 0)');
+    var harmonicspread = ((this.props.harmonics*100) + '%');
     const { connectDragSource, isDragging } = this.props;
     return connectDragSource(
       <div style={{
@@ -51,15 +52,49 @@ class Block extends Component {
           <p>{this.props.name}</p>
         </div>
         <div style={{
-          height: '30px',
+          height: '15px',
           width: '100%',
           backgroundColor: difficultycolors[this.props.difficulty-1],
-          fontSize: 8,
+          fontSize: 10,
           color: 'white',
           textAlign: 'center',
+          textWeight: 'bold',
+          marginBottom: 10
         }} >
-        <p>Difficulty: {this.props.difficulty}/9</p>
+        <p>{this.props.difficulty}/9</p>
         </div>
+        <div style={{
+          height: '10px',
+          width: '100%',
+          backgroundColor: 'lightblue',
+          fontSize: 8,
+          color: 'black',
+          textAlign: 'center',
+          textWeight: 'bold',
+          marginBottom: 10
+        }} >
+        <p>Notes: {this.props.notes}</p>
+        </div>
+        <div style={{
+          height: '10px',
+          width: '100%',
+          backgroundColor: 'white',
+          border: 'solid black 1px',
+          marginBottom: 10
+        }} >
+        <div style={{
+          height: '10px',
+          width: harmonicspread,
+          backgroundColor: 'lightblue',
+          fontSize: 8,
+          color: 'black',
+          textAlign: 'center',
+          textWeight: 'bold'
+        }} >
+        {harmonicspread}
+        </div>
+        </div>
+
         <img src={eachImage} alt={'right'}/>
       </div>
     );
