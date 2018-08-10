@@ -10,15 +10,15 @@ const blockSource = {
 };
 
 const difficultycolors = [
-  'rgb(255, 0, 0)', 
+  'rgb(0, 255, 0)',
+  'rgb(32, 223, 0)',
+  'rgb(64, 191, 0)',
+  'rgb(96, 159, 0)',
+  'rgb(128, 128, 0)',
+  'rgb(159, 96, 0)',
   'rgb(191, 64, 0)',
   'rgb(223, 32, 0)',
-  'rgb(159, 96, 0)',
-  'rgb(128, 128, 0)',
-  'rgb(96, 159, 0)',
-  'rgb(64, 191, 0)',
-  'rgb(32, 223, 0)',
-  'rgb(0, 255, 0)'
+  'rgb(255, 0, 0)'
 ];
 
 const notecolors = [
@@ -70,7 +70,7 @@ class Block extends Component {
     var usenotecolor = notecolors[this.props.notes-1]
     var harmonicspread = (Math.round(this.props.harmonics*100) + '%');
     var octaveheight = 50;
-    var topoffset = 65; // amount octave graph is offset from the top of the main div
+    var topoffset = 56; // amount octave graph is offset from the top of the main div
     var octavearray = octavemaker(this.props.octaves,octaveheight,this.props.swidth,topoffset);
     
     return connectDragSource(
@@ -121,7 +121,7 @@ class Block extends Component {
           boxSizing: 'border-box',
           backgroundColor: 'white',
           border: 'solid lightgray 1px',
-          margin: '1px 1px 10px 1px'
+          margin: 1
         }} >
           <div style={{
             height: '11px',

@@ -7,7 +7,7 @@ import jsondata from './outputdb.json';
 import timingdata from './timing.json';
 
 const squareWidth = 60;
-const squareHeight = 250;
+const squareHeight = 300;
 
 var blockFrom = null;
 
@@ -34,15 +34,11 @@ class Grid extends Component {
 
       if (starting != null) {
         var blockId = blockFrom[1]
-        console.log(blockId)
-        console.log(mainarray)
-        var oldPosition = mainarray.findIndex(function(x) {x[0] == blockId});
-        //var oldValue = mainarray[oldPosition];
-        console.log("oldPosition " + oldPosition);
-        //console.log("oldValue " + oldValue)
+         var oldPosition = mainarray.findIndex(function(x) {return x[0]==blockId;});
+        var oldValue = mainarray[oldPosition][1];
         var newPosition = this.props.blockPosition[0];
         mainarray.splice(oldPosition,1);
-        mainarray.splice(newPosition,0,[blockId,3]);
+        mainarray.splice(newPosition,0,[blockId,oldValue]);
       } else {
         starting = true
       }
@@ -50,7 +46,7 @@ class Grid extends Component {
     var current_order_string = [];
     const squares = [];
 
-    for (let index = 0; index < 5; index++) {
+    for (let index = 0; index < mainarray.length; index++) {
       var currentvalue = mainarray[index][0]
       var currentindex = mainarray[index][1]
       squares.push(
@@ -71,7 +67,6 @@ class Grid extends Component {
           </div>
         );
       current_order_string.push(currentvalue + ' ');
-      console.log("OCTAVE TEST: " + jsondata['chords'][currentindex].octavehistogram)
     }
     return (
       <div>
