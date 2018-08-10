@@ -7,7 +7,7 @@ export default class Square extends Component {
   };
 
   render() {
-    const fill = 'grey';
+    const fill = 'white';
     const stroke = 'black';
 
     return (

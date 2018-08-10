@@ -18,13 +18,12 @@ function collect(connect, monitor) {
 
 class Block extends Component {
   render() {
-    var eachImage = ('/img/'+ this.props.value.toLowerCase() + '.jpg');
+    var eachImage = ('/chords/'+ this.props.value + '.png');
     const { connectDragSource, isDragging } = this.props;
     return connectDragSource(
       <div style={{
         opacity: isDragging ? 0.5 : 1,
-        fontSize: 35,
-        fontWeight: 'bold',
+        fontSize: 10,
         textAlign: 'center',
         cursor: 'move'
       }}>

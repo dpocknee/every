@@ -6,6 +6,7 @@ import { ItemTypes } from './Constants';
 import { sourcerer } from './Grid';
 import { DropTarget } from 'react-dnd';
 
+
 const squareTarget = {
   drop(props) {
     moveBlock(props.index,props.value);
