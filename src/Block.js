@@ -64,7 +64,7 @@ function octavemaker (arrayin,octaveheight,graphwidth,topoffset) {
 class Block extends Component {
   render() {
     const { connectDragSource, isDragging } = this.props;
-
+    
     var eachImage = ('/chords/'+ this.props.name + '.png');
     var speedcolor = ('rgb('+ this.props.redvalue + ', ' + this.props.greenvalue + ', 0)');
     var usenotecolor = notecolors[this.props.notes-1]
@@ -72,12 +72,13 @@ class Block extends Component {
     var octaveheight = 50;
     var topoffset = 56; // amount octave graph is offset from the top of the main div
     var octavearray = octavemaker(this.props.octaves,octaveheight,this.props.swidth,topoffset);
-    
+
     return connectDragSource(
       <div style={{
         opacity: isDragging ? 0.5 : 1,
         textAlign: 'center',
-        cursor: 'move'
+        cursor: 'move',
+        boxShadow: this.props.selectedchord
       }}>
           <div style={{
             height: '15px',

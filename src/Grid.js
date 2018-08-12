@@ -5,6 +5,9 @@ import GridSquare from './GridSquare';
 import Block from './Block';
 import jsondata from './outputdb.json';
 import timingdata from './timing.json';
+import {Slider} from './Slider.js';
+//import {PlaybackSlider, outter} from './playbackslider.js';
+//import RefsForm from './reftest.js';
 
 const squareWidth = 60;
 const squareHeight = 300;
@@ -25,14 +28,29 @@ for (let i = 0; i < jsondata['chords'].length; i++) {
   timing.push(timingdata['timing'][i]);
 };
 
-//console.log(timing)
 
 var starting = null;
 
 class Grid extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      "slider" : 1,
+      "blockPosition" : this.props.blockPosition
+    };
+    this.updateTheSliderValue = this.updateTheSliderValue.bind(this);
+  }
+
+  updateTheSliderValue(e) {
+    this.setState({
+      slider : e.target.value,
+    "blockPosition" : this.props.blockPosition
+  });
+  }
+
   render() {
 
-      if (starting != null) {
+      if (starting != null && blockFrom != null) {
         var blockId = blockFrom[1]
          var oldPosition = mainarray.findIndex(function(x) {return x[0]==blockId;});
         var oldValue = mainarray[oldPosition][1];
@@ -49,6 +67,12 @@ class Grid extends Component {
     for (let index = 0; index < mainarray.length; index++) {
       var currentvalue = mainarray[index][0]
       var currentindex = mainarray[index][1]
+      if (index === parseInt(this.state.slider) ) {
+        var selectedchord = '0px 0px 5px 5px #888888';
+      } else {
+        var selectedchord = '0px 0px 0px 0px #888888'; 
+      }
+      
       squares.push(
           <div key={index}
                style={{ width: squareWidth+'px', height: squareHeight+'px', margin: '10px 5px 20px 5px',border: '0px solid black'}}>
@@ -62,11 +86,12 @@ class Grid extends Component {
               harmonics={jsondata['chords'][currentindex].harmonic_ratio}
               octaves={jsondata['chords'][currentindex].octavehistogram}
               swidth={squareWidth}
+              selectedchord = {selectedchord}
               />
             </GridSquare>
           </div>
         );
-      current_order_string.push(currentvalue + ' ');
+      current_order_string.push(currentvalue + ' ');      
     }
     return (
       <div>
@@ -78,16 +103,23 @@ class Grid extends Component {
         display: 'flex',
         flexWrap: 'wrap',
       }}>
-        {squares}
+       {squares}
       </div>
+       <div style={{
+      position: 'fixed',
+      width: '600px',
+      height: '120px',
+      bottom: 0,
+      left: 0,
+      backgroundColor: 'lightgray',
+      color: 'black'
+     }}>
+     <Slider sliderUpdate={this.updateTheSliderValue}/>
+     <span>Chord {parseInt(this.state.slider)+1}</span>
+        </div>
      </div>
     );
   }
 }
-
-//   <div><p>Order: {current_order_string}</p></div>
-//difficulty ={jsondata['chords'][i]} 
-//notes ={jsondata['chords'][i]} 
-//harmonic_ratio ={jsondata['chords'][i]
 
 export default DragDropContext(HTML5Backend)(Grid);

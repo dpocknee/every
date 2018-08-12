@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Grid from './Grid';
+//import Grid from './JustTheSlider';
 import { observe } from './Page';
 
 const rootEl = document.getElementById('root');
@@ -8,7 +9,7 @@ const rootEl = document.getElementById('root');
 observe(blockPosition =>
   ReactDOM.render(
     <div>
-	    <Grid blockPosition={blockPosition}/>
+	<Grid blockPosition={blockPosition}/>
     </div>,
     rootEl
   )
