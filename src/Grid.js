@@ -35,7 +35,7 @@ class Grid extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      "slider" : 1,
+      "slider" : 0,
       "blockPosition" : this.props.blockPosition
     };
     this.updateTheSliderValue = this.updateTheSliderValue.bind(this);
