@@ -15,6 +15,20 @@
 
 <button onclick="playSound(0)">START SOUNDS</button>
 <button onclick="stopSound()">STOP SOUNDS</button>
+
+<div style="width:100px;">
+	<div style="width:50px; float:left;">
+		<form action="javascript: playSound(0)">
+			<input type="image" src="../public/img/playbutton.png" alt="Play">
+		</form>
+	</div>
+	<div style="width:50px; display:inline;">
+		<form action="javascript: stopSound()">
+			<input type="image" src="../public/img/stopbutton.png" alt="Stop">
+		</form>
+	</div>
+</div>
+
 <script src="webaudio.js"></script>
 </body>
 </html>
