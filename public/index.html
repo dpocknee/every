@@ -25,7 +25,20 @@
     <noscript>
       You need to enable JavaScript to run this app.
     </noscript>
+    <script>
+    window.mainArray = [];
+    </script>
+
     <div id="root"></div>
+    <div style="position: fixed;
+      width: 200px;
+      height: 100px;
+      bottom: 0;
+      right: 0;
+      background-color: lightblue;">
+      <button onClick="javascript: console.log('SLIDER ' + document.getElementById('playback').value + ' WINDOW VARIABLE ' + window.mainArray);">CLICK TO CHECK mainArray VARIABLE</button>
+    </div>
+
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.

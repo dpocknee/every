@@ -19,12 +19,12 @@ export function sourcerer(value,id) {
  // console.log("sourcerer " + value + ' ' + ' ' + id)
 }
 
-var mainarray = []
+//var window.mainArray = []
 var timing = []
 
 //console.log(jsondata['chords'][0])
 for (let i = 0; i < jsondata['chords'].length; i++) {
-  mainarray.push([jsondata['chords'][i].name,i]);
+  window.mainArray.push([jsondata['chords'][i].name,i]);
   timing.push(timingdata['timing'][i]);
 };
 
@@ -49,14 +49,14 @@ class Grid extends Component {
   }
 
   render() {
-
+    //console.log("FROM INSIDE REACT " + window.mainArray);
       if (starting != null && blockFrom != null) {
         var blockId = blockFrom[1]
-         var oldPosition = mainarray.findIndex(function(x) {return x[0]==blockId;});
-        var oldValue = mainarray[oldPosition][1];
+         var oldPosition = window.mainArray.findIndex(function(x) {return x[0]==blockId;});
+        var oldValue = window.mainArray[oldPosition][1];
         var newPosition = this.props.blockPosition[0];
-        mainarray.splice(oldPosition,1);
-        mainarray.splice(newPosition,0,[blockId,oldValue]);
+        window.mainArray.splice(oldPosition,1);
+        window.mainArray.splice(newPosition,0,[blockId,oldValue]);
       } else {
         starting = true
       }
@@ -64,9 +64,9 @@ class Grid extends Component {
     var current_order_string = [];
     const squares = [];
 
-    for (let index = 0; index < mainarray.length; index++) {
-      var currentvalue = mainarray[index][0]
-      var currentindex = mainarray[index][1]
+    for (let index = 0; index <  window.mainArray.length; index++) {
+      var currentvalue = window.mainArray[index][0]
+      var currentindex = window.mainArray[index][1]
       if (index === parseInt(this.state.slider) ) {
         var selectedchord = '0px 0px 5px 5px #888888';
       } else {
