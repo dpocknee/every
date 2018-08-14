@@ -4220,8 +4220,8 @@ class Buffer {
 
 }
 
-//THIS DEFINES THE AUDIO CONTEXT AND AN ARRAY OF ALL SOUNDS TO BE LOADED INTO THE BUFFERS
-let context = new (window.AudioContext || window.webkitAudioContext)();
+  //THIS DEFINES THE AUDIO CONTEXT AND AN ARRAY OF ALL SOUNDS TO BE LOADED INTO THE BUFFERS
+var context = new (window.AudioContext || window.webkitAudioContext)();
 
 //encoding: string no, fingered pitch name and octave number, sounding octave, harmonic or not
 let newchords = [
@@ -4250,16 +4250,17 @@ let newchords = [
   "samples/string-1_a3_octave-5_harmonic.wav"
 ];
 
-//THIS CALLES THE BUFFER CLASS
+//THIS CALLS THE BUFFER CLASS
 let buffer = new Buffer(context, newchords);
 let allSounds = buffer.getBuffer();
 
 function stopSound() {
-  context.suspend();
-  soundy.stop();
+  //context.suspend();
+  context.close();
 }
 
 function playSound(startingIndex) {
+  context = new (window.AudioContext || window.webkitAudioContext)();
   //this is the function called from the button.
   if(context.state === 'suspended') {
     context.resume();
@@ -4270,7 +4271,8 @@ function playSound(startingIndex) {
   for (var i = startingIndex; i < timing['timing'].length; ++i) {
     nextTime = timing['timing'][i][0] - firstTime;
 
-    console.log(nextTime);
+   // console.log("NEXT TIME " + nextTime + " CHORD PLAYED " + jsondata['chords'][i].name );
+
     jsondata['chords'][i].buffer_reference.forEach(
       function(x) {
         soundy = new Sounder(context, buffer.getSound(x));
