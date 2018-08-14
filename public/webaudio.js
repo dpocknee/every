@@ -4271,9 +4271,10 @@ function playSound(startingIndex) {
   for (var i = startingIndex; i < timing['timing'].length; ++i) {
     nextTime = timing['timing'][i][0] - firstTime;
 
-   // console.log("NEXT TIME " + nextTime + " CHORD PLAYED " + jsondata['chords'][i].name );
+   //console.log("NEXT TIME " + nextTime + " CHORD PLAYED " + jsondata['chords'][i].name );
+   console.log("window.mainArray " + window.mainArray);
 
-    jsondata['chords'][i].buffer_reference.forEach(
+    jsondata['chords'][window.mainArray[i][1]].buffer_reference.forEach(
       function(x) {
         soundy = new Sounder(context, buffer.getSound(x));
         soundy.play(nextTime);
