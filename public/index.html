@@ -38,7 +38,7 @@
       right: 0;
       background-color: lightblue;">
       <button onClick="javascript: console.log('SLIDER ' + document.getElementById('playback').value + ' WINDOW VARIABLE ' + window.mainArray);">CLICK TO CHECK mainArray VARIABLE</button>
-        <button onclick="playSound(0)">START SOUNDS</button>
+        <button onclick="playSound(document.getElementById('playback').value)">START SOUNDS</button>
         <button onclick="stopSound()">STOP SOUNDS</button>
       </div>
     </div>

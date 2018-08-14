@@ -3,9 +3,11 @@ import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import GridSquare from './GridSquare';
 import Block from './Block';
-import jsondata from './chords.json';
+import jsondata from './outputdb.json';
 import timingdata from './timing.json';
 import {Slider} from './Slider.js';
+//import {PlaybackSlider, outter} from './playbackslider.js';
+//import RefsForm from './reftest.js';
 
 const squareWidth = 60;
 const squareHeight = 300;
@@ -26,33 +28,28 @@ for (let i = 0; i < jsondata['chords'].length; i++) {
   timing.push(timingdata['timing'][i]);
 };
 
-var starting = null;
 
+var starting = null;
 
 class Grid extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      "slider" : this.props.slider,
+      "slider" : 0,
       "blockPosition" : this.props.blockPosition
-    }
+    };
     this.updateTheSliderValue = this.updateTheSliderValue.bind(this);
-  };
- 
-
- updateTheSliderValue(e) {
-    this.setState({
-     slider : e.target.value,
- });
   }
 
-    componentDidUpdate(prevProps, prevState) {
-       if (this.props.slider !== prevProps.slider || this.state.slider !== prevState.slider) {
-        this.setState = { "slider" : this.props.slider };
-      }
-    }
+  updateTheSliderValue(e) {
+    this.setState({
+      slider : e.target.value,
+    "blockPosition" : this.props.blockPosition
+  });
+  }
 
   render() {
+    //console.log("FROM INSIDE REACT " + window.mainArray);
       if (starting != null && blockFrom != null) {
         var blockId = blockFrom[1]
          var oldPosition = window.mainArray.findIndex(function(x) {return x[0]==blockId;});
@@ -64,7 +61,6 @@ class Grid extends Component {
         starting = true
       }
 
-
     var current_order_string = [];
     const squares = [];
 
@@ -74,8 +70,8 @@ class Grid extends Component {
       if (index === parseInt(this.state.slider) ) {
         var selectedchord = '0px 0px 5px 5px #888888';
       } else {
-        selectedchord = '0px 0px 0px 0px #888888'; 
-      };    
+        var selectedchord = '0px 0px 0px 0px #888888'; 
+      }
       
       squares.push(
           <div key={index}
@@ -95,14 +91,12 @@ class Grid extends Component {
             </GridSquare>
           </div>
         );
-      current_order_string.push(currentvalue + ' ');    
-
+      current_order_string.push(currentvalue + ' ');      
     }
     return (
       <div>
       <h1>The <i>Every</i> Composer App</h1>
       <p>An app to help compose the guitar piece <i>Every</i>.</p>
-      <p>Chord {this.state.slider} / {this.props.slider}</p>
       <div style={{
         width: '100%',
         height: '100%',
@@ -111,10 +105,10 @@ class Grid extends Component {
       }}>
        {squares}
       </div>
-     <div style={{
+       <div style={{
       position: 'fixed',
       width: '600px',
-      height: '220px',
+      height: '120px',
       bottom: 0,
       left: 0,
       backgroundColor: 'lightgray',
