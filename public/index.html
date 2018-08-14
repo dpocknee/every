@@ -10,6 +10,7 @@
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+     <script src="%PUBLIC_URL%/webaudio.js"></script>
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -32,13 +33,16 @@
     <div id="root"></div>
     <div style="position: fixed;
       width: 200px;
-      height: 100px;
+      height: 300px;
       bottom: 0;
       right: 0;
       background-color: lightblue;">
       <button onClick="javascript: console.log('SLIDER ' + document.getElementById('playback').value + ' WINDOW VARIABLE ' + window.mainArray);">CLICK TO CHECK mainArray VARIABLE</button>
+        <button onclick="playSound(0)">START SOUNDS</button>
+        <button onclick="stopSound()">STOP SOUNDS</button>
+      </div>
     </div>
-
+ 
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
@@ -49,5 +53,6 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+
   </body>
 </html>
