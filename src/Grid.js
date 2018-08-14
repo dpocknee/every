@@ -94,9 +94,24 @@ class Grid extends Component {
       current_order_string.push(currentvalue + ' ');      
     }
     return (
-      <div>
+    <div style={{margin: '5px'}}>
+      <div style={{width: '500px', fontSize: '12px'}}>
       <h1>The <i>Every</i> Composer App</h1>
-      <p>An app to help compose the guitar piece <i>Every</i>.</p>
+      <p>An app created by David Pocknee to help compose his guitar piece <i>Every</i> (2018).  
+      <br />This app was built in ReactJS and allows the user to drag and drop each chord into an order of their choice, 
+      as well as playing back the result by dragging the slider in the bottom left to choose the chord the playback should start from
+      and using the controls in the bottom right to play and stop the playback.
+      <br />After you have chosen an order this can then be converted directly into lilypond notation using the controls at the bottom right.</p>
+      <p>Each chord is represented by a set of statistics to help aid its ordering: </p>
+      <ul style={{fontSize: '10px'}}> 
+        <li>A chord reference number (e.g. chord_321)</li>
+        <li>A color-coded difficulty rating (1=easy/green, 9=very difficult/red)</li>
+        <li>The number of notes in the chord (also color-coded - the more notes the darker the color)</li>
+        <li>Percentage of chords that are harmonics</li>
+        <li>A histogram showing how the sounding pitches in each chord are distributed over the five possible octaves</li>
+        <li>The notation in tab and standard guitar notation.</li>
+      </ul>
+      </div>
       <div style={{
         width: '100%',
         height: '100%',
@@ -108,16 +123,20 @@ class Grid extends Component {
        <div style={{
       position: 'fixed',
       width: '600px',
-      height: '120px',
+      height: '60px',
       bottom: 0,
       left: 0,
       backgroundColor: 'lightgray',
       color: 'black'
      }}>
-     <Slider sliderUpdate={this.updateTheSliderValue}/>
-     <span>Chord {parseInt(this.state.slider)+1}</span>
+       <div style={{
+        display: 'flex',
+        flexDirection: 'row'}}>
+         <Slider sliderUpdate={this.updateTheSliderValue}/>
+         <div style={{width: '100px'}}><p>Chord {parseInt(this.state.slider)+1}</p></div>
         </div>
      </div>
+   </div>
     );
   }
 }
