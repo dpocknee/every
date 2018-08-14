@@ -18,7 +18,7 @@ export class Slider extends Component {
                         height: '40px',
                         color: 'blue',
                         borderRadius: '5px', 
-                        background: 'orange',
+                        background: 'black',
                         margin: '10px',
                         outline: 'none',
                         opacity: 0.7,
