@@ -6,7 +6,6 @@ import Block from './Block';
 import jsondata from './chords.json';
 import timingdata from './timing.json';
 import {Slider} from './Slider.js';
-import {WebPlayback } from './chordwebaudio'
 
 const squareWidth = 60;
 const squareHeight = 300;
@@ -112,7 +111,7 @@ class Grid extends Component {
       }}>
        {squares}
       </div>
-     {/*  <div style={{
+     <div style={{
       position: 'fixed',
       width: '600px',
       height: '220px',
@@ -123,8 +122,7 @@ class Grid extends Component {
      }}>
      <Slider sliderUpdate={this.updateTheSliderValue}/>
      <span>Chord {parseInt(this.state.slider)+1}</span>
-     <WebPlayback />
-        </div>*/}
+        </div>
      </div>
     );
   }

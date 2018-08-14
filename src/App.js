@@ -5,12 +5,11 @@ import Grid from './Grid';
 import { observe } from './Page';
 
 const rootEl = document.getElementById('root');
-var slidery = document.getElementById('playback').value;
 
 observe(blockPosition =>
   ReactDOM.render(
     <div>
-	<Grid blockPosition={blockPosition} slider={slidery} />
+	<Grid blockPosition={blockPosition} />
     </div>,
     rootEl
   )
