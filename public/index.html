@@ -10,6 +10,7 @@
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+     <script src="%PUBLIC_URL%/webaudio.js"></script>
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -26,6 +27,50 @@
       You need to enable JavaScript to run this app.
     </noscript>
     <div id="root"></div>
+
+    <div style="position: fixed;
+      width: 600px;
+      height: 220px;
+      bottom: 0;
+      left: 0;
+      backgroundColor: lightgray;
+      color: black;">
+     <div>
+      <input 
+      key = 'slidey'
+      type="range" 
+      id="playback" 
+      name="bobby" 
+      min="0"
+      onChange=slidegetter()
+      max="318" 
+      defaultValue="1"
+      style="width: 500px;
+            height: 40px;
+            color: blue;
+            borderRadius: 5px;
+            background: orange;
+            margin: 10px;
+            outline: none;
+            opacity: 0.7;
+            transition: opacity .2s;
+            " />
+      </div>
+    <script>
+    var sliding = document.getElementById("playback").value;
+
+    function slidegetter() {
+      sliding = document.getElementById("playback").value;
+      console.log(sliding);
+    }    
+
+    </script>
+      <div style="width:200px;">
+        <button onclick="playSound(0)">START SOUNDS</button>
+        <button onclick="stopSound()">STOP SOUNDS</button>
+      </div>
+    </div>
+ 
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
@@ -36,5 +81,6 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+
   </body>
 </html>
