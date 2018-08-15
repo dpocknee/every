@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Grid from './Grid';
-//import Grid from './JustTheSlider';
 import { observe } from './Page';
 
 const rootEl = document.getElementById('root');

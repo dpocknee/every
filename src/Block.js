@@ -93,7 +93,7 @@ class Block extends Component {
           {this.props.name}
         </div>
         <div style={{
-          height: '15px',
+          height: '13px',
           width: '100%',
           backgroundColor: difficultycolors[this.props.difficulty-1],
           fontSize: 10,
@@ -101,11 +101,11 @@ class Block extends Component {
           textAlign: 'center',
           fontWeight: 'bold',
           margin: 1
-        }} >
+        }} title="Difficulty">
         {this.props.difficulty}
         </div>
         <div style={{
-          height: '10px',
+          height: '11px',
           width: '100%',
           backgroundColor: usenotecolor,
           fontSize: 9,
@@ -113,7 +113,7 @@ class Block extends Component {
           textAlign: 'center',
           fontWeight: 'bold',
           margin: 1
-        }} >
+        }} title="Number of Notes">
         {this.props.notes}
         </div>
         <div style={{
@@ -123,7 +123,7 @@ class Block extends Component {
           backgroundColor: 'white',
           border: 'solid lightgray 1px',
           margin: 1
-        }} >
+        }}  title="% of harmonics">
           <div style={{
             height: '11px',
             width: harmonicspread,
@@ -132,7 +132,7 @@ class Block extends Component {
             fontSize: 8,
             color: 'black',
             textAlign: 'center',
-          }} >
+          }}>
           {harmonicspread}
           </div>
         </div>
@@ -144,11 +144,11 @@ class Block extends Component {
           border: 'solid lightgray 1px',
           margin: '1px 1px 10px 1px',
           verticalAlign: 'bottom',
-        }} >
+        }} title="Spread of notes over octaves">
         {octavearray}
         </div>
 
-        <img src={eachImage} alt={'right'}/>
+        <img src={eachImage} alt={'notation'} />
       </div>
     );
   }
