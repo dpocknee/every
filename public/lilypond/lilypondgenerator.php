@@ -58,14 +58,15 @@
 
 	<?php	
 	echo nl2br("% This is the lilypond notation file.\n %Copy all of this code into a text editor and save as a .ly file.  Then render it using lilypond.\n % Below is your reference array.  You can re-enter this back into the app if you want to change anything:\n");
-	echo nl2br("% " . htmlspecialchars($_POST["phparray"]) . " \n\n");
+	echo nl2br("% " . htmlspecialchars($_POST["phpArray"]) . " \n\n");
 	
 	echo nl2br(file_get_contents('lilypondhead.ly'));
 
-	$inputnotation = htmlspecialchars($_POST["phpnotation"]);
+	$inputnotation = htmlspecialchars($_POST["phpNotation"]);
 
 	//The guitar music staff
 	$load_in_tab_file = nl2br(file_get_contents('tabmusic.ly'));
+	echo nl2br("\n\n");
 	$load_in_guitar_file = nl2br(file_get_contents('guitarmusic.ly'));
 	$inputarray = array();
 	$token = strtok($inputnotation, "J");

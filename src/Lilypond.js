@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-var arrayInputValue = '';
-
 export class Lilypond extends Component {
 	constructor(props) {
 		super(props);
@@ -10,7 +8,8 @@ export class Lilypond extends Component {
 			phpNotation: '',
 			invalidArray: true,
 			alerts: '...no chord order loaded...',
-			currentArray: this.props.currentArray
+			currentArray: this.props.currentArray,
+			arrayUsed : ''
 		};
 		this.handleUserChange = this.handleUserChange.bind(this);
 	}
@@ -30,7 +29,6 @@ export class Lilypond extends Component {
 
 		var notationArray = "";
 	    var x = arrayToTest;
-	    console.log("myInput Array: " + x);
 	    var arraystatus = '';
 	    var alerter = false;
 	    var parsed;
@@ -59,28 +57,28 @@ export class Lilypond extends Component {
 			if (parsed.length !== 319) {
 				arraystatus += ('ERROR: There are ' + parsed.length + ' chords in this array, not 319.  ');
 				alerter = true;
-			}
+			};
 			if (alerter === false) {
-			    console.log(parsed);
-			    arraystatus = 'Reference array successfully loaded.';
+			    arraystatus = 'Chord order successfully loaded.';
 			    this.setState({invalidArray: false});
 	// Here is where you should query the chords variable and append all that notation into notationArray.
 				parsed.forEach(
 					function(x) {
 						notationArray += (window.chords['chords'][x].notation + " J ");
 					});
-					this.setState({ phpNotation : notationArray });
-		    } else {
-		    }
-		} else {
-		};   
-		this.setState({ 
-			invalidArray: alerter,
-			alerts: arraystatus
-		});
+					this.setState({ 
+						phpNotation : notationArray,
+						arrayUsed: x, 
+					});
+		    };   
+			this.setState({ 
+				invalidArray: alerter,
+				alerts: arraystatus
+			});
+		};
 	}
+
 	loadCurrentOrder() {
-		console.log("CLICKED!");
 		this.setState({
 			userInputArray: this.state.currentArray
 		})
@@ -102,8 +100,9 @@ export class Lilypond extends Component {
 				<div><button onClick={() => { this.arrayInputTest(this.state.userInputArray,318) }} > Use This Order</button></div>
 			</div>
 			<div>
-				<form id="phpForm" target="_blank" method="post" action="/lilypond/lilypondgenerator.php">
-					<input type="hidden" id="secret" value={this.state.phpNotation} name="phpNotation" />
+				<form id="phpForm" target="_blank" method="post" action="http://davidpocknee.ricercata.org/every/lilypond/lilypondgenerator.php">
+					<input type="hidden" id="secretarray" value={this.state.arrayUsed} name="phpArray" />
+					<input type="hidden" id="secretnotation" value={this.state.phpNotation} name="phpNotation" />
 					<input type="submit" id="generateButton" name="submit" disabled={this.state.invalidArray} value="Generate lilypond file" />
 				</form>
 			</div>

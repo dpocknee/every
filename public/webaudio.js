@@ -45,9 +45,9 @@ class Buffer {
       thisBuffer.context
         .decodeAudioData(request.response, function(buffer) {
           thisBuffer.buffer[index] = buffer;
-          if(index == thisBuffer.urls.length-1) {
-            thisBuffer.loaded();
-          }       
+          //if(index == thisBuffer.urls.length-1) {
+            //thisBuffer.loaded();
+          //}       
         });
     };
     request.send();
@@ -116,8 +116,7 @@ function playSound(startingIndex) {
   for (var i = startingIndex; i < window.timing['timing'].length; ++i) {
     nextTime = window.timing['timing'][i][0] - firstTime;
 
-   //console.log("NEXT TIME " + nextTime + " CHORD PLAYED " + jsondata['chords'][i].name );
-   console.log("window.mainArray " + window.mainArray);
+   //console.log("window.mainArray " + window.mainArray);
 
     window.chords['chords'][window.mainArray[i][1]].buffer_reference.forEach(
       function(x) {
