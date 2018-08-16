@@ -10,7 +10,9 @@
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-     <script src="%PUBLIC_URL%/webaudio.js"></script>
+    <script src="%PUBLIC_URL%/webaudio.js"></script>
+    <script src="%PUBLIC_URL%/timing.js"></script>
+    <script src="%PUBLIC_URL%/chords.js"></script>
 
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
@@ -29,6 +31,8 @@
     </noscript>
     <script>
     window.mainArray = [];
+    window.chords = chords;
+    window.timing = timing;
     </script>
 
     <div id="root"></div>
