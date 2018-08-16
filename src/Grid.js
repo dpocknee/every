@@ -18,11 +18,19 @@ export function sourcerer(value,id) {
 
 var timing = []
 
+
+//Hi David, here's a note because you keep forgetting: 
+//the format for the window.mainArray variable is [chord name, chord index]
+//Thanks, David
 for (let i = 0; i < window.chords['chords'].length; i++) {
   window.mainArray.push([window.chords['chords'][i].name,i]);
   timing.push(window.timing['timing'][i]);
 };
 
+
+//
+export function updateArray(parsedarray) {
+};
 
 var starting = null;
 
@@ -31,9 +39,11 @@ class Grid extends Component {
     super(props);
     this.state = {
       "slider" : 0,
-      "blockPosition" : this.props.blockPosition
+      "blockPosition" : this.props.blockPosition,
+      windowmainarray : [0]
     };
     this.updateTheSliderValue = this.updateTheSliderValue.bind(this);
+    this.updateTheArray = this.updateTheArray.bind(this);
   }
 
   updateTheSliderValue(e) {
@@ -41,6 +51,19 @@ class Grid extends Component {
       slider : e.target.value,
     "blockPosition" : this.props.blockPosition
   });
+  }
+
+  updateTheArray(parsedarray) {
+    this.setState({
+      windowmainarray : parsedarray
+    });
+
+    var updatedArray = [];
+    parsedarray.forEach(
+      function(x) {
+        updatedArray.push([window.chords['chords'][x].name, x]);
+    });
+    window.mainArray = updatedArray;
   }
 
   render() {
@@ -120,7 +143,7 @@ class Grid extends Component {
          <Slider sliderUpdate={this.updateTheSliderValue}/>
          <div style={{width: '100px'}}><p>Chord {parseInt(this.state.slider,10)+1}</p></div>
         </div>
-        <Lilypond currentArray={current_order_string} />
+        <Lilypond currentArray={current_order_string} arrayUpdater={this.updateTheArray} />
      </div>
    </div>
     );

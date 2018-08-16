@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { updateArray} from './Grid';
 
 export class Lilypond extends Component {
 	constructor(props) {
@@ -9,7 +10,8 @@ export class Lilypond extends Component {
 			invalidArray: true,
 			alerts: '...no chord order loaded...',
 			currentArray: this.props.currentArray,
-			arrayUsed : ''
+			arrayUsed : '',
+			aValidArray: ''
 		};
 		this.handleUserChange = this.handleUserChange.bind(this);
 	}
@@ -20,7 +22,7 @@ export class Lilypond extends Component {
 		});
 	}
 
-	arrayInputTest(arrayToTest,maximum) {
+	arrayInputTest(arrayToTest,maximum,orderType) {
 		//Tests if the array is a valid javascript array and features valid chord numbers.
 		//maximum variable is the maximum value a chord can have, normally this is 319.
 		this.setState({
@@ -59,17 +61,26 @@ export class Lilypond extends Component {
 				alerter = true;
 			};
 			if (alerter === false) {
-			    arraystatus = 'Chord order successfully loaded.';
+			    arraystatus = (orderType + ' of chords successfully loaded.');
 			    this.setState({invalidArray: false});
 	// Here is where you should query the chords variable and append all that notation into notationArray.
 				parsed.forEach(
 					function(x) {
 						notationArray += (window.chords['chords'][x].notation + " J ");
 					});
-					this.setState({ 
-						phpNotation : notationArray,
-						arrayUsed: x, 
-					});
+				this.setState({ 
+					phpNotation : notationArray,
+					arrayUsed: x, 
+				});
+				if(orderType==='User-inputed order') {
+					//window.mainArray format: [chord name, chord index]
+				    this.setState({
+				    	aValidArray: parsed
+				    });
+					this.props.arrayUpdater(parsed);
+					//NOTE TO SELF: IF THINGS START GOING UP SHIT'S CREAK AFTER ENTERING A USER ARRAY, IT'S PROBABLY EMANATING FROM HERE.
+					arraystatus += '  Display updated with new chord order.';
+				};
 		    };   
 			this.setState({ 
 				invalidArray: alerter,
@@ -82,7 +93,11 @@ export class Lilypond extends Component {
 		this.setState({
 			userInputArray: this.state.currentArray
 		})
-		this.arrayInputTest(this.props.currentArray, 318);
+		this.arrayInputTest(this.props.currentArray, 318,'Current order');
+	}
+
+	loadUserOrder() {
+		this.arrayInputTest(this.state.userInputArray,318,'User-inputed order');
 	}
 
 
@@ -97,7 +112,7 @@ export class Lilypond extends Component {
 			<div style={{display: 'flex', flexDirection: 'row'}}>
 				<div style= {{width: '120px',fontSize: '10px'}}>Use Another Order: </div>
 				<div><input type="text" id="myInput" name="userInputArray" onChange={this.handleUserChange}/></div>
-				<div><button onClick={() => { this.arrayInputTest(this.state.userInputArray,318) }} > Use This Order</button></div>
+				<div><button onClick={() => { this.loadUserOrder() }} > Use This Order</button></div>
 			</div>
 			<div>
 				<form id="phpForm" target="_blank" method="post" action="http://davidpocknee.ricercata.org/every/lilypond/lilypondgenerator.php">
