@@ -102,7 +102,7 @@ export class Lilypond extends Component {
 				<div><button onClick={() => { this.arrayInputTest(this.state.userInputArray,318) }} > Use This Order</button></div>
 			</div>
 			<div>
-				<form id="phpForm" target="_blank" method="post" action="%PUBLIC_URL%/lilypond/lilypondgenerator.php">
+				<form id="phpForm" target="_blank" method="post" action="/lilypond/lilypondgenerator.php">
 					<input type="hidden" id="secret" value={this.state.phpNotation} name="phpNotation" />
 					<input type="submit" id="generateButton" name="submit" disabled={this.state.invalidArray} value="Generate lilypond file" />
 				</form>
