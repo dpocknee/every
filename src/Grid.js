@@ -56,16 +56,17 @@ class Grid extends Component {
         starting = true
       }
 
-   // var current_order_string = [];
+   var current_order_string = "[";
     const squares = [];
+    var selectedchord;
 
     for (let index = 0; index <  window.mainArray.length; index++) {
       var currentvalue = window.mainArray[index][0]
       var currentindex = window.mainArray[index][1]
-      if (index === parseInt(this.state.slider) ) {
-        var selectedchord = '0px 0px 5px 5px #888888';
+      if (index === parseInt(this.state.slider, 10) ) {
+        selectedchord = '0px 0px 5px 5px #888888';
       } else {
-        var selectedchord = '0px 0px 0px 0px #888888'; 
+        selectedchord = '0px 0px 0px 0px #888888'; 
       }
       
       squares.push(
@@ -86,8 +87,12 @@ class Grid extends Component {
             </GridSquare>
           </div>
         );
-      //current_order_string.push(currentvalue + ' ');      
+      if(index!==0) {
+        current_order_string += (', ');   
+      }
+     current_order_string += currentindex;      
     }
+    current_order_string += ']';
     return (
       <div style={{margin: '5px'}}>
             <IntroText />
@@ -113,9 +118,9 @@ class Grid extends Component {
         display: 'flex',
         flexDirection: 'row'}}>
          <Slider sliderUpdate={this.updateTheSliderValue}/>
-        {/* <Lilypond />*/}
-         <div style={{width: '100px'}}><p>Chord {parseInt(this.state.slider)+1}</p></div>
+         <div style={{width: '100px'}}><p>Chord {parseInt(this.state.slider,10)+1}</p></div>
         </div>
+        <Lilypond currentArray={current_order_string} />
      </div>
    </div>
     );
