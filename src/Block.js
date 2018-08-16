@@ -65,7 +65,7 @@ class Block extends Component {
   render() {
     const { connectDragSource, isDragging } = this.props;
     
-    var eachImage = ('/chords/'+ this.props.name + '.jpg');
+    var eachImage = ('/chords/'+ this.props.name + '.png');
     var speedcolor = ('rgb('+ this.props.redvalue + ', ' + this.props.greenvalue + ', 0)');
     var usenotecolor = notecolors[this.props.notes-1]
     var harmonicspread = (Math.round(this.props.harmonics*100) + '%');

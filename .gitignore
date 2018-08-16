@@ -5,6 +5,7 @@
 
 # testing
 /coverage
+/files_to_not_upload
 
 # production
 /build

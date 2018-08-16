@@ -6,11 +6,10 @@ export class Lilypond extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-		//	currentArray: this.props.currentArray,
 			userInputArray: '',
 			phpNotation: '',
 			invalidArray: true,
-			alerts: '...',
+			alerts: '...no chord order loaded...',
 			currentArray: this.props.currentArray
 		};
 		this.handleUserChange = this.handleUserChange.bind(this);
@@ -26,12 +25,11 @@ export class Lilypond extends Component {
 		//Tests if the array is a valid javascript array and features valid chord numbers.
 		//maximum variable is the maximum value a chord can have, normally this is 319.
 		this.setState({
-			alerts: '...'
+			alerts: '...no chord order loaded...'
 		})
 
 		var notationArray = "";
 	    var x = arrayToTest;
-	    //var x = this.myInput.value;
 	    console.log("myInput Array: " + x);
 	    var arraystatus = '';
 	    var alerter = false;
@@ -71,9 +69,7 @@ export class Lilypond extends Component {
 					function(x) {
 						notationArray += (window.chords['chords'][x].notation + " J ");
 					});
-					//console.log(notationArray);
 					this.setState({ phpNotation : notationArray });
-	    			//document.getElementById("secret").value = notationArray;
 		    } else {
 		    }
 		} else {
@@ -106,12 +102,12 @@ export class Lilypond extends Component {
 				<div><button onClick={() => { this.arrayInputTest(this.state.userInputArray,318) }} > Use This Order</button></div>
 			</div>
 			<div>
-				<form id="phpForm" target="_blank" method="post" action="lilypond/lilypondgenerator.php">
+				<form id="phpForm" target="_blank" method="post" action="%PUBLIC_URL%/lilypond/lilypondgenerator.php">
 					<input type="hidden" id="secret" value={this.state.phpNotation} name="phpNotation" />
 					<input type="submit" id="generateButton" name="submit" disabled={this.state.invalidArray} value="Generate lilypond file" />
 				</form>
 			</div>
-			<div>
+			<div style={{fontSize: '10px'}}>
 				<p id="arraystatus">{this.state.alerts}</p>
 			</div>
 		</div>

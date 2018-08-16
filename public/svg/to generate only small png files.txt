@@ -1,1 +1,0 @@
-lilypond -dbackend=eps -dno-gs-load-fonts -dinclude-eps-fonts --png test.ly
