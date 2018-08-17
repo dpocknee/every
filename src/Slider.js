@@ -13,17 +13,7 @@ export class Slider extends Component {
                   min="0"
                   max="318" 
                   defaultValue="0"
-                  style={{
-                        width: '500px',
-                        height: '40px',
-                        color: 'blue',
-                        borderRadius: '5px', 
-                        background: 'black',
-                        margin: '10px',
-                        outline: 'none',
-                        opacity: 0.7,
-                        transition: 'opacity .2s'
-                        }} />
+                  className = 'slider'/>
                   </div>
             );
       }

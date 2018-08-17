@@ -6,6 +6,7 @@ import Block from './Block';
 import {Slider} from './Slider.js';
 import {IntroText} from './IntroText';
 import {Lilypond} from './Lilypond';
+import './every.css';
 
 const squareWidth = 60;
 const squareHeight = 300;
@@ -111,8 +112,11 @@ class Grid extends Component {
     }
     current_order_string += ']';
     return (
-      <div style={{margin: '5px'}}>
+      <div className = 'mainpage'>
             <IntroText />
+      <div className = 'maintitle'>
+        <h1>The <i>Every</i> Composer App</h1> - <h2>Built by <a href="http://www.davidpocknee.com/" target="_blank">David Pocknee</a></h2>
+      </div>
       <div style={{
         width: '100%',
         height: '100%',
@@ -121,21 +125,18 @@ class Grid extends Component {
       }}>
        {squares}
       </div>
-       <div style={{
-      position: 'fixed',
-      width: '600px',
-      height: '200px',
-      bottom: 0,
-      left: 0,
-      backgroundColor: 'lightblue',
-      color: 'black',
-      border: '1px solid black'
-     }}>
-       <div style={{
-        display: 'flex',
-        flexDirection: 'row'}}>
+      {/* This is just a spacer for the bottom, to ensure that the slider doesn't
+    cover up the last row of chords.*/}
+      <div style={{
+        width: '100%',
+        height: '200px'
+      }}>
+    {/*end of spacer */}
+      </div>
+       <div className='playbackbox'>
+       <div style={{display: 'flex', flexDirection: 'row'}}>
          <Slider sliderUpdate={this.updateTheSliderValue}/>
-         <div style={{width: '100px'}}><p>Chord {parseInt(this.state.slider,10)+1}</p></div>
+         <div className="slidertext"><p>Chord #{parseInt(this.state.slider,10)+1}</p></div>
         </div>
         <Lilypond currentArray={current_order_string} arrayUpdater={this.updateTheArray} />
      </div>

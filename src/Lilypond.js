@@ -102,26 +102,28 @@ export class Lilypond extends Component {
 
 	render() {
 		return (
-		<div style={{margin: '10px'}}>
-			<div style={{display: 'flex', flexDirection: 'row'}}>
-				<div style={{width: '120px', fontSize: '10px'}}>The Current Order: </div>
-				<div><input type="text" id="currentInput" value={this.props.currentArray} name="userInputArray" /></div>
-				<div><button onClick={() => { this.loadCurrentOrder() }} > Use Current Order</button></div>
+		<div className="lilypond">
+			<div className="currentorderbox" style={{display: 'flex', flexDirection: 'row'}}>
+				<div className="boxnames">The Current Order: </div>
+				<div className="middlebox"><input type="text" id="currentInput" value={this.props.currentArray} name="userInputArray" size="45" /></div>
+				<div className="endox"><button onClick={() => { this.loadCurrentOrder() }} > Use Current Order</button></div>
 			</div>
-			<div style={{display: 'flex', flexDirection: 'row'}}>
-				<div style= {{width: '120px',fontSize: '10px'}}>Use Another Order: </div>
-				<div><input type="text" id="myInput" name="userInputArray" onChange={this.handleUserChange}/></div>
-				<div><button onClick={() => { this.loadUserOrder() }} > Use This Order</button></div>
+			<div className="userorderbox">
+				<div className="boxnames">Use Another Order: </div>
+				<div className="middlebox"><input type="text" id="myInput" name="userInputArray" onChange={this.handleUserChange}  size="45"/></div>
+				<div className="endox"><button onClick={() => { this.loadUserOrder() }} > Use This Order</button></div>
 			</div>
-			<div>
+			<div className="generationbutton">
+				<div>
 				<form id="phpForm" target="_blank" method="post" action="http://davidpocknee.ricercata.org/every/lilypond/lilypondgenerator.php">
 					<input type="hidden" id="secretarray" value={this.state.arrayUsed} name="phpArray" />
 					<input type="hidden" id="secretnotation" value={this.state.phpNotation} name="phpNotation" />
 					<input type="submit" id="generateButton" name="submit" disabled={this.state.invalidArray} value="Generate lilypond file" />
 				</form>
-			</div>
-			<div style={{fontSize: '10px'}}>
-				<p id="arraystatus">{this.state.alerts}</p>
+				</div>
+				<div className="arraytext">
+					<p id="arraystatus">{this.state.alerts}</p>
+				</div>
 			</div>
 		</div>
 			);
