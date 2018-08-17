@@ -1,12 +1,38 @@
-Page.js = The whole thing (equivalent of Game.js)
- |
- V
-Grid.js = the entire grid (equivalent of Board.js)
- |
- V
-GridSquare.js = this controls the drag and drop for each grid square (equivalent of BoardSquare.js)
- |
- V
-Square.js = the visual component loaded into each GridSquare (equivalent of Square.js)
+DIAGRAM OF THE MAIN COMPONENTS (I haven't bothered including layout components
 
-Block.js = the block that can be moved around (equivalent of Knight.js)
+			index.html (main page)
+			+ timing.js (JSON formatted list of all timings of chords - loaded into window.timing variable)
+			+ chords.js (JSON formatted list of all chords with notation and all stats - loaded into window.chords variable)
+			+ a window.mainArray variable which contains the current order of chords
+				and can be read and written to by both React and webaudio	
+ ____________________________________________________|___________________________________	
+ |											|
+ V											V
+App.js										 webaudio.js 
+ |										(handles all audio playback
+ V										using webaudio)
+Grid.js 	    <------ Page.js
+(The entire grid)	    (Monitors movement of blocks)	
+ |_________________________________________________________
+ V				|			   |
+GridSquare.js 			V			   V
+(This controls the drag 	Slider.js		Lilypond.js
+and drop for each grid square)	(The playback slider)	(checks and updates arrays for conversion into lilypond.)
+ |							   |
+ V							   V
+Square.js					lilypondgenerator.php
+(The visual component loaded 			(converts arrays into lilypond format) 
+into each GridSquare)
+
+
+Block.js (The block that can be moved around)
+
+------------------------------------
+NOTE: In order to have React and webaudio work together without using some type of intermediary state management framework, 
+they are kept completely separate and have no idea what each other is doing.  The only variables they both have access to are:
+window.mainArray
+window.timing
+window.chords 
+and
+webaudio.js is able to get the value of the playback slider to know where to start
+using a document.getElementById('playback').value command

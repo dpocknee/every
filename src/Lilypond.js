@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { updateArray} from './Grid';
 
 export class Lilypond extends Component {
 	constructor(props) {

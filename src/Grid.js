@@ -18,18 +18,12 @@ export function sourcerer(value,id) {
 
 var timing = []
 
-
 //Hi David, here's a note because you keep forgetting: 
 //the format for the window.mainArray variable is [chord name, chord index]
 //Thanks, David
 for (let i = 0; i < window.chords['chords'].length; i++) {
   window.mainArray.push([window.chords['chords'][i].name,i]);
   timing.push(window.timing['timing'][i]);
-};
-
-
-//
-export function updateArray(parsedarray) {
 };
 
 var starting = null;
