@@ -1,0 +1,13 @@
+					;-*-Lisp-*-
+
+(progn
+  (save-current-buffer
+    (set-buffer "chords.js")
+    (setq liner 10)
+    (goto-line liner)
+    (setq stringer (buffer-substring (line-beginning-position) (line-end-position)))
+    )
+  (newline)
+  (insert (format "%s" stringer))
+  )
+    
