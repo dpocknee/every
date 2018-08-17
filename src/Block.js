@@ -10,26 +10,14 @@ const blockSource = {
   }
 };
 
-const difficultycolors = [
-  'rgb(0, 255, 0)',
-  'rgb(32, 223, 0)',
-  'rgb(64, 191, 0)',
-  'rgb(96, 159, 0)',
-  'rgb(128, 128, 0)',
-  'rgb(159, 96, 0)',
-  'rgb(191, 64, 0)',
-  'rgb(223, 32, 0)',
-  'rgb(255, 0, 0)'
-];
+function colourInterpolator(startingColor,endingColor,value) {
+  // Interpolates between two colours according to a value between 0 and 1.//Colors should be entered as an array of 3 RGB values.
+  var red = ((endingColor[0]-startingColor[0])*value)+startingColor[0];
+  var green = ((endingColor[1]-startingColor[1])*value)+startingColor[1];
+  var blue = ((endingColor[2]-startingColor[2])*value)+startingColor[2];
+  return 'rgb('+ red + ', ' + green + ', '+ blue +')';
+}
 
-const notecolors = [
-  '#EEEEEE',
-  '#BBBBBB',
-  '#888888',
-  '#555555',
-  '#222222'
-]
-   
 function collect(connect, monitor) {
   return {
     connectDragSource: connect.dragSource(),
@@ -62,14 +50,21 @@ function octavemaker (arrayin,octaveheight,graphwidth,topoffset) {
 class Block extends Component {
   render() {
     const { connectDragSource, isDragging } = this.props;
-    
+
+    var speeddiff1 = [42,242,42];
+    var speeddiff2 = [228,0,0];
+
     var eachImage = ('chords/'+ this.props.name + '.png');
-    var speedcolor = ('rgb('+ this.props.redvalue + ', ' + this.props.greenvalue + ', 0)');
-    var usenotecolor = notecolors[this.props.notes-1]
+    var speedcolor = colourInterpolator(speeddiff1,speeddiff2,this.props.timingrating);
     var harmonicspread = (Math.round(this.props.harmonics*100) + '%');
     var octaveheight = 50;
     var topoffset = 56; // amount octave graph is offset from the top of the main div
-    var octavearray = octavemaker(this.props.octaves,octaveheight,this.props.swidth,topoffset);
+    var octavearray = octavemaker(this.props.octaves,octaveheight,this.props.swidth,topoffset); 
+
+    var difficultycolordiffs = colourInterpolator(speeddiff1,speeddiff2,((this.props.difficulty-1)/8));
+    var usenotecolor = colourInterpolator([220,220,220],[34,34,34],(this.props.notes/5));
+
+
 
     return connectDragSource(
       <div className="block" style={{
@@ -80,7 +75,10 @@ class Block extends Component {
       }}>
       <div>
         <div className="name" style={{backgroundColor: speedcolor}}>{this.props.name}</div>
-        <div className="difficulty" style={{ backgroundColor: difficultycolors[this.props.difficulty-1]}} title="Difficulty">
+        <div className="difficulty" 
+        style={{ 
+          backgroundColor: difficultycolordiffs
+        }} title="Difficulty">
           {this.props.difficulty}
         </div>
 

@@ -96,6 +96,7 @@ class Grid extends Component {
               name={currentvalue} 
               redvalue={timing[index][3]}
               greenvalue={timing[index][4]}
+              timingrating={timing[index][2]}
               difficulty={window.chords['chords'][currentindex].difficulty}
               notes={window.chords['chords'][currentindex].notes}
               harmonics={window.chords['chords'][currentindex].harmonic_ratio}
@@ -113,11 +114,12 @@ class Grid extends Component {
      current_order_string += currentindex;      
     }
     current_order_string += ']';
+    
     return (
       <div className = 'mainpage'>
             <IntroText />
       <div className = 'maintitle'>
-        <h1><a href="http://www.davidpocknee.com/" target="_blank">David Pocknee's</a> <i>Every</i> Composition Tool</h1>
+        <h1><a href="http://www.davidpocknee.com/">David Pocknee's</a> <i>Every</i> Composition Tool</h1>
       </div>
       <div style={{
         width: '100%',
