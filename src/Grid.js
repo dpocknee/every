@@ -8,8 +8,8 @@ import {IntroText} from './IntroText';
 import {Lilypond} from './Lilypond';
 import './every.css';
 
-const squareWidth = 60;
-const squareHeight = 300;
+const squareWidth = 70;
+const squareHeight = 320;
 
 var blockFrom = null;
 
@@ -89,7 +89,8 @@ class Grid extends Component {
       
       squares.push(
           <div key={index}
-               style={{ width: squareWidth+'px', height: squareHeight+'px', margin: '10px 5px 20px 5px',border: '0px solid black'}}>
+              className="squares"
+               style={{ width: squareWidth+'px', height: squareHeight+'px'}}>
             <GridSquare index={index} value={currentvalue} swidth={squareWidth+'px'} sheight={squareHeight+'px'}>
               <Block id={currentvalue} 
               name={currentvalue} 
@@ -100,6 +101,7 @@ class Grid extends Component {
               harmonics={window.chords['chords'][currentindex].harmonic_ratio}
               octaves={window.chords['chords'][currentindex].octavehistogram}
               swidth={squareWidth}
+              sheight={squareHeight}
               selectedchord = {selectedchord}
               />
             </GridSquare>
@@ -129,7 +131,7 @@ class Grid extends Component {
     cover up the last row of chords.*/}
       <div style={{
         width: '100%',
-        height: '200px'
+        height: '110px'
       }}>
     {/*end of spacer */}
       </div>

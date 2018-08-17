@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { ItemTypes } from './Constants';
 import { DragSource } from 'react-dnd';
+import './block.css';
 
 const blockSource = {
   beginDrag(props) {
@@ -46,15 +47,12 @@ function octavemaker (arrayin,octaveheight,graphwidth,topoffset) {
     var leftval = x*(barwidth+2)+1;
 
     octoutput.push(
-      <div key={x} style={{
+      <div key={x} className="stats" style={{
         height: barheight + 'px',
-        position: 'absolute',
         top: topval + 'px',
         left: leftval + 'px',
         width: barwidth + 'px',
         margin: '0px 1px 0px 1px',
-        boxSizing: 'border-box',
-        backgroundColor: 'lightblue'
       }}></div>
       );
     }
@@ -74,81 +72,29 @@ class Block extends Component {
     var octavearray = octavemaker(this.props.octaves,octaveheight,this.props.swidth,topoffset);
 
     return connectDragSource(
-      <div style={{
+      <div className="block" style={{
         opacity: isDragging ? 0.5 : 1,
         textAlign: 'center',
         cursor: 'move',
-        boxShadow: this.props.selectedchord
+        boxShadow: this.props.selectedchord,
       }}>
-          <div style={{
-            height: '15px',
-            width: '100%',
-            backgroundColor: speedcolor,
-            fontSize: 10,
-            color: 'white',
-            fontWeight: 'bold',
-            textAlign: 'center',
-            margin: 1
-          }} >
-          {this.props.name}
-        </div>
-        <div style={{
-          height: '13px',
-          width: '100%',
-          backgroundColor: difficultycolors[this.props.difficulty-1],
-          fontSize: 10,
-          color: 'white',
-          textAlign: 'center',
-          fontWeight: 'bold',
-          margin: 1
-        }} title="Difficulty">
-        {this.props.difficulty}
-        </div>
-        <div style={{
-          height: '11px',
-          width: '100%',
-          backgroundColor: usenotecolor,
-          fontSize: 9,
-          color: 'white',
-          textAlign: 'center',
-          fontWeight: 'bold',
-          margin: 1
-        }} title="Number of Notes">
-        {this.props.notes}
-        </div>
-        <div style={{
-          height: '13px',
-          width: '100%',
-          boxSizing: 'border-box',
-          backgroundColor: 'white',
-          border: 'solid lightgray 1px',
-          margin: 1
-        }}  title="% of harmonics">
-          <div style={{
-            height: '11px',
-            width: harmonicspread,
-            boxSizing: 'border-box',
-            backgroundColor: 'lightblue',
-            fontSize: 8,
-            color: 'black',
-            textAlign: 'center',
-          }}>
-          {harmonicspread}
-          </div>
-        </div>
-        <div style={{
-          height: '50px',
-          width: '100%',
-          boxSizing: 'border-box',
-          backgroundColor: 'white',
-          border: 'solid lightgray 1px',
-          margin: '1px 1px 10px 1px',
-          verticalAlign: 'bottom',
-        }} title="Spread of notes over octaves">
-        {octavearray}
+      <div>
+        <div className="name" style={{backgroundColor: speedcolor}}>{this.props.name}</div>
+        <div className="difficulty" style={{ backgroundColor: difficultycolors[this.props.difficulty-1]}} title="Difficulty">
+          {this.props.difficulty}
         </div>
 
+        <div className="notes" title="Number of Notes" style={{backgroundColor: usenotecolor}}>
+          {this.props.notes}
+        </div>
+
+        <div className="harmonics"  title="% of harmonics">
+          <div className="stats" style={{ width: harmonicspread }}>{harmonicspread}</div>
+        </div>
+
+        <div title="Spread of notes over octaves" className="octave">{octavearray}</div>
         <img src={eachImage} alt={'notation'} />
+      </div>
       </div>
     );
   }

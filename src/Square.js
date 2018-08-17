@@ -7,13 +7,10 @@ export default class Square extends Component {
   };
 
   render() {
-    const fill = 'white';
-    const stroke = 'black';
-
     return (
-      <div style={{
-        backgroundColor: fill,
-        color: stroke,
+      <div 
+      className="squarebackground"
+      style={{
         width: this.props.swidth,
         height: this.props.sheight,
       }}>
