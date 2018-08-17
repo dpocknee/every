@@ -10,7 +10,7 @@ export class IntroText extends Component {
 	      <p>This app was built with ReactJS and the webaudio API, and allows the user to drag and drop all 319 chords in the piece into an order of their choice. 
 	      A sythesized version of the re-ordered piece (algorithmically spliced together from samples) can then be played back by clicking the play and stop buttons in the bottom right of the window.  
 	      <br />The slider in the bottom left of the window can be used to choose the chord from which this playback starts.</p>
-	      <p>After you have decided upon an order of chords that you like, it can be converted into musical notation in the liypond format by using the controls at the bottom right of the window.</p>
+	      <p>After you have decided upon an order of chords that you like, it can be converted into musical notation in the liypond format by using the controls at the bottom of the window.</p>
 	      <p>Each chord is represented by a set of statistics to help aid its ordering: </p>
 	      <ul style={{fontSize: '10px'}}> 
 	        <li>A chord reference number (e.g. chord_123).  This is color-coded according to the duration before the next chord.  long=green, short=red.</li>
@@ -24,7 +24,7 @@ export class IntroText extends Component {
 	      <p>You can see which statistic you are looking at by hovering your mouse over it.</p>
 	      <p>As well as being a tool for me, the composer, I also thought that it could be used by performers of the work to make fine-tuning adjustments to the order of chords in the piece in order to aid playability, 
 	      and personalize and shape the work according to the idiosyncracies of their playing and instrument.</p>
-	      <p>Additionally, by making this code available online, I hope that it might be useful in helping other composers and performers to build similar interfaces to help with their musical projects.</p>
+	      <p>Additionally, by making this code available online, I hope that it might be useful in helping other composers and performers to build similar interfaces for their musical projects.</p>
 	      <p>dp - August 2018</p>
 	      </div>
 		);

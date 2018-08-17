@@ -27,7 +27,7 @@ You can see which statistic you are looking at by hovering your mouse over it.
 As well as being a tool for me, the composer, I also thought that it could be used by performers of the work to make fine-tuning adjustments to the order of chords in the piece in order to aid playability, 
 and personalize and shape the work according to the idiosyncracies of their playing and instrument.
 
-Additionally, by making this code available online, I hope that it might be useful in helping other composers and performers to build similar interfaces to help with their musical projects.
+Additionally, by making this code available online, I hope that it might be useful in helping other composers and performers to build similar interfaces for their musical projects.
 
 dp - August 2018
 
