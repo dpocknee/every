@@ -117,7 +117,7 @@ class Grid extends Component {
       <div className = 'mainpage'>
             <IntroText />
       <div className = 'maintitle'>
-        <h1>The <i>Every</i> Composer App</h1> - <h2>Built by <a href="http://www.davidpocknee.com/" target="_blank">David Pocknee</a></h2>
+        <h1><a href="http://www.davidpocknee.com/" target="_blank">David Pocknee's</a> <i>Every</i> Composition Tool</h1>
       </div>
       <div style={{
         width: '100%',
