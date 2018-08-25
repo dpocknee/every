@@ -7,6 +7,7 @@ import {Slider} from './Slider.js';
 import {IntroText} from './IntroText';
 import {Lilypond} from './Lilypond';
 import './every.css';
+import {idealOrder} from './IdealOrder.js';
 
 const squareWidth = 70;
 const squareHeight = 320;
@@ -22,8 +23,10 @@ var timing = []
 //Hi David, here's a note because you keep forgetting: 
 //the format for the window.mainArray variable is [chord name, chord index]
 //Thanks, David
+
 for (let i = 0; i < window.chords['chords'].length; i++) {
-  window.mainArray.push([window.chords['chords'][i].name,i]);
+//Old:  window.mainArray.push([window.chords['chords'][i].name,i]);
+  window.mainArray.push([window.chords['chords'][idealOrder[i]].name,[idealOrder[i]]]);
   timing.push(window.timing['timing'][i]);
 };
 
