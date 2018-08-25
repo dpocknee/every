@@ -16,8 +16,7 @@ const squareTarget = {
 function collect(connect, monitor) {
   var sourceProps = monitor.getItem()
   if (sourceProps != null) {
- //   console.log("SOURCE PROPS " + sourceProps.Object + ' ' + sourceProps.index + ' ' + sourceProps.id + ' ' + sourceProps.name + ' ' + sourceProps.value)
-    sourcerer(sourceProps.index,sourceProps.id);
+     sourcerer(sourceProps.index,sourceProps.id);
   }
   return {
     connectDropTarget: connect.dropTarget(),

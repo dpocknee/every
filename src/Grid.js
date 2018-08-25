@@ -9,35 +9,29 @@ import {Lilypond} from './Lilypond';
 import './every.css';
 import {idealOrder} from './IdealOrder.js';
 
-const squareWidth = 70;
-const squareHeight = 320;
+const squareWidth = 70
+const squareHeight = 320
 
-var blockFrom = null;
+var blockFrom = null
+var timing = []
+var starting = null
 
 export function sourcerer(value,id) {
   blockFrom = [value,id]
 }
 
-var timing = []
-
-//Hi David, here's a note because you keep forgetting: 
-//the format for the window.mainArray variable is [chord name, chord index]
-//Thanks, David
-
+//NOTE: The format for the window.mainArray variable is [chord name, chord index]
 for (let i = 0; i < window.chords['chords'].length; i++) {
-//Old:  window.mainArray.push([window.chords['chords'][i].name,i]);
   window.mainArray.push([window.chords['chords'][idealOrder[i]].name,[idealOrder[i]]]);
   timing.push(window.timing['timing'][i]);
 };
-
-var starting = null;
 
 class Grid extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      "slider" : 0,
-      "blockPosition" : this.props.blockPosition,
+      slider : 0,
+      blockPosition : this.props.blockPosition,
       windowmainarray : [0]
     };
     this.updateTheSliderValue = this.updateTheSliderValue.bind(this);
@@ -47,7 +41,7 @@ class Grid extends Component {
   updateTheSliderValue(e) {
     this.setState({
       slider : e.target.value,
-    "blockPosition" : this.props.blockPosition
+      blockPosition : this.props.blockPosition
   });
   }
 
@@ -56,44 +50,42 @@ class Grid extends Component {
       windowmainarray : parsedarray
     });
 
-    var updatedArray = [];
+    let updatedArray = []
     parsedarray.forEach(
-      function(x) {
-        updatedArray.push([window.chords['chords'][x].name, x]);
+      function(x) { updatedArray.push([window.chords['chords'][x].name, x]) 
     });
-    window.mainArray = updatedArray;
+    window.mainArray = updatedArray
   }
 
   render() {
-    //console.log("FROM INSIDE REACT " + window.mainArray);
-      if (starting != null && blockFrom != null) {
-        var blockId = blockFrom[1]
-         var oldPosition = window.mainArray.findIndex(function(x) {return x[0]==blockId;});
-        var oldValue = window.mainArray[oldPosition][1];
-        var newPosition = this.props.blockPosition[0];
-        window.mainArray.splice(oldPosition,1);
-        window.mainArray.splice(newPosition,0,[blockId,oldValue]);
+      if (starting !== null && blockFrom !== null) {
+        let blockId = blockFrom[1]
+        let oldPosition = window.mainArray.findIndex(function(x) {return x[0]==blockId;})
+        let oldValue = window.mainArray[oldPosition][1]
+        let newPosition = this.props.blockPosition[0]
+        window.mainArray.splice(oldPosition,1)
+        window.mainArray.splice(newPosition,0,[blockId,oldValue])
       } else {
         starting = true
       }
 
-   var current_order_string = "[";
-    const squares = [];
-    var selectedchord;
+    let current_order_string = "["
+    const squares = []
+    let selectedchord
 
     for (let index = 0; index <  window.mainArray.length; index++) {
-      var currentvalue = window.mainArray[index][0]
-      var currentindex = window.mainArray[index][1]
+      let currentvalue = window.mainArray[index][0]
+      let currentindex = window.mainArray[index][1]
       if (index === parseInt(this.state.slider, 10) ) {
-        selectedchord = '0px 0px 5px 5px #888888';
+        selectedchord = '0px 0px 5px 5px #888888'
       } else {
-        selectedchord = '0px 0px 0px 0px #888888'; 
+        selectedchord = '0px 0px 0px 0px #888888' 
       }
       
       squares.push(
           <div key={index}
               className="squares"
-               style={{ width: squareWidth+'px', height: squareHeight+'px'}}>
+              style={{ width: squareWidth+'px', height: squareHeight+'px'}}>
             <GridSquare index={index} value={currentvalue} swidth={squareWidth+'px'} sheight={squareHeight+'px'}>
               <Block id={currentvalue} 
               name={currentvalue} 
@@ -111,12 +103,10 @@ class Grid extends Component {
             </GridSquare>
           </div>
         );
-      if(index!==0) {
-        current_order_string += (', ');   
-      }
-     current_order_string += currentindex;      
+        if(index!==0) current_order_string += (', ')
+        current_order_string += currentindex 
     }
-    current_order_string += ']';
+    current_order_string += ']'
     
     return (
       <div className = 'mainpage'>
@@ -124,22 +114,10 @@ class Grid extends Component {
       <div className = 'maintitle'>
         <h1><a href="http://www.davidpocknee.com/">David Pocknee's</a> <i>Every</i> Composition Tool</h1>
       </div>
-      <div style={{
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        flexWrap: 'wrap',
-      }}>
+      <div style={{ width: '100%', height: '100%', display: 'flex', flexWrap: 'wrap', }}>
        {squares}
       </div>
-      {/* This is just a spacer for the bottom, to ensure that the slider doesn't
-    cover up the last row of chords.*/}
-      <div style={{
-        width: '100%',
-        height: '110px'
-      }}>
-    {/*end of spacer */}
-      </div>
+      <div style={{width: '100%', height: '110px' }}></div> {/* This is just a spacer for the bottom, to ensure that the slider doesn't cover up the last row of chords:*/}
        <div className='playbackbox'>
        <div style={{display: 'flex', flexDirection: 'row'}}>
          <Slider sliderUpdate={this.updateTheSliderValue}/>

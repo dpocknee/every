@@ -19,5 +19,3 @@ export default class Square extends Component {
     );
   }
 }
-
-//{this.props.index + ' - ' + this.props.value}
