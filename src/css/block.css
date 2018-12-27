@@ -1,0 +1,81 @@
+.squares {
+	margin: 0px 2px 10px 2px;
+	border: 0px;
+}
+.squarebackground {
+	background-color:white;
+
+}
+
+.block {
+	background-color:white;
+}
+
+.block .name {
+    height: 13px;
+    width: 100%;
+    font-size: 10px;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    margin: 1px 0px 1px 0px;
+	box-sizing: border-box;
+}
+
+.block .difficulty {
+	height: 13px;
+	width: 100%;
+	color: white;
+	text-align: center;
+	font-weight: bold;
+	font-size: 10px;
+	margin: 1px 0px 1px 0px;          
+	box-sizing: border-box;
+}
+
+.block .notes {
+	height: 13px;
+	width: 100%;
+	font-size: 10px;
+	color: white;
+	text-align: center;
+	font-weight: bold;
+	margin: 1px 0px 1px 0px;
+	box-sizing: border-box;
+}
+
+.block .harmonics {
+	height: 13px;
+	width: 100%;
+	border: solid lightgray 1px;
+	font-size: 10px;
+	margin: 1px 0px 1px 0px;
+	background-color: white;
+	box-sizing: border-box;
+}
+
+.block .harmonics .stats {
+    height: 11px;
+	background-color: lightblue;
+	font-size: 10px;
+	color: black;
+	margin: 0px;
+	text-align: center;
+}
+
+.block .octave {
+	height: 50px;
+	width: 100%;
+	font-size: 10px;
+	background-color: white;
+	border: solid lightgray 1px;
+	margin: 1px 0px 10px 0px;
+	vertical-align: bottom;
+	box-sizing: border-box;
+}
+
+.block .octave .stats {
+	background-color: lightblue;
+	position: absolute;	
+	box-sizing: border-box;
+}
