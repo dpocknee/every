@@ -64,7 +64,7 @@ const Block = props => {
   const speeddiff2 = [228, 0, 0];
 
   const eachImage = `chords/${name}.png`;
-  const speedcolor = utils.colourInterpolator(speeddiff1, speeddiff2, timingRating);
+  const speedColour = utils.colourInterpolator(speeddiff1, speeddiff2, timingRating);
   const harmonicspread = `${Math.round(harmonics * 100)}%`;
   const octaveheight = 50;
   const topoffset = 56; // amount octave graph is offset from the top of the main div
@@ -88,7 +88,7 @@ const Block = props => {
       }}
     >
       <div>
-        <div className="name" style={{ backgroundColor: speedcolor }}>
+        <div className="name" style={{ backgroundColor: speedColour }}>
           {name}
         </div>
         <div

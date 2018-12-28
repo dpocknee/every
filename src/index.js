@@ -1,8 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import './index.css';
-// import './every.css';
-// import './block.css';
-import App from './App';
+import Grid from './components/Grid';
+import { observe } from './components/Page';
 
-// ReactDOM.render(<App />, document.getElementById('root'));
+const rootEl = document.getElementById('root');
+
+const App = observe(blockPosition => ReactDOM.render(
+  <div>
+    <Grid blockPosition={blockPosition} />
+  </div>,
+  rootEl,
+));
+
+export default App;

@@ -66,7 +66,6 @@ class Grid extends Component {
 
   whenBlockIsDropped = () => {
     const { blockPosition } = this.props;
-    console.log('blockPosition: ', blockPosition);
     const { mainArray } = this.state;
     const blockId = blockFrom[1];
 
@@ -90,7 +89,6 @@ class Grid extends Component {
 
     const squares = mainArray.map((chord, index) => {
       const [currentValue, currentIndex] = mainArray[index];
-      console.log('selectedChord')
       const selectedChord = (index === parseInt(slider, 10)) ? '0px 0px 5px 5px #888888' : '0px 0px 0px 0px #888888';
       return (
         <div
@@ -109,7 +107,7 @@ class Grid extends Component {
               name={currentValue}
               redvalue={timing[index][3]}
               greenvalue={timing[index][4]}
-              timingrating={timing[index][2]}
+              timingRating={timing[index][2]}
               difficulty={chords[currentIndex].difficulty}
               notes={chords[currentIndex].notes}
               harmonics={chords[currentIndex].harmonic_ratio}
