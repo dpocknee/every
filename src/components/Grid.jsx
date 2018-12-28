@@ -1,38 +1,56 @@
 import React, { Component } from 'react';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
+import { isEqual } from 'lodash';
+import PropTypes from 'prop-types';
 import GridSquare from './GridSquare';
 import Block from './Block';
 import Slider from './Slider';
 import IntroText from './IntroText';
 import Lilypond from './Lilypond';
+import idealOrder from '../assets/IdealOrder';
+import chords from '../assets/chords';
+import timing from '../assets/timing';
 import '../css/every.css';
-import idealOrder from '../IdealOrder';
 
 const squareWidth = 70;
 const squareHeight = 320;
+const squareWidthPx = `${squareWidth}px`;
+const squareHeightPx = `${squareHeight}px`;    
 
 let blockFrom = null;
-const timing = [];
-let starting = null;
 
 export function sourcerer(value, id) {
   blockFrom = [value, id];
 }
 
-//NOTE: The format for the window.mainArray variable is [chord name, chord index]
-for (let i = 0; i < window.chords['chords'].length; i++) {
-  window.mainArray.push([
-    window.chords['chords'][idealOrder[i]].name,
-    [idealOrder[i]]
-  ]);
-  timing.push(window.timing['timing'][i]);
-}
+// NOTE: The format for the window.mainArray variable is [chord name, chord index]
 
 class Grid extends Component {
   state = {
     slider: 0,
+    mainArray: [],
   };
+
+  componentDidMount() {
+    const originalArray = chords.map((chord, index) => {
+      const mappedOrder = idealOrder[index];
+      return [chords[mappedOrder].name, [mappedOrder]]
+    });
+    this.setState({ mainArray: originalArray });
+    window.mainArray = originalArray;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { mainArray } = this.state;
+    const { blockPosition } = this.props;
+    if (!isEqual(blockPosition, prevProps.blockPosition)) {
+      this.whenBlockIsDropped();
+    }
+    if (!isEqual(mainArray, prevState.mainArray) && !isEqual(mainArray, window.mainArray)) {
+      window.mainArray = mainArray;
+    }
+  }
 
   updateTheSliderValue = (e) => {
     this.setState({
@@ -41,64 +59,61 @@ class Grid extends Component {
   }
 
   updateTheArray = (parsedArray) => {
-    const updatedArray = parsedArray.map((chord) =>  [window.chords['chords'][chord].name, chord]);
+    const updatedArray = parsedArray.map((chord) => [chords[chord].name, chord]);
+    this.setState({ mainArray: updatedArray })
     window.mainArray = updatedArray;
   }
 
-  render() {
-    console.log('window.mainArray: ', window.mainArray);
-    console.log('window.chords: ', window.chords);
+  whenBlockIsDropped = () => {
     const { blockPosition } = this.props;
-    const { slider } = this.state;
-    if (starting !== null && blockFrom !== null) {
-      const blockId = blockFrom[1];
-      const oldPosition = window.mainArray.findIndex((x) => x[0] == blockId);
-      const oldValue = window.mainArray[oldPosition][1];
-      const newPosition = blockPosition[0];
-      window.mainArray.splice(oldPosition, 1);
-      window.mainArray.splice(newPosition, 0, [blockId, oldValue]);
-    } else {
-      starting = true;
-    }
+    const { mainArray, starting } = this.state;
+    const blockId = blockFrom[1];
 
-    let currentOrderString = '[';
-    const squares = [];
-    let selectedchord;
+    const oldPosition = mainArray.findIndex((x) => x[0] == blockId);
+    const oldValue = mainArray[oldPosition][1];
+    const newPosition = blockPosition[0];
+    this.setState(state => {
+      const newArray = state.mainArray.map((x) => x);
+      newArray.splice(oldPosition, 1);
+      newArray.splice(newPosition, 0, [blockId, oldValue]);
+      return { mainArray: newArray, starting: false };
+    });
+  }     
 
-    for (let index = 0; index < window.mainArray.length; index++) {
-      const currentValue = window.mainArray[index][0];
-      const currentIndex = window.mainArray[index][1];
-      if (index === parseInt(slider, 10)) {
-        selectedchord = '0px 0px 5px 5px #888888';
-      } else {
-        selectedchord = '0px 0px 0px 0px #888888';
-      }
+  render() {
+    const { slider, mainArray, starting } = this.state;
+    const currentOrderArray = mainArray.map((element) => {
+      return element[1];
+    });
+    const currentOrderString = `[${currentOrderArray.join(', ')}]`;
 
-      const squareWidthPx = `${squareWidth}px`;
-      const squareHeightPx = `${squareHeight}px`;
-
-      squares.push(
+    const squares = mainArray.map((chord, index) => {
+      const [currentValue, currentIndex] = mainArray[index];
+      const selectedchord = (index === parseInt(slider, 10)) ? '0px 0px 5px 5px #888888' : '0px 0px 0px 0px #888888';
+      return (
         <div
-          key={index}
+          key={`squares${index}`}
           className="squares"
           style={{ width: squareWidthPx, height: squareHeightPx }}
         >
           <GridSquare
+            key={`gridSquare${index}`}
             index={index}
             value={currentValue}
             swidth={squareWidthPx}
             sheight={squareHeightPx}
           >
             <Block
+              key={`block${index}`}
               id={currentValue}
               name={currentValue}
               redvalue={timing[index][3]}
               greenvalue={timing[index][4]}
               timingrating={timing[index][2]}
-              difficulty={window.chords['chords'][currentIndex].difficulty}
-              notes={window.chords['chords'][currentIndex].notes}
-              harmonics={window.chords['chords'][currentIndex].harmonic_ratio}
-              octaves={window.chords['chords'][currentIndex].octavehistogram}
+              difficulty={chords[currentIndex].difficulty}
+              notes={chords[currentIndex].notes}
+              harmonics={chords[currentIndex].harmonic_ratio}
+              octaves={chords[currentIndex].octavehistogram}
               swidth={squareWidth}
               sheight={squareHeight}
               selectedchord={selectedchord}
@@ -106,17 +121,14 @@ class Grid extends Component {
           </GridSquare>
         </div>
       );
-      if (index !== 0) currentOrderString += ', ';
-      currentOrderString += currentIndex;
-    }
-    currentOrderString += ']';
+    });
 
     return (
       <div className="mainpage">
         <IntroText />
         <div className="maintitle">
           <h1>
-            <a href="http://www.davidpocknee.com/">David Pocknee's</a>{' '}
+            <a href="http://www.davidpocknee.com/">{"David Pocknee's"}</a>{' '}
             <i>Every</i> Composition Tool
           </h1>
         </div>
@@ -131,12 +143,12 @@ class Grid extends Component {
           {squares}
         </div>
         <div style={{ width: '100%', height: '110px' }} />{' '}
-        {/* This is just a spacer for the bottom, to ensure that the slider doesn't cover up the last row of chords:*/}
+        {/* This is just a spacer for the bottom, to ensure that the slider doesn't cover up the last row of chords. */}
         <div className="playbackbox">
           <div style={{ display: 'flex', flexDirection: 'row' }}>
             <Slider sliderUpdate={this.updateTheSliderValue} />
             <div className="slidertext">
-              <p>Chord #{parseInt(this.state.slider, 10) + 1}</p>
+              <p>{`Chord #${parseInt(slider, 10) + 1}`}</p>
             </div>
           </div>
           <Lilypond
@@ -147,6 +159,14 @@ class Grid extends Component {
       </div>
     );
   }
+}
+
+Grid.propTypes = {
+  blockPosition: PropTypes.array,
+}
+
+Grid.defaultProps = {
+  blockPosition: null,
 }
 
 export default DragDropContext(HTML5Backend)(Grid);

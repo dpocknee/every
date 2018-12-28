@@ -12,8 +12,6 @@ const blockSource = {
   },
 };
 
-// MOVE TO UTILS!
-
 function collect(connect, monitor) {
   return {
     connectDragSource: connect.dragSource(),
