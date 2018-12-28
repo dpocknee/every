@@ -59,10 +59,10 @@ const GridSquare = props => {
 GridSquare.propTypes = {
   connectDropTarget: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
-  value: PropTypes.number.isRequired,
-  isOver: PropTypes.func.isRequired,
-  swidth: PropTypes.number.isRequired,
-  sheight: PropTypes.number.isRequired,
+  value: PropTypes.string.isRequired,
+  isOver: PropTypes.bool.isRequired,
+  swidth: PropTypes.string.isRequired,
+  sheight: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
 };
 

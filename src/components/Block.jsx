@@ -51,20 +51,20 @@ const Block = props => {
     connectDragSource,
     isDragging,
     name,
-    timingrating,
+    timingRating,
     harmonics,
     octaves,
     swidth,
     difficulty,
     notes,
-    selectedchord,
+    selectedChord,
   } = props;
 
   const speeddiff1 = [42, 242, 42];
   const speeddiff2 = [228, 0, 0];
 
   const eachImage = `chords/${name}.png`;
-  const speedcolor = utils.colourInterpolator(speeddiff1, speeddiff2, timingrating);
+  const speedcolor = utils.colourInterpolator(speeddiff1, speeddiff2, timingRating);
   const harmonicspread = `${Math.round(harmonics * 100)}%`;
   const octaveheight = 50;
   const topoffset = 56; // amount octave graph is offset from the top of the main div
@@ -84,7 +84,7 @@ const Block = props => {
         opacity: isDragging ? 0.5 : 1,
         textAlign: 'center',
         cursor: 'move',
-        boxShadow: selectedchord,
+        boxShadow: selectedChord,
       }}
     >
       <div>
@@ -124,13 +124,18 @@ Block.propTypes = {
   connectDragSource: PropTypes.func.isRequired,
   isDragging: PropTypes.bool.isRequired,
   name: PropTypes.string.isRequired,
-  timingrating: PropTypes.string.isRequired,
-  harmonics: PropTypes.string.isRequired,
-  octaves: PropTypes.string.isRequired,
-  swidth: PropTypes.string.isRequired,
-  difficulty: PropTypes.string.isRequired,
-  notes: PropTypes.string.isRequired,
-  selectedchord: PropTypes.string.isRequired,
+  harmonics: PropTypes.number.isRequired,
+  octaves: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
+  swidth: PropTypes.number.isRequired,
+  difficulty: PropTypes.number.isRequired,
+  notes: PropTypes.number.isRequired,
+  timingRating: PropTypes.number,
+  selectedChord: PropTypes.string,
+};
+
+Block.defaultProps = {
+  timingRating: undefined,
+  selectedChord: undefined,
 };
 
 export default DragSource(ItemTypes.BLOCK, blockSource, collect)(Block);

@@ -47,8 +47,8 @@ const arrayInputFeedback = (errorObj, orderType) => {
 export const colourInterpolator = (startingColor, endingColor, value) => {
   // Interpolates between two colours according to a value between 0 and 1.
   // Colors should be entered as an array of 3 RGB values.
-  const red = (endingColor[0] - startingColor[0]) * value + startingColor[0];
-  const green = (endingColor[1] - startingColor[1]) * value + startingColor[1];
-  const blue = (endingColor[2] - startingColor[2]) * value + startingColor[2];
-  return `rgb('${red}', '${green}', '${blue}')`;
+  const red = Math.round((endingColor[0] - startingColor[0]) * value + startingColor[0]);
+  const green = Math.round((endingColor[1] - startingColor[1]) * value + startingColor[1]);
+  const blue = Math.round((endingColor[2] - startingColor[2]) * value + startingColor[2]);
+  return `rgb(${red}, ${green}, ${blue})`;
 };

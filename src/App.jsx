@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Grid from './components/Grid';
 import { observe } from './components/Page';
-// import './index.css';
-// import './every.css';
-// import './block.css';
+import './css/index.css';
+import './css/every.css';
+import './css/block.css';
 
 const rootEl = document.getElementById('root');
 // const App = () =>

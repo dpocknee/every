@@ -66,7 +66,8 @@ class Grid extends Component {
 
   whenBlockIsDropped = () => {
     const { blockPosition } = this.props;
-    const { mainArray, starting } = this.state;
+    console.log('blockPosition: ', blockPosition);
+    const { mainArray } = this.state;
     const blockId = blockFrom[1];
 
     const oldPosition = mainArray.findIndex((x) => x[0] == blockId);
@@ -81,7 +82,7 @@ class Grid extends Component {
   }     
 
   render() {
-    const { slider, mainArray, starting } = this.state;
+    const { slider, mainArray } = this.state;
     const currentOrderArray = mainArray.map((element) => {
       return element[1];
     });
@@ -89,7 +90,8 @@ class Grid extends Component {
 
     const squares = mainArray.map((chord, index) => {
       const [currentValue, currentIndex] = mainArray[index];
-      const selectedchord = (index === parseInt(slider, 10)) ? '0px 0px 5px 5px #888888' : '0px 0px 0px 0px #888888';
+      console.log('selectedChord')
+      const selectedChord = (index === parseInt(slider, 10)) ? '0px 0px 5px 5px #888888' : '0px 0px 0px 0px #888888';
       return (
         <div
           key={`squares${index}`}
@@ -97,14 +99,12 @@ class Grid extends Component {
           style={{ width: squareWidthPx, height: squareHeightPx }}
         >
           <GridSquare
-            key={`gridSquare${index}`}
             index={index}
             value={currentValue}
             swidth={squareWidthPx}
             sheight={squareHeightPx}
           >
             <Block
-              key={`block${index}`}
               id={currentValue}
               name={currentValue}
               redvalue={timing[index][3]}
@@ -116,7 +116,7 @@ class Grid extends Component {
               octaves={chords[currentIndex].octavehistogram}
               swidth={squareWidth}
               sheight={squareHeight}
-              selectedchord={selectedchord}
+              selectedChord={selectedChord}
             />
           </GridSquare>
         </div>
