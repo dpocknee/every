@@ -4,6 +4,7 @@ const arrayInputTest = (arrayToTest, maximumChords, startingNumber) => {
   // Tests if the array is a valid javascript array and features valid chord numbers.
   // maximum variable is the maximum value a chord can have, normally this is 319.
   const arrayErrors = [];
+  let inputArray = [];
 
   try {
     JSON.parse(arrayToTest);
@@ -26,11 +27,11 @@ const arrayInputTest = (arrayToTest, maximumChords, startingNumber) => {
         );
       }
       if (uniq(parsedChordArray).length !== parsedChordArray.length) arrayErrors.push('ERROR: Duplicate chords not allowed.');
+      inputArray = [...parsedChordArray];
     }
   }
-  // duplicates
   const isError = arrayErrors.length > 0;
-  return { error: isError, errorString: arrayErrors.join('  ') };
+  return { isError, errorString: arrayErrors.join('  '), inputArray };
 };
 
 const arrayInputFeedback = (errorObj, orderType) => {
@@ -43,4 +44,4 @@ const arrayInputFeedback = (errorObj, orderType) => {
   return arrayStatus;
 };
 
-module.exports = { arrayInputTest, arrayInputFeedback };
+export default { arrayInputTest, arrayInputFeedback };
