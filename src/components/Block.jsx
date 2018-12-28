@@ -4,19 +4,15 @@ import { DragSource } from 'react-dnd';
 import ItemTypes from './Constants';
 import '../css/block.css';
 
+import * as utils from '../utils/utils';
+
 const blockSource = {
   beginDrag(props) {
     return { id: props.id };
   },
 };
 
-function colourInterpolator(startingColor, endingColor, value) {
-  // Interpolates between two colours according to a value between 0 and 1.//Colors should be entered as an array of 3 RGB values.
-  const red = (endingColor[0] - startingColor[0]) * value + startingColor[0];
-  const green = (endingColor[1] - startingColor[1]) * value + startingColor[1];
-  const blue = (endingColor[2] - startingColor[2]) * value + startingColor[2];
-  return `rgb('${red}', '${green}', '${blue}')`;
-}
+// MOVE TO UTILS!
 
 function collect(connect, monitor) {
   return {
@@ -25,6 +21,7 @@ function collect(connect, monitor) {
   };
 }
 
+// Move to utils !!
 function octavemaker(arrayin, octaveheight, graphwidth, topoffset) {
   const octoutput = [];
   const bardivision = octaveheight / 5;
@@ -69,14 +66,18 @@ const Block = props => {
   const speeddiff2 = [228, 0, 0];
 
   const eachImage = `chords/${name}.png`;
-  const speedcolor = colourInterpolator(speeddiff1, speeddiff2, timingrating);
+  const speedcolor = utils.colourInterpolator(speeddiff1, speeddiff2, timingrating);
   const harmonicspread = `${Math.round(harmonics * 100)}%`;
   const octaveheight = 50;
   const topoffset = 56; // amount octave graph is offset from the top of the main div
   const octavearray = octavemaker(octaves, octaveheight, swidth, topoffset);
 
-  const difficultycolordiffs = colourInterpolator(speeddiff1, speeddiff2, (difficulty - 1) / 8);
-  const usenotecolor = colourInterpolator([220, 220, 220], [34, 34, 34], notes / 5);
+  const difficultycolordiffs = utils.colourInterpolator(
+    speeddiff1,
+    speeddiff2,
+    (difficulty - 1) / 8,
+  );
+  const usenotecolor = utils.colourInterpolator([220, 220, 220], [34, 34, 34], notes / 5);
 
   return connectDragSource(
     <div

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-const { arrayInputTest } = require('../utils/utils');
+import * as utils from '../utils/utils';
 
 export default class Lilypond extends Component {
   state = {
@@ -25,7 +25,7 @@ export default class Lilypond extends Component {
 
   arrayInputChecker = (sliderTextInput, maxChords, orderType) => {
     const { arrayUpdater } = this.props;
-    const checkArray = arrayInputTest(sliderTextInput, maxChords, 0);
+    const checkArray = utils.arrayInputTest(sliderTextInput, maxChords, 0);
     const { isError, errorString, inputArray } = checkArray;
     if (isError) {
       this.setState({ invalidArray: isError, alerts: errorString });

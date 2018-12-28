@@ -46,6 +46,8 @@ class Grid extends Component {
   }
 
   render() {
+    console.log('window.mainArray: ', window.mainArray);
+    console.log('window.chords: ', window.chords);
     const { blockPosition } = this.props;
     const { slider } = this.state;
     if (starting !== null && blockFrom !== null) {
@@ -123,7 +125,7 @@ class Grid extends Component {
             width: '100%',
             height: '100%',
             display: 'flex',
-            flexWrap: 'wrap'
+            flexWrap: 'wrap',
           }}
         >
           {squares}
