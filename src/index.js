@@ -1,15 +1,37 @@
+// import React, { Component } from 'react';
+// import ReactDOM from 'react-dom';
+// import Grid from './components/Grid';
+// import { observe } from './components/Page';
+
+/* eslint react/jsx-filename-extension: 0 */
+
+// const rootEl = document.getElementById('root');
+
+// const App = observe(blockPosition => ReactDOM.render(
+//   <div>
+//     <Grid blockPosition={blockPosition} />
+//   </div>,
+//   rootEl,
+// ));
+
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Grid from './components/Grid';
-import { observe } from './components/Page';
+import AudioPlayback from './audio/AudioPlayback';
+import chords from './assets/chords';
 
-const rootEl = document.getElementById('root');
+const mainArray = chords;
 
-const App = observe(blockPosition => ReactDOM.render(
-  <div>
-    <Grid blockPosition={blockPosition} />
-  </div>,
-  rootEl,
-));
+const App = () => (
+  <>
+    <div>
+      <p>Hello!</p>
+    </div>
+    <div>
+      <AudioPlayback mainArray={mainArray} />
+    </div>
+  </>
+);
 
-export default App;
+ReactDOM.render(<App />, document.getElementById('root'));
+
+// export default App;

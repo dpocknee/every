@@ -6,6 +6,8 @@ import '../css/block.css';
 
 import * as utils from '../utils/utils';
 
+/* eslint import/no-dynamic-require: 0 global-require: 0 */
+
 const blockSource = {
   beginDrag(props) {
     return { id: props.id };
@@ -63,7 +65,7 @@ const Block = props => {
   const speeddiff1 = [42, 242, 42];
   const speeddiff2 = [228, 0, 0];
 
-  const eachImage = `chords/${name}.png`;
+  // const eachImage = `./assets/chords/${name}.png`;
   const speedColour = utils.colourInterpolator(speeddiff1, speeddiff2, timingRating);
   const harmonicspread = `${Math.round(harmonics * 100)}%`;
   const octaveheight = 50;
@@ -114,7 +116,7 @@ const Block = props => {
         <div title="Spread of notes over octaves" className="octave">
           {octavearray}
         </div>
-        <img src={eachImage} alt="notation" />
+        <img src={require(`../assets/chords/${name}.png`)} alt="notation" />
       </div>
     </div>,
   );
