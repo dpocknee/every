@@ -1,71 +1,62 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlayCircle, faStopCircle } from '@fortawesome/free-solid-svg-icons';
 import { AudioBuffers, AudioNodes, SoundPlayback } from './webaudio';
 import timing from '../data/timingTest';
 import chords from '../data/chordsTest';
 import { chordNames, audioChords } from '../data/audioChords';
-import playButton from '../assets/img/playButton.png';
-import stopButton from '../assets/img/stopButton.png';
+import '../css/AudioPlayback.css';
 
 export default class AudioPlayback extends Component {
   state = {
     playedChord: 0,
     playedChordInfo: {},
-    audioContext: [],
-    audioBuffers: [],
     audioIsPlaying: false,
     soundSamples: [],
-    samplesPlaying: {},
     timerId: 0,
+    noOfFilesToLoad: 0,
+    filesLoaded: 0,
+    isLoading: true,
+    loadingError: false,
   };
 
-  // componentDidMount() {
-  //   // THIS DEFINES THE AUDIO CONTEXT AND AN ARRAY OF ALL SOUNDS TO BE LOADED INTO THE BUFFERS
-  //   const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-  //   // THIS CALLS THE BUFFER CLASS
-  //   const audioBuffer = new AudioBuffer(audioContext, audioChords);
-  //   audioBuffer.getBuffer();
-  //   const samplesPlaying = chordNames.reduce((sampleObj, name, index) => {
-  //     sampleObj[index] = false;
-  //     return sampleObj;
-  //   }, {});
-  //   return this.setState({ audioContext, audioBuffer, samplesPlaying });
-  // }
-
-  async componentDidMount() {
+  componentDidMount() {
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    // console.log('mounting', chordNames);
     const audioBuffers = new AudioBuffers(audioContext, audioChords);
+    audioBuffers.getBuffers(this.fileLoadingProgress);
     const soundSamples = [];
     chordNames.forEach((bufferNumber, index) => {
       const chordSample = new AudioNodes(audioContext, audioBuffers, index);
       chordSample.setup();
       soundSamples.push(chordSample);
     });
-    return this.setState({ audioContext, audioBuffers, soundSamples });
+    return this.setState({
+      audioContext,
+      audioBuffers,
+      soundSamples,
+      noOfFilesToLoad: chordNames.length,
+    });
   }
 
-  // componentWillUnmount() {
-  //   const { audioContext } = this.state;
-  //   audioContext.close();
-  // }
-
-  // playSound = () => {
-  //   const { audioContext, audioBuffer } = this.state;
-  //   const soundSamples = [];
-  //   chordNames.forEach((bufferNumber, index) => {
-  //     const chordSample = new AudioNodes(audioContext, audioBuffer.getSound(index));
-  //     chordSample.setup();
-  //     soundSamples.push(chordSample);
-  //     if (index === chordNames.length - 1) {
-  //       this.setState({ audioIsPlaying: true, soundSamples }, () => {
-  //         this.soundLoop(true, 0);
-  //       });
-  //     }
-  //   });
-  // };
+  fileLoadingProgress = (event, progressType) => {
+    if (progressType === 'load') {
+      this.setState(state => {
+        const updateFilesLoaded = state.filesLoaded + 1;
+        const isLoading = updateFilesLoaded !== state.noOfFilesToLoad;
+        return { filesLoaded: updateFilesLoaded, isLoading };
+      });
+    }
+    if (progressType === 'error') {
+      this.setState({
+        loadingError: `Error loading file ${event.target.responseURL}.  Please reload the page.`,
+      });
+    }
+  };
 
   playSound = () => {
-    console.log(this.state.soundSamples);
+    // console.log(this.state.soundSamples);
     this.setState({ audioIsPlaying: true }, () => {
       this.soundLoop(true, 0);
     });
@@ -83,7 +74,7 @@ export default class AudioPlayback extends Component {
 
       // Play each string sample for the selected chord:
       buffer_reference.forEach(bufferNumber => {
-        soundSamples[bufferNumber].play();
+        soundSamples[bufferNumber].playSample();
       });
 
       // Update the state to the next chord:
@@ -97,62 +88,65 @@ export default class AudioPlayback extends Component {
         timerId,
         playedChord: recursiveCounter,
         playedChordInfo: mainArray[recursiveCounter],
-        // samplesPlaying: newSamplesPlaying,
       }));
     }
   };
 
   stopSound = () => {
-    const { soundSamples, samplesPlaying, timerId } = this.state;
+    const { soundSamples, timerId } = this.state;
     window.clearTimeout(timerId);
     soundSamples.forEach((bufferNumber, index) => {
-      soundSamples[index].stop();
+      soundSamples[index].stopAllSamples();
     });
     this.setState({ audioIsPlaying: false });
   };
 
   render() {
-    const { playedChord, playedChordInfo } = this.state;
+    const {
+      playedChord,
+      playedChordInfo,
+      noOfFilesToLoad,
+      filesLoaded,
+      isLoading,
+      loadingError,
+      audioIsPlaying,
+    } = this.state;
     return (
       <>
-        <div>
-          <p>{`Files: ${playedChordInfo.files}`}</p>
-          <p>{`Buffers: ${playedChordInfo.buffer_reference}`}</p>
-          <p>{`The selected chord is: ${playedChord}`}</p>
-        </div>
-        <div
-          style={{
-            position: 'fixed',
-            width: '110px',
-            height: '60px',
-            bottom: 0,
-            right: 0,
-            backgroundColor: '#ffecdc',
-            border: '1px solid black',
-            boxShadow: '-2px -2px 4px #888888',
-          }}
-        >
-          <div style={{ width: '100px' }}>
-            <div style={{ width: '50px', float: 'left' }}>
-              <button
-                type="button"
-                style={{ width: '50px' }}
-                onClick={() => this.playSound()}
-                onKeyDown={() => this.playSound()}
-              >
-                <img src={playButton} style={{ width: '50px' }} alt="Play" />
-              </button>
+        {loadingError && <p>{loadingError}</p>}
+        {!loadingError
+          && (!isLoading ? (
+            <div>
+              <p>{`Files: ${playedChordInfo.files}`}</p>
+              <p>{`Buffers: ${playedChordInfo.buffer_reference}`}</p>
+              <p>{`The selected chord is: ${playedChord}`}</p>
             </div>
-            <div style={{ width: '50px', display: 'inline' }}>
+          ) : (
+            <div>
+              <p>{`${filesLoaded} / ${noOfFilesToLoad} files loaded.`}</p>
+            </div>
+          ))}
+        <div className="playbackBox">
+          <div className="playbackButtonDiv">
+            {audioIsPlaying ? (
               <button
                 type="button"
-                style={{ width: '50px' }}
+                className="playbackButtons"
                 onClick={() => this.stopSound()}
                 onKeyDown={() => this.stopSound()}
               >
-                <img src={stopButton} style={{ width: '50px' }} alt="Stop" />
+                <FontAwesomeIcon icon={faStopCircle} className="playbackIcons" alt="Stop" />
               </button>
-            </div>
+            ) : (
+              <button
+                type="button"
+                className="playbackButtons"
+                onClick={() => this.playSound()}
+                onKeyDown={() => this.playSound()}
+              >
+                <FontAwesomeIcon icon={faPlayCircle} className="playbackIcons" alt="Play" />
+              </button>
+            )}
           </div>
         </div>
       </>

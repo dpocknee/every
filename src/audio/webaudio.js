@@ -1,23 +1,12 @@
-export class AudioNodes {
-  constructor(context, buffer, bufferIndex) {
+class SoundPlayback {
+  constructor(context, buffer, gainNode, bufferIndex) {
     this.context = context;
     this.buffer = buffer;
+    this.gainNode = gainNode;
     this.bufferIndex = bufferIndex;
-    this.source = [];
-    this.gainNode = null;
+    this.source = null;
     this.isPlaying = false;
     this.playingFadeout = 0.001;
-  }
-
-  setup() {
-    // console.log('SETUP: this.source:', this.source);
-    if (this.context.state === 'suspended') {
-      this.context.resume();
-    }
-    this.buffer.getBuffer();
-    this.gainNode = this.context.createGain();
-    this.gainNode.connect(this.context.destination);
-    this.gainNode.gain.setValueAtTime(0.5, this.context.currentTime);
   }
 
   play() {
@@ -42,6 +31,46 @@ export class AudioNodes {
   }
 }
 
+export class AudioNodes {
+  constructor(audioContext, audioBuffers, bufferIndex) {
+    this.audioContext = audioContext;
+    this.audioBuffers = audioBuffers;
+    this.bufferIndex = bufferIndex;
+    this.source = [];
+    this.sources = [];
+    this.gainNode = null;
+    this.isPlaying = false;
+    this.playingFadeout = 0.001;
+  }
+
+  setup() {
+    // console.log('SETUP: this.source:', this.source);
+    if (this.audioContext.state === 'suspended') {
+      this.audioContext.resume();
+    }
+    this.gainNode = this.audioContext.createGain();
+    this.gainNode.connect(this.audioContext.destination);
+  }
+
+  playSample() {
+    this.gainNode.gain.setValueAtTime(0.5, this.audioContext.currentTime);
+    const newSample = new SoundPlayback(
+      this.audioContext,
+      this.audioBuffers,
+      this.gainNode,
+      this.bufferIndex,
+    );
+    this.sources = [...this.sources, newSample];
+    newSample.play();
+  }
+
+  stopAllSamples() {
+    this.sources.forEach(sample => {
+      sample.stop();
+    });
+  }
+}
+
 // THIS CLASS IS FOR LOADING ALL SAMPLES INTO SEPARATE BUFFERS
 export class AudioBuffers {
   constructor(context, urls) {
@@ -50,11 +79,12 @@ export class AudioBuffers {
     this.buffer = [];
   }
 
-  loadSound(url, index) {
+  loadSound(url, index, fileLoadingProgress) {
     const request = new XMLHttpRequest();
+    request.addEventListener('load', event => fileLoadingProgress(event, 'load'));
+    request.addEventListener('error', event => fileLoadingProgress(event, 'error'));
     request.open('get', url, true);
     request.responseType = 'arraybuffer';
-    // const thisBuffer = this;
     request.onload = () => {
       this.context.decodeAudioData(request.response, buffer => {
         this.buffer[index] = buffer;
@@ -63,9 +93,9 @@ export class AudioBuffers {
     request.send();
   }
 
-  getBuffer() {
+  getBuffers(fileLoadingProgress) {
     this.urls.forEach((url, index) => {
-      this.loadSound(url, index);
+      this.loadSound(url, index, fileLoadingProgress);
     });
   }
 
