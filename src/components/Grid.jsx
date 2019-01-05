@@ -8,9 +8,9 @@ import Block from './Block';
 import Slider from './Slider';
 import IntroText from './IntroText';
 import Lilypond from './Lilypond';
-import idealOrder from '../assets/IdealOrder';
-import chords from '../assets/chords';
-import timing from '../assets/timing';
+import idealOrder from '../data/IdealOrder';
+import chords from '../data/chords';
+import timing from '../data/timing';
 import '../css/every.css';
 
 const squareWidth = 70;
@@ -25,6 +25,7 @@ export function sourcerer(value, id) {
 }
 
 // NOTE: The format for the window.mainArray variable is [chord name, chord index]
+// TO DO: add in gradient to the edge of each box to indicate overlapping string usage.
 
 class Grid extends Component {
   state = {
@@ -52,9 +53,9 @@ class Grid extends Component {
     }
   }
 
-  updateTheSliderValue = (e) => {
+  updateTheSliderValue = (sliderElement) => {
     this.setState({
-      slider: e.target.value,
+      slider: sliderElement.target.value,
     });
   }
 

@@ -1,6 +1,6 @@
 /* eslint no-undef: 0 */
 const { expect } = require('chai');
-const { arrayInputFeedback, arrayInputTest } = require('../utils/utils');
+const { arrayInputTest } = require('../utils/utils');
 
 describe('arrayInputTest: checks array validation works ', () => {
   it('returns no error if the input is an array', () => {

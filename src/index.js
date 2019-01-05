@@ -17,7 +17,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import AudioPlayback from './audio/AudioPlayback';
-import chords from './assets/chords';
+import chords from './data/chords';
 
 const mainArray = chords;
 

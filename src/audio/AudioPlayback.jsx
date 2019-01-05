@@ -1,78 +1,123 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { AudioBuffer, Sounder } from './webaudio';
-import timing from '../assets/timingTest';
-import chords from '../assets/chords';
-import audioChords from './requireAudioChords';
+import { AudioBuffers, AudioNodes, SoundPlayback } from './webaudio';
+import timing from '../data/timingTest';
+import chords from '../data/chordsTest';
+import { chordNames, audioChords } from '../data/audioChords';
 import playButton from '../assets/img/playButton.png';
 import stopButton from '../assets/img/stopButton.png';
 
 export default class AudioPlayback extends Component {
   state = {
     playedChord: 0,
+    playedChordInfo: {},
     audioContext: [],
-    audioBuffer: [],
+    audioBuffers: [],
     audioIsPlaying: false,
+    soundSamples: [],
+    samplesPlaying: {},
+    timerId: 0,
   };
 
-  componentDidMount() {
-    // THIS DEFINES THE AUDIO CONTEXT AND AN ARRAY OF ALL SOUNDS TO BE LOADED INTO THE BUFFERS
+  // componentDidMount() {
+  //   // THIS DEFINES THE AUDIO CONTEXT AND AN ARRAY OF ALL SOUNDS TO BE LOADED INTO THE BUFFERS
+  //   const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  //   // THIS CALLS THE BUFFER CLASS
+  //   const audioBuffer = new AudioBuffer(audioContext, audioChords);
+  //   audioBuffer.getBuffer();
+  //   const samplesPlaying = chordNames.reduce((sampleObj, name, index) => {
+  //     sampleObj[index] = false;
+  //     return sampleObj;
+  //   }, {});
+  //   return this.setState({ audioContext, audioBuffer, samplesPlaying });
+  // }
+
+  async componentDidMount() {
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    // THIS CALLS THE BUFFER CLASS
-    const audioBuffer = new AudioBuffer(audioContext, audioChords);
-    audioBuffer.getBuffer();
-    this.setState({ audioContext, audioBuffer });
+    const audioBuffers = new AudioBuffers(audioContext, audioChords);
+    const soundSamples = [];
+    chordNames.forEach((bufferNumber, index) => {
+      const chordSample = new AudioNodes(audioContext, audioBuffers, index);
+      chordSample.setup();
+      soundSamples.push(chordSample);
+    });
+    return this.setState({ audioContext, audioBuffers, soundSamples });
   }
 
-  componentWillUnmount() {
-    const { audioContext } = this.state;
-    audioContext.close();
-  }
+  // componentWillUnmount() {
+  //   const { audioContext } = this.state;
+  //   audioContext.close();
+  // }
+
+  // playSound = () => {
+  //   const { audioContext, audioBuffer } = this.state;
+  //   const soundSamples = [];
+  //   chordNames.forEach((bufferNumber, index) => {
+  //     const chordSample = new AudioNodes(audioContext, audioBuffer.getSound(index));
+  //     chordSample.setup();
+  //     soundSamples.push(chordSample);
+  //     if (index === chordNames.length - 1) {
+  //       this.setState({ audioIsPlaying: true, soundSamples }, () => {
+  //         this.soundLoop(true, 0);
+  //       });
+  //     }
+  //   });
+  // };
 
   playSound = () => {
-    // const { audioContext, audioBuffer } = this.state;
+    console.log(this.state.soundSamples);
     this.setState({ audioIsPlaying: true }, () => {
       this.soundLoop(true, 0);
     });
   };
 
-  // -- make it so there are only six instances of the sounder - one for each string. -- //
-
   soundLoop = (shouldPlay, recursiveCounter) => {
-    const { audioIsPlaying, audioContext, audioBuffer } = this.state;
+    const { audioIsPlaying, soundSamples } = this.state;
     const { mainArray } = this.props;
     // this is just for testing!  real version below:
     const playedChordBuffers = recursiveCounter;
     // const playedChordBuffers = mainArray[recursiveCounter][1];
     if (shouldPlay && audioIsPlaying) {
+      const currentChord = chords[playedChordBuffers];
+      const { buffer_reference } = currentChord;
+
       // Play each string sample for the selected chord:
-      chords[playedChordBuffers].buffer_reference.forEach(bufferNumber => {
-        const chordSample = new Sounder(audioContext, audioBuffer.getSound(bufferNumber));
-        chordSample.play();
+      buffer_reference.forEach(bufferNumber => {
+        soundSamples[bufferNumber].play();
       });
+
       // Update the state to the next chord:
-      const shouldAudioContinue = recursiveCounter + 1 <= 10;
+      const shouldAudioContinue = recursiveCounter + 1 < 10;
       const nextInterval = timing[recursiveCounter][1] * 1000;
-      this.setState({ playedChord: recursiveCounter });
-      window.setTimeout(
+      const timerId = window.setTimeout(
         () => this.soundLoop(shouldAudioContinue, recursiveCounter + 1),
         nextInterval,
       );
+      this.setState(state => ({
+        timerId,
+        playedChord: recursiveCounter,
+        playedChordInfo: mainArray[recursiveCounter],
+        // samplesPlaying: newSamplesPlaying,
+      }));
     }
   };
 
   stopSound = () => {
+    const { soundSamples, samplesPlaying, timerId } = this.state;
+    window.clearTimeout(timerId);
+    soundSamples.forEach((bufferNumber, index) => {
+      soundSamples[index].stop();
+    });
     this.setState({ audioIsPlaying: false });
-    // add in a .stop() thing in here that sequentially stops all Sounder instances
-    // (one for each string)
   };
 
   render() {
-    const { playedChord } = this.state;
-
+    const { playedChord, playedChordInfo } = this.state;
     return (
       <>
         <div>
+          <p>{`Files: ${playedChordInfo.files}`}</p>
+          <p>{`Buffers: ${playedChordInfo.buffer_reference}`}</p>
           <p>{`The selected chord is: ${playedChord}`}</p>
         </div>
         <div
