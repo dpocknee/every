@@ -2,28 +2,25 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlayCircle, faStopCircle } from '@fortawesome/free-solid-svg-icons';
-import { AudioBuffers, AudioNodes, SoundPlayback } from './webaudio';
-import timing from '../data/timingTest';
-import chords from '../data/chordsTest';
+import { AudioBuffers, AudioNodes } from './webaudio';
 import { chordNames, audioChords } from '../data/audioChords';
 import '../css/AudioPlayback.css';
 
 export default class AudioPlayback extends Component {
   state = {
-    playedChord: 0,
-    playedChordInfo: {},
-    audioIsPlaying: false,
-    soundSamples: [],
-    timerId: 0,
+    isLoading: true,
     noOfFilesToLoad: 0,
     filesLoaded: 0,
-    isLoading: true,
     loadingError: false,
+    playedChordInfo: {},
+    playedChord: 0,
+    soundSamples: [],
+    audioIsPlaying: false,
+    timerId: 0,
   };
 
   componentDidMount() {
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    // console.log('mounting', chordNames);
     const audioBuffers = new AudioBuffers(audioContext, audioChords);
     audioBuffers.getBuffers(this.fileLoadingProgress);
     const soundSamples = [];
@@ -33,8 +30,6 @@ export default class AudioPlayback extends Component {
       soundSamples.push(chordSample);
     });
     return this.setState({
-      audioContext,
-      audioBuffers,
       soundSamples,
       noOfFilesToLoad: chordNames.length,
     });
@@ -56,7 +51,6 @@ export default class AudioPlayback extends Component {
   };
 
   playSound = () => {
-    // console.log(this.state.soundSamples);
     this.setState({ audioIsPlaying: true }, () => {
       this.soundLoop(true, 0);
     });
@@ -64,31 +58,27 @@ export default class AudioPlayback extends Component {
 
   soundLoop = (shouldPlay, recursiveCounter) => {
     const { audioIsPlaying, soundSamples } = this.state;
-    const { mainArray } = this.props;
+    const { mainArray, timing, chords } = this.props;
     // this is just for testing!  real version below:
     const playedChordBuffers = recursiveCounter;
     // const playedChordBuffers = mainArray[recursiveCounter][1];
     if (shouldPlay && audioIsPlaying) {
       const currentChord = chords[playedChordBuffers];
       const { buffer_reference } = currentChord;
-
-      // Play each string sample for the selected chord:
       buffer_reference.forEach(bufferNumber => {
         soundSamples[bufferNumber].playSample();
       });
-
-      // Update the state to the next chord:
       const shouldAudioContinue = recursiveCounter + 1 < 10;
       const nextInterval = timing[recursiveCounter][1] * 1000;
       const timerId = window.setTimeout(
         () => this.soundLoop(shouldAudioContinue, recursiveCounter + 1),
         nextInterval,
       );
-      this.setState(state => ({
+      this.setState({
         timerId,
         playedChord: recursiveCounter,
         playedChordInfo: mainArray[recursiveCounter],
-      }));
+      });
     }
   };
 
@@ -156,4 +146,6 @@ export default class AudioPlayback extends Component {
 
 AudioPlayback.propTypes = {
   mainArray: PropTypes.arrayOf(PropTypes.object).isRequired,
+  chords: PropTypes.arrayOf(PropTypes.object).isRequired,
+  timing: PropTypes.arrayOf(PropTypes.array).isRequired,
 };

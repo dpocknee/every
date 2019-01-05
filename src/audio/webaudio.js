@@ -36,15 +36,11 @@ export class AudioNodes {
     this.audioContext = audioContext;
     this.audioBuffers = audioBuffers;
     this.bufferIndex = bufferIndex;
-    this.source = [];
     this.sources = [];
     this.gainNode = null;
-    this.isPlaying = false;
-    this.playingFadeout = 0.001;
   }
 
   setup() {
-    // console.log('SETUP: this.source:', this.source);
     if (this.audioContext.state === 'suspended') {
       this.audioContext.resume();
     }
@@ -71,7 +67,6 @@ export class AudioNodes {
   }
 }
 
-// THIS CLASS IS FOR LOADING ALL SAMPLES INTO SEPARATE BUFFERS
 export class AudioBuffers {
   constructor(context, urls) {
     this.context = context;

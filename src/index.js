@@ -1,37 +1,59 @@
-// import React, { Component } from 'react';
-// import ReactDOM from 'react-dom';
-// import Grid from './components/Grid';
-// import { observe } from './components/Page';
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import Grid from './components/Grid';
+import IntroText from './components/IntroText';
+import MainTitle from './components/MainTitle';
+import PlaybackBox from './components/PlaybackBox';
+import { observe } from './components/Page';
+import './css/every.css';
 
 /* eslint react/jsx-filename-extension: 0 */
 
-// const rootEl = document.getElementById('root');
+const root = document.getElementById('root');
 
-// const App = observe(blockPosition => ReactDOM.render(
-//   <div>
-//     <Grid blockPosition={blockPosition} />
-//   </div>,
-//   rootEl,
-// ));
+observe(blockPosition => ReactDOM.render(
+  <div className="mainpage">
+    <IntroText />
+    <MainTitle />
+    <Grid blockPosition={blockPosition} />
+    {/* <PlaybackBox /> */}
+  </div>,
+  root,
+));
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import AudioPlayback from './audio/AudioPlayback';
-import chords from './data/chords';
+// import React from 'react';
+// import ReactDOM from 'react-dom';
+// import AudioPlayback from './audio/AudioPlayback';
+// import chords from './data/chords';
+// import timing from './data/timingTest';
 
-const mainArray = chords;
+// const mainArray = chords;
 
-const App = () => (
-  <>
-    <div>
-      <p>Hello!</p>
-    </div>
-    <div>
-      <AudioPlayback mainArray={mainArray} />
-    </div>
-  </>
-);
+// const App = () => (
+//   <>
+//     <div>
+//       <p>Hello!</p>
+//     </div>
+//     <div>
+//       <AudioPlayback mainArray={mainArray} chords={chords} timing={timing} />
+//     </div>
+//   </>
+// );
 
-ReactDOM.render(<App />, document.getElementById('root'));
+// ReactDOM.render(<App />, document.getElementById('root'));
 
 // export default App;
+
+// observe(blockPosition => ReactDOM.render(
+//   <div className="mainpage">
+//     <IntroText />
+//     <MainTitle />
+//     <Grid blockPosition={blockPosition} />
+//     <PlaybackBox />
+//   </div>,
+//   root,
+// ));
+
+// const App = props => {
+//   <Grid blockPosition={blockPosition} />;
+// };

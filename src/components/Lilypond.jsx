@@ -51,10 +51,9 @@ export default class Lilypond extends Component {
   };
 
   loadCurrentOrder() {
-    this.setState({
-      userInputArray: this.state.currentArray,
-    });
-    this.arrayInputChecker(this.props.currentArray, 318, 'Current order');
+    this.setState(state => ({ userInputArray: state.currentArray }));
+    const currentArray = this.props;
+    this.arrayInputChecker(currentArray, 318, 'Current order');
   }
 
   loadUserOrder() {
@@ -66,6 +65,7 @@ export default class Lilypond extends Component {
     const {
       arrayUsed, phpNotation, invalidArray, alerts,
     } = this.state;
+    const { currentArray } = this.props;
     return (
       <div className="lilypond">
         <div className="currentorderbox" style={{ display: 'flex', flexDirection: 'row' }}>
@@ -74,7 +74,7 @@ export default class Lilypond extends Component {
             <input
               type="text"
               id="currentInput"
-              value={this.props.currentArray}
+              value={currentArray}
               name="userInputArray"
               size="45"
             />
