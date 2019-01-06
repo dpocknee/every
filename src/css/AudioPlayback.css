@@ -33,3 +33,21 @@
 .playbackIcons:hover {
   color: red;
 }
+
+.fileLoading {
+  text-align: center;
+  display: flex;
+  flex: justify;
+  justify-content: center;
+  font-family: 'Hind', sans-serif;
+}
+
+.fileLoading .noOfFiles {
+  text-align: center;
+  font-size: 16px;
+}
+
+.fileLoading .loadingText {
+  text-align: center;
+  font-size: 10px;
+}

@@ -12,7 +12,6 @@ export default class AudioPlayback extends Component {
     noOfFilesToLoad: 0,
     filesLoaded: 0,
     loadingError: false,
-    playedChordInfo: {},
     playedChord: 0,
     soundSamples: [],
     audioIsPlaying: false,
@@ -59,9 +58,9 @@ export default class AudioPlayback extends Component {
 
   soundLoop = (shouldPlay, recursiveCounter) => {
     const { audioIsPlaying, soundSamples } = this.state;
-    const { mainArray, timing, chords, chordPlaying } = this.props;
-    // this is just for testing!  real version below:
-    // const playedChordBuffers = recursiveCounter;
+    const {
+      mainArray, timing, chords, chordPlaying,
+    } = this.props;
     const playedChordBuffers = mainArray[recursiveCounter][1];
     if (shouldPlay && audioIsPlaying) {
       const currentChord = chords[playedChordBuffers];
@@ -79,7 +78,6 @@ export default class AudioPlayback extends Component {
       this.setState({
         timerId,
         playedChord: recursiveCounter,
-        playedChordInfo: mainArray[recursiveCounter],
       });
     }
   };
@@ -105,9 +103,9 @@ export default class AudioPlayback extends Component {
     return (
       <>
         {loadingError && <p>{loadingError}</p>}
-        {!loadingError
-          && (!isLoading ? (
-            <div className="playbackBox">
+        {!loadingError && (
+          <div className="playbackBox">
+            {!isLoading ? (
               <div className="playbackButtonDiv">
                 {audioIsPlaying ? (
                   <>
@@ -132,12 +130,18 @@ export default class AudioPlayback extends Component {
                   </button>
                 )}
               </div>
-            </div>
-          ) : (
-            <div>
-              <p>{`${filesLoaded} / ${noOfFilesToLoad}`}</p>
-            </div>
-          ))}
+            ) : (
+              <>
+                <div className="fileLoading">
+                  <p className="noOfFiles">{`${filesLoaded} / ${noOfFilesToLoad}`}</p>
+                </div>
+                <div className="fileLoading">
+                  <p className="loadingText">Files Loaded</p>
+                </div>
+              </>
+            )}
+          </div>
+        )}
       </>
     );
   }
