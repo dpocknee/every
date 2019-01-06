@@ -37,7 +37,6 @@ export default class Lilypond extends Component {
         (notationStr, chord) => `${notationStr}${chords[chord - startingNumber].notation} J `,
         '',
       );
-      console.log('phpNotation', phpNotation);
       this.setState({
         phpNotation,
         arrayUsed: inputArray,
@@ -83,6 +82,7 @@ export default class Lilypond extends Component {
               id="currentInput"
               className="textBox"
               value={currentOrderString}
+              readOnly
               name="userInputArray"
               size="45"
             />

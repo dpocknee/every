@@ -9,7 +9,6 @@ export const arrayInputTest = (arrayToTest, maximumChords, startingNumber) => {
   try {
     JSON.parse(arrayToTest);
   } catch (err) {
-    console.log('ERROR HERE', arrayToTest);
     arrayErrors.push('ERROR: This is not a valid array.');
   }
 
@@ -33,16 +32,6 @@ export const arrayInputTest = (arrayToTest, maximumChords, startingNumber) => {
   }
   const isError = arrayErrors.length > 0;
   return { isError, errorString: arrayErrors.join('  '), inputArray };
-};
-
-const arrayInputFeedback = (errorObj, orderType) => {
-  let arrayStatus = '';
-  if (errorObj.error) {
-    arrayStatus += errorObj.errorString;
-  } else {
-    arrayStatus += `${orderType} of chords successfully loaded.`;
-  }
-  return arrayStatus;
 };
 
 export const colourInterpolator = (startingColor, endingColor, value) => {
