@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Grid from './components/Grid';
-import IntroText from './components/IntroText';
 import MainTitle from './components/MainTitle';
 import PlaybackBox from './components/PlaybackBox';
 import { observe } from './components/Page';
@@ -13,7 +12,6 @@ const root = document.getElementById('root');
 
 observe(blockPosition => ReactDOM.render(
   <div className="mainpage">
-    <IntroText />
     <MainTitle />
     <Grid blockPosition={blockPosition} />
     {/* <PlaybackBox /> */}
