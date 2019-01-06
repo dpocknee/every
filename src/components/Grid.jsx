@@ -32,7 +32,7 @@ class Grid extends Component {
   state = {
     sliderValue: 0,
     mainArray: [],
-    currentChord: 0,
+    chordPlaying: 0,
     selectedChord: 0,
   };
 
@@ -53,7 +53,7 @@ class Grid extends Component {
 
   updateTheSliderValue = sliderElement => {
     this.setState({
-      sliderValue: sliderElement.target.value,
+      sliderValue: parseInt(sliderElement.target.value, 10),
     });
   };
 
@@ -78,11 +78,17 @@ class Grid extends Component {
     });
   };
 
+  chordPlaying = chord => {
+    this.setState({ chordPlaying: chord });
+  };
+
   render() {
-    const { sliderValue, mainArray } = this.state;
+    const { sliderValue, mainArray, chordPlaying } = this.state;
     const squares = mainArray.map((chord, index) => {
       const [currentValue, currentIndex] = mainArray[index];
-      const selectedChord = index === parseInt(sliderValue, 10) ? '0px 0px 5px 5px #888888' : '0px 0px 0px 0px #888888';
+      let chordHighlighting = '0px 0px 0px 0px';
+      if (index === sliderValue) chordHighlighting = '0px 0px 5px 5px #888888';
+      if (index === chordPlaying) chordHighlighting = '0px 0px 5px 5px #c0c0c0';
       const squareKey = `squares${index}`;
       return (
         <>
@@ -109,7 +115,7 @@ class Grid extends Component {
                 octaves={chords[currentIndex].octavehistogram}
                 swidth={squareWidth}
                 sheight={squareHeight}
-                selectedChord={selectedChord}
+                chordHighlighting={chordHighlighting}
               />
             </GridSquare>
           </div>
@@ -135,7 +141,13 @@ class Grid extends Component {
           updateTheSliderValue={this.updateTheSliderValue}
           sliderValue={sliderValue}
         />
-        <AudioPlayback mainArray={mainArray} chords={chords} timing={timing} />
+        <AudioPlayback
+          mainArray={mainArray}
+          chords={chords}
+          timing={timing}
+          selectedChord={sliderValue}
+          chordPlaying={this.chordPlaying}
+        />
       </>
     );
   }

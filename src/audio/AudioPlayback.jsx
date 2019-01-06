@@ -51,14 +51,15 @@ export default class AudioPlayback extends Component {
   };
 
   playSound = () => {
+    const { selectedChord } = this.props;
     this.setState({ audioIsPlaying: true }, () => {
-      this.soundLoop(true, 0);
+      this.soundLoop(true, selectedChord);
     });
   };
 
   soundLoop = (shouldPlay, recursiveCounter) => {
     const { audioIsPlaying, soundSamples } = this.state;
-    const { mainArray, timing, chords } = this.props;
+    const { mainArray, timing, chords, chordPlaying } = this.props;
     // this is just for testing!  real version below:
     // const playedChordBuffers = recursiveCounter;
     const playedChordBuffers = mainArray[recursiveCounter][1];
@@ -68,12 +69,13 @@ export default class AudioPlayback extends Component {
       buffer_reference.forEach(bufferNumber => {
         soundSamples[bufferNumber].playSample();
       });
-      const shouldAudioContinue = recursiveCounter + 1 < 10;
+      const shouldAudioContinue = recursiveCounter + 1 < chords.length;
       const nextInterval = timing[recursiveCounter][1] * 1000;
       const timerId = window.setTimeout(
         () => this.soundLoop(shouldAudioContinue, recursiveCounter + 1),
         nextInterval,
       );
+      chordPlaying(recursiveCounter);
       this.setState({
         timerId,
         playedChord: recursiveCounter,
@@ -94,7 +96,6 @@ export default class AudioPlayback extends Component {
   render() {
     const {
       playedChord,
-      playedChordInfo,
       noOfFilesToLoad,
       filesLoaded,
       isLoading,
@@ -106,39 +107,37 @@ export default class AudioPlayback extends Component {
         {loadingError && <p>{loadingError}</p>}
         {!loadingError
           && (!isLoading ? (
-            <div>
-              <p>{`Files: ${playedChordInfo.files}`}</p>
-              <p>{`Buffers: ${playedChordInfo.buffer_reference}`}</p>
-              <p>{`Playing chord: #${playedChord + 1}`}</p>
+            <div className="playbackBox">
+              <div className="playbackButtonDiv">
+                {audioIsPlaying ? (
+                  <>
+                    <button
+                      type="button"
+                      className="playbackButtons"
+                      onClick={() => this.stopSound()}
+                      onKeyDown={() => this.stopSound()}
+                    >
+                      <FontAwesomeIcon icon={faStopCircle} className="playbackIcons" alt="Stop" />
+                    </button>
+                    <p>{`Playing chord: #${playedChord + 1}`}</p>
+                  </>
+                ) : (
+                  <button
+                    type="button"
+                    className="playbackButtons"
+                    onClick={() => this.playSound()}
+                    onKeyDown={() => this.playSound()}
+                  >
+                    <FontAwesomeIcon icon={faPlayCircle} className="playbackIcons" alt="Play" />
+                  </button>
+                )}
+              </div>
             </div>
           ) : (
             <div>
-              <p>{`${filesLoaded} / ${noOfFilesToLoad} files loaded.`}</p>
+              <p>{`${filesLoaded} / ${noOfFilesToLoad}`}</p>
             </div>
           ))}
-        <div className="playbackBox">
-          <div className="playbackButtonDiv">
-            {audioIsPlaying ? (
-              <button
-                type="button"
-                className="playbackButtons"
-                onClick={() => this.stopSound()}
-                onKeyDown={() => this.stopSound()}
-              >
-                <FontAwesomeIcon icon={faStopCircle} className="playbackIcons" alt="Stop" />
-              </button>
-            ) : (
-              <button
-                type="button"
-                className="playbackButtons"
-                onClick={() => this.playSound()}
-                onKeyDown={() => this.playSound()}
-              >
-                <FontAwesomeIcon icon={faPlayCircle} className="playbackIcons" alt="Play" />
-              </button>
-            )}
-          </div>
-        </div>
       </>
     );
   }
@@ -148,4 +147,5 @@ AudioPlayback.propTypes = {
   mainArray: PropTypes.arrayOf(PropTypes.object).isRequired,
   chords: PropTypes.arrayOf(PropTypes.object).isRequired,
   timing: PropTypes.arrayOf(PropTypes.array).isRequired,
+  chordPlaying: PropTypes.func.isRequired,
 };

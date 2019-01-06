@@ -19,7 +19,7 @@ const Slider = props => {
         />
       </div>
       <div className="slidertext">
-        <p>{`Chord #${parseInt(sliderValue, 10) + 1}`}</p>
+        <p>{`Chord #${sliderValue + 1}`}</p>
       </div>
     </>
   );

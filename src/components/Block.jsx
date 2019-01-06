@@ -59,7 +59,7 @@ const Block = props => {
     swidth,
     difficulty,
     notes,
-    selectedChord,
+    chordHighlighting,
   } = props;
 
   const speeddiff1 = [42, 242, 42];
@@ -86,7 +86,7 @@ const Block = props => {
         opacity: isDragging ? 0.5 : 1,
         textAlign: 'center',
         cursor: 'move',
-        boxShadow: selectedChord,
+        boxShadow: chordHighlighting,
       }}
     >
       <div>
