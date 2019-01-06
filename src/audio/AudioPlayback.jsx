@@ -60,8 +60,8 @@ export default class AudioPlayback extends Component {
     const { audioIsPlaying, soundSamples } = this.state;
     const { mainArray, timing, chords } = this.props;
     // this is just for testing!  real version below:
-    const playedChordBuffers = recursiveCounter;
-    // const playedChordBuffers = mainArray[recursiveCounter][1];
+    // const playedChordBuffers = recursiveCounter;
+    const playedChordBuffers = mainArray[recursiveCounter][1];
     if (shouldPlay && audioIsPlaying) {
       const currentChord = chords[playedChordBuffers];
       const { buffer_reference } = currentChord;
@@ -109,7 +109,7 @@ export default class AudioPlayback extends Component {
             <div>
               <p>{`Files: ${playedChordInfo.files}`}</p>
               <p>{`Buffers: ${playedChordInfo.buffer_reference}`}</p>
-              <p>{`The selected chord is: ${playedChord}`}</p>
+              <p>{`Playing chord: #${playedChord + 1}`}</p>
             </div>
           ) : (
             <div>

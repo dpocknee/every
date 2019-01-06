@@ -9,18 +9,14 @@ export default class PlaybackBox extends Component {
   };
 
   render() {
-    const { slider } = this.state;
-    const { mainArray } = this.props;
+    const { mainArray, updateTheSliderValue, sliderValue } = this.props;
     const currentOrderArray = mainArray.map(element => element[1]);
     const currentOrderString = `[${currentOrderArray.join(', ')}]`;
 
     return (
       <div className="playbackbox">
         <div style={{ display: 'flex', flexDirection: 'row' }}>
-          <Slider sliderUpdate={this.updateTheSliderValue} />
-          <div className="slidertext">
-            <p>{`Chord #${parseInt(slider, 10) + 1}`}</p>
-          </div>
+          <Slider updateTheSliderValue={updateTheSliderValue} sliderValue={sliderValue} />
         </div>
         <Lilypond currentArray={currentOrderString} arrayUpdater={this.updateTheArray} />
       </div>
@@ -30,4 +26,6 @@ export default class PlaybackBox extends Component {
 
 PlaybackBox.propTypes = {
   mainArray: PropTypes.arrayOf(PropTypes.object).isRequired,
+  updateTheSliderValue: PropTypes.func.isRequired,
+  sliderValue: PropTypes.string.isRequired,
 };

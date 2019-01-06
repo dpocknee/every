@@ -3,12 +3,16 @@ import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { isEqual } from 'lodash';
 import PropTypes from 'prop-types';
+
 import GridSquare from './GridSquare';
 import Block from './Block';
+import PlaybackBox from './PlaybackBox';
+import AudioPlayback from '../audio/AudioPlayback';
 
 import idealOrder from '../data/IdealOrder';
 import chords from '../data/chords';
 import timing from '../data/timing';
+
 import '../css/every.css';
 
 const squareWidth = 70;
@@ -23,12 +27,13 @@ export function sourcerer(value, id) {
 }
 
 // NOTE: The format for the window.mainArray variable is [chord name, chord index]
-// TO DO: add in gradient to the edge of each box to indicate overlapping string usage.
 
 class Grid extends Component {
   state = {
-    slider: 0,
+    sliderValue: 0,
     mainArray: [],
+    currentChord: 0,
+    selectedChord: 0,
   };
 
   componentDidMount() {
@@ -37,30 +42,24 @@ class Grid extends Component {
       return [chords[mappedOrder].name, [mappedOrder]];
     });
     this.setState({ mainArray: originalArray });
-    window.mainArray = originalArray;
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { mainArray } = this.state;
     const { blockPosition } = this.props;
     if (!isEqual(blockPosition, prevProps.blockPosition)) {
       this.whenBlockIsDropped();
-    }
-    if (!isEqual(mainArray, prevState.mainArray) && !isEqual(mainArray, window.mainArray)) {
-      window.mainArray = mainArray;
     }
   }
 
   updateTheSliderValue = sliderElement => {
     this.setState({
-      slider: sliderElement.target.value,
+      sliderValue: sliderElement.target.value,
     });
   };
 
   updateTheArray = parsedArray => {
     const updatedArray = parsedArray.map(chord => [chords[chord].name, chord]);
     this.setState({ mainArray: updatedArray });
-    window.mainArray = updatedArray;
   };
 
   whenBlockIsDropped = () => {
@@ -80,10 +79,10 @@ class Grid extends Component {
   };
 
   render() {
-    const { slider, mainArray } = this.state;
+    const { sliderValue, mainArray } = this.state;
     const squares = mainArray.map((chord, index) => {
       const [currentValue, currentIndex] = mainArray[index];
-      const selectedChord = index === parseInt(slider, 10) ? '0px 0px 5px 5px #888888' : '0px 0px 0px 0px #888888';
+      const selectedChord = index === parseInt(sliderValue, 10) ? '0px 0px 5px 5px #888888' : '0px 0px 0px 0px #888888';
       const squareKey = `squares${index}`;
       return (
         <>
@@ -131,6 +130,12 @@ class Grid extends Component {
           {squares}
         </div>
         <div style={{ width: '100%', height: '110px' }} />
+        <PlaybackBox
+          mainArray={mainArray}
+          updateTheSliderValue={this.updateTheSliderValue}
+          sliderValue={sliderValue}
+        />
+        <AudioPlayback mainArray={mainArray} chords={chords} timing={timing} />
       </>
     );
   }
