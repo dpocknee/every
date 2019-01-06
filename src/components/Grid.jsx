@@ -56,7 +56,7 @@ class Grid extends Component {
 
   arrayUpdater = parsedArray => {
     console.log('parsedArray', parsedArray);
-    const updatedArray = parsedArray.map(chord => [chords[chord], chord]);
+    const updatedArray = parsedArray.map(chord => [chords[chord].name, [chord]]);
     console.log('updatedArray', updatedArray);
     this.setState({ mainArray: updatedArray });
   };
