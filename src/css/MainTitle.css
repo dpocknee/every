@@ -30,12 +30,6 @@
   font-size: 11px;
 }
 
-/* Main Page General Variables */
-.mainpage {
-  margin: 10px;
-  background-color: white;
-}
-
 /* The main page title */
 .maintitle {
   display: flex;

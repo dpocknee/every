@@ -102,46 +102,48 @@ export default class AudioPlayback extends Component {
     } = this.state;
     return (
       <>
-        {loadingError && <p>{loadingError}</p>}
-        {!loadingError && (
-          <div className="playbackBox">
-            {!isLoading ? (
-              <div className="playbackButtonDiv">
-                {audioIsPlaying ? (
-                  <>
-                    <button
-                      type="button"
-                      className="playbackButtons"
-                      onClick={() => this.stopSound()}
-                      onKeyDown={() => this.stopSound()}
-                    >
-                      <FontAwesomeIcon icon={faStopCircle} className="playbackIcons" alt="Stop" />
-                    </button>
-                    <p>{`Playing chord: #${playedChord + 1}`}</p>
-                  </>
-                ) : (
+        <div className="playbackBox">
+          {loadingError && (
+            <div className="fileLoading">
+              <p className="loadingText">{loadingError}</p>
+            </div>
+          )}
+          {!loadingError && !isLoading ? (
+            <div className="playbackButtonDiv">
+              {audioIsPlaying ? (
+                <>
                   <button
                     type="button"
                     className="playbackButtons"
-                    onClick={() => this.playSound()}
-                    onKeyDown={() => this.playSound()}
+                    onClick={() => this.stopSound()}
+                    onKeyDown={() => this.stopSound()}
                   >
-                    <FontAwesomeIcon icon={faPlayCircle} className="playbackIcons" alt="Play" />
+                    <FontAwesomeIcon icon={faStopCircle} className="playbackIcons" alt="Stop" />
                   </button>
-                )}
+                  <p>{`Playing chord: #${playedChord + 1}`}</p>
+                </>
+              ) : (
+                <button
+                  type="button"
+                  className="playbackButtons"
+                  onClick={() => this.playSound()}
+                  onKeyDown={() => this.playSound()}
+                >
+                  <FontAwesomeIcon icon={faPlayCircle} className="playbackIcons" alt="Play" />
+                </button>
+              )}
+            </div>
+          ) : (
+            <>
+              <div className="fileLoading">
+                <p className="noOfFiles">{`${filesLoaded} / ${noOfFilesToLoad}`}</p>
               </div>
-            ) : (
-              <>
-                <div className="fileLoading">
-                  <p className="noOfFiles">{`${filesLoaded} / ${noOfFilesToLoad}`}</p>
-                </div>
-                <div className="fileLoading">
-                  <p className="loadingText">Files Loaded</p>
-                </div>
-              </>
-            )}
-          </div>
-        )}
+              <div className="fileLoading">
+                <p className="loadingText">Files Loaded</p>
+              </div>
+            </>
+          )}
+        </div>
       </>
     );
   }
@@ -152,4 +154,5 @@ AudioPlayback.propTypes = {
   chords: PropTypes.arrayOf(PropTypes.object).isRequired,
   timing: PropTypes.arrayOf(PropTypes.array).isRequired,
   chordPlaying: PropTypes.func.isRequired,
+  selectedChord: PropTypes.number.isRequired,
 };

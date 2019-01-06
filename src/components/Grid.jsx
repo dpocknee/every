@@ -13,7 +13,7 @@ import idealOrder from '../data/IdealOrder';
 import chords from '../data/chords';
 import timing from '../data/timing';
 
-import '../css/every.css';
+import '../css/block.css';
 
 const squareWidth = 70;
 const squareHeight = 320;

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Grid from './components/Grid';
 import MainTitle from './components/MainTitle';
 import { observe } from './components/Page';
-import './css/every.css';
+import './css/index.css';
 
 /* eslint react/jsx-filename-extension: 0 */
 
@@ -21,7 +21,11 @@ const App = props => {
 };
 
 App.propTypes = {
-  blockPosition: PropTypes.number.isRequired,
+  blockPosition: PropTypes.arrayOf(PropTypes.number),
+};
+
+App.defaultProps = {
+  blockPosition: PropTypes.number,
 };
 
 observe(blockPosition => ReactDOM.render(<App blockPosition={blockPosition} />, root));

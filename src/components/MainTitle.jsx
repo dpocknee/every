@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import IntroText from './IntroText';
-import '../css/every.css';
+import '../css/MainTitle.css';
 
 /* eslint react/no-unescaped-entities: 0 */
 
