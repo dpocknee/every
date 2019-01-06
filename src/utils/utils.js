@@ -9,6 +9,7 @@ export const arrayInputTest = (arrayToTest, maximumChords, startingNumber) => {
   try {
     JSON.parse(arrayToTest);
   } catch (err) {
+    console.log('ERROR HERE', arrayToTest);
     arrayErrors.push('ERROR: This is not a valid array.');
   }
 

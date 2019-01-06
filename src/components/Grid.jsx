@@ -17,8 +17,6 @@ import '../css/every.css';
 
 const squareWidth = 70;
 const squareHeight = 320;
-const squareWidthPx = `${squareWidth}px`;
-const squareHeightPx = `${squareHeight}px`;
 
 let blockFrom = null;
 
@@ -56,8 +54,10 @@ class Grid extends Component {
     });
   };
 
-  updateTheArray = parsedArray => {
-    const updatedArray = parsedArray.map(chord => [chords[chord].name, chord]);
+  arrayUpdater = parsedArray => {
+    console.log('parsedArray', parsedArray);
+    const updatedArray = parsedArray.map(chord => [chords[chord], chord]);
+    console.log('updatedArray', updatedArray);
     this.setState({ mainArray: updatedArray });
   };
 
@@ -90,29 +90,27 @@ class Grid extends Component {
       if (index === chordPlaying) chordHighlighting = '0px 0px 5px 5px #c0c0c0';
       const squareKey = `squares${index}`;
       return (
-        <>
-          <div
-            key={squareKey}
-            className="squares"
-            style={{ width: squareWidthPx, height: squareHeightPx }}
+        <div
+          key={squareKey}
+          className="squares"
+          style={{ width: `${squareWidth}px`, height: `${squareHeight}px` }}
+        >
+          <GridSquare
+            index={index}
+            value={currentValue}
+            squareWidth={squareWidth}
+            squareHeight={squareHeight}
           >
-            <GridSquare
-              index={index}
-              value={currentValue}
+            <Block
+              id={currentValue}
+              name={currentValue}
+              timingRating={timing[index][2]}
               squareWidth={squareWidth}
-              squareHeight={squareHeight}
-            >
-              <Block
-                id={currentValue}
-                name={currentValue}
-                timingRating={timing[index][2]}
-                squareWidth={squareWidth}
-                chordHighlighting={chordHighlighting}
-                chordInfo={chords[currentIndex]}
-              />
-            </GridSquare>
-          </div>
-        </>
+              chordHighlighting={chordHighlighting}
+              chordInfo={chords[currentIndex]}
+            />
+          </GridSquare>
+        </div>
       );
     });
 
@@ -130,10 +128,11 @@ class Grid extends Component {
         </div>
         <div style={{ width: '100%', height: '110px' }} />
         <PlaybackBox
+          chords={chords}
           mainArray={mainArray}
           updateTheSliderValue={this.updateTheSliderValue}
           sliderValue={sliderValue}
-          updateTheArray={this.updateTheArray}
+          arrayUpdater={this.arrayUpdater}
         />
         <AudioPlayback
           mainArray={mainArray}
@@ -152,7 +151,7 @@ Grid.propTypes = {
 };
 
 Grid.defaultProps = {
-  blockPosition: null,
+  blockPosition: PropTypes.number,
 };
 
 export default DragDropContext(HTML5Backend)(Grid);

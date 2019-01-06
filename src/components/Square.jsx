@@ -17,8 +17,8 @@ const Square = props => {
 };
 
 Square.propTypes = {
-  squareWidth: PropTypes.string.isRequired,
-  squareHeight: PropTypes.string.isRequired,
+  squareWidth: PropTypes.number.isRequired,
+  squareHeight: PropTypes.number.isRequired,
   children: PropTypes.node.isRequired,
 };
 

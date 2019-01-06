@@ -61,8 +61,8 @@ GridSquare.propTypes = {
   index: PropTypes.number.isRequired,
   value: PropTypes.string.isRequired,
   isOver: PropTypes.bool.isRequired,
-  squareWidth: PropTypes.string.isRequired,
-  squareHeight: PropTypes.string.isRequired,
+  squareWidth: PropTypes.number.isRequired,
+  squareHeight: PropTypes.number.isRequired,
   children: PropTypes.node.isRequired,
 };
 

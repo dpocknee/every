@@ -144,7 +144,7 @@ export default class AudioPlayback extends Component {
 }
 
 AudioPlayback.propTypes = {
-  mainArray: PropTypes.arrayOf(PropTypes.object).isRequired,
+  mainArray: PropTypes.arrayOf(PropTypes.array).isRequired,
   chords: PropTypes.arrayOf(PropTypes.object).isRequired,
   timing: PropTypes.arrayOf(PropTypes.array).isRequired,
   chordPlaying: PropTypes.func.isRequired,

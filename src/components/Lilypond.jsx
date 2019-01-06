@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import PropTypes from 'prop-types';
 import * as utils from '../utils/utils';
 
 export default class Lilypond extends Component {
@@ -8,13 +8,13 @@ export default class Lilypond extends Component {
     phpNotation: '',
     invalidArray: true,
     alerts: '',
-    currentArray: [],
+    noOfChords: 0,
     arrayUsed: '',
   };
 
   componentDidMount() {
-    const { currentArray } = this.props;
-    this.setState({ currentArray, alerts: '...no chord order loaded...' });
+    const { chords } = this.props;
+    this.setState({ alerts: '...no chord order loaded...', noOfChords: chords.length });
   }
 
   handleUserChange = event => {
@@ -23,25 +23,30 @@ export default class Lilypond extends Component {
     });
   };
 
-  arrayInputChecker = (sliderTextInput, maxChords, orderType) => {
-    const { arrayUpdater } = this.props;
-    const checkArray = utils.arrayInputTest(sliderTextInput, maxChords, 0);
+  arrayInputChecker = (arrayTextInput, maxChords, orderType, startingNumber) => {
+    const { arrayUpdater, chords } = this.props;
+    const checkArray = utils.arrayInputTest(arrayTextInput, maxChords, startingNumber);
     const { isError, errorString, inputArray } = checkArray;
     if (isError) {
       this.setState({ invalidArray: isError, alerts: errorString });
     } else {
       const arrayStatus = [];
       arrayStatus.push(`${orderType} of chords successfully loaded.`);
+
       const phpNotation = inputArray.reduce(
-        (notationStr, chord) => `${notationStr}${window.chords.chords[chord].notation} J `,
+        (notationStr, chord) => `${notationStr}${chords[chord - startingNumber].notation} J `,
         '',
       );
+      console.log('phpNotation', phpNotation);
       this.setState({
         phpNotation,
         arrayUsed: inputArray,
+        invalidArray: false,
+        alerts: arrayStatus,
       });
       if (orderType === 'User-inputed order') {
-        arrayUpdater();
+        const newArray = inputArray.map(chord => chord - startingNumber);
+        arrayUpdater(newArray);
         arrayStatus.push('Display updated with new chord order.');
         this.setState({
           alerts: arrayStatus.join(' '),
@@ -51,21 +56,23 @@ export default class Lilypond extends Component {
   };
 
   loadCurrentOrder() {
-    this.setState(state => ({ userInputArray: state.currentArray }));
-    const currentArray = this.props;
-    this.arrayInputChecker(currentArray, 318, 'Current order');
+    const { mainArrayOrder } = this.props;
+    const { noOfChords } = this.state;
+    this.arrayInputChecker(`[${mainArrayOrder.join(', ')}]`, noOfChords, 'Current order', 0);
   }
 
   loadUserOrder() {
-    const { userInputArray } = this.state;
-    this.arrayInputChecker(userInputArray, 318, 'User-inputed order');
+    const { userInputArray, noOfChords } = this.state;
+    this.arrayInputChecker(userInputArray, noOfChords, 'User-inputed order', 1);
   }
 
   render() {
     const {
       arrayUsed, phpNotation, invalidArray, alerts,
     } = this.state;
-    const { currentArray } = this.props;
+    const { mainArrayOrder } = this.props;
+    const currentOrderArray = mainArrayOrder.map(element => element + 1);
+    const currentOrderString = `[${currentOrderArray.join(', ')}]`;
     return (
       <div className="lilypond">
         <div className="currentorderbox" style={{ display: 'flex', flexDirection: 'row' }}>
@@ -74,19 +81,20 @@ export default class Lilypond extends Component {
             <input
               type="text"
               id="currentInput"
-              value={currentArray}
+              className="textBox"
+              value={currentOrderString}
               name="userInputArray"
               size="45"
             />
           </div>
-          <div className="endox">
+          <div className="endbox">
             <button
+              className="lilypondButtons"
               type="button"
               onClick={() => {
                 this.loadCurrentOrder();
               }}
             >
-              {' '}
               Use Current Order
             </button>
           </div>
@@ -97,14 +105,16 @@ export default class Lilypond extends Component {
             <input
               type="text"
               id="myInput"
+              className="textBox"
               name="userInputArray"
-              onChange={this.handleUserChange}
+              onChange={event => this.handleUserChange(event)}
               size="45"
             />
           </div>
-          <div className="endox">
+          <div className="endbox">
             <button
               type="button"
+              className="lilypondButtons"
               onClick={() => {
                 this.loadUserOrder();
               }}
@@ -141,3 +151,9 @@ export default class Lilypond extends Component {
     );
   }
 }
+
+Lilypond.propTypes = {
+  mainArrayOrder: PropTypes.arrayOf(PropTypes.number).isRequired,
+  arrayUpdater: PropTypes.func.isRequired,
+  chords: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
