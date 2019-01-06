@@ -33,7 +33,6 @@ class Grid extends Component {
     sliderValue: 0,
     mainArray: [],
     chordPlaying: 0,
-    selectedChord: 0,
   };
 
   componentDidMount() {
@@ -100,22 +99,16 @@ class Grid extends Component {
             <GridSquare
               index={index}
               value={currentValue}
-              swidth={squareWidthPx}
-              sheight={squareHeightPx}
+              squareWidth={squareWidth}
+              squareHeight={squareHeight}
             >
               <Block
                 id={currentValue}
                 name={currentValue}
-                redvalue={timing[index][3]}
-                greenvalue={timing[index][4]}
                 timingRating={timing[index][2]}
-                difficulty={chords[currentIndex].difficulty}
-                notes={chords[currentIndex].notes}
-                harmonics={chords[currentIndex].harmonic_ratio}
-                octaves={chords[currentIndex].octavehistogram}
-                swidth={squareWidth}
-                sheight={squareHeight}
+                squareWidth={squareWidth}
                 chordHighlighting={chordHighlighting}
+                chordInfo={chords[currentIndex]}
               />
             </GridSquare>
           </div>
@@ -140,6 +133,7 @@ class Grid extends Component {
           mainArray={mainArray}
           updateTheSliderValue={this.updateTheSliderValue}
           sliderValue={sliderValue}
+          updateTheArray={this.updateTheArray}
         />
         <AudioPlayback
           mainArray={mainArray}

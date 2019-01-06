@@ -25,7 +25,7 @@ function collect(connect, monitor) {
 
 const GridSquare = props => {
   const {
-    index, value, connectDropTarget, isOver, swidth, sheight, children,
+    index, value, connectDropTarget, isOver, squareWidth, squareHeight, children,
   } = props;
   return connectDropTarget(
     <div
@@ -35,7 +35,7 @@ const GridSquare = props => {
         height: '100%',
       }}
     >
-      <Square index={index} value={value} swidth={swidth} sheight={sheight}>
+      <Square index={index} value={value} squareWidth={squareWidth} squareHeight={squareHeight}>
         {children}
       </Square>
       {isOver && (
@@ -61,8 +61,8 @@ GridSquare.propTypes = {
   index: PropTypes.number.isRequired,
   value: PropTypes.string.isRequired,
   isOver: PropTypes.bool.isRequired,
-  swidth: PropTypes.string.isRequired,
-  sheight: PropTypes.string.isRequired,
+  squareWidth: PropTypes.string.isRequired,
+  squareHeight: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
 };
 

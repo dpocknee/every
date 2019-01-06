@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Square = props => {
-  const { swidth, sheight, children } = props;
+  const { squareWidth, squareHeight, children } = props;
   return (
     <div
       className="squarebackground"
       style={{
-        width: swidth,
-        height: sheight,
+        width: `${squareWidth}px`,
+        height: `${squareHeight}px`,
       }}
     >
       {children}
@@ -17,8 +17,8 @@ const Square = props => {
 };
 
 Square.propTypes = {
-  swidth: PropTypes.string.isRequired,
-  sheight: PropTypes.string.isRequired,
+  squareWidth: PropTypes.string.isRequired,
+  squareHeight: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
 };
 

@@ -21,14 +21,13 @@ function collect(connect, monitor) {
   };
 }
 
-// Move to utils !!
-function octavemaker(arrayin, octaveheight, graphwidth, topoffset) {
+function octavemaker(arrayin, octaveHeight, graphwidth, topOffset) {
   const octoutput = [];
-  const bardivision = octaveheight / 5;
+  const bardivision = octaveHeight / 5;
   const barwidth = graphwidth / 5 - 2;
   for (let x = 0; x < arrayin.length; x++) {
     const barheight = arrayin[x] * bardivision + 1;
-    const topval = octaveheight - barheight + topoffset;
+    const topval = octaveHeight - barheight + topOffset;
     const leftval = x * (barwidth + 2) + 1;
 
     octoutput.push(
@@ -54,30 +53,32 @@ const Block = props => {
     isDragging,
     name,
     timingRating,
-    harmonics,
-    octaves,
-    swidth,
-    difficulty,
-    notes,
+    squareWidth,
     chordHighlighting,
   } = props;
 
-  const speeddiff1 = [42, 242, 42];
-  const speeddiff2 = [228, 0, 0];
+  const {
+    difficulty, notes, harmonic_ratio, octavehistogram,
+  } = props.chordInfo;
+  const easiestDifficultyColor = [42, 242, 42];
+  const hardestDifficultyColor = [228, 0, 0];
 
-  // const eachImage = `./assets/chords/${name}.png`;
-  const speedColour = utils.colourInterpolator(speeddiff1, speeddiff2, timingRating);
-  const harmonicspread = `${Math.round(harmonics * 100)}%`;
-  const octaveheight = 50;
-  const topoffset = 56; // amount octave graph is offset from the top of the main div
-  const octavearray = octavemaker(octaves, octaveheight, swidth, topoffset);
+  const speedColour = utils.colourInterpolator(
+    easiestDifficultyColor,
+    hardestDifficultyColor,
+    timingRating,
+  );
+  const harmonicSpread = `${Math.round(harmonic_ratio * 100)}%`;
+  const octaveHeight = 50;
+  const topOffset = 56; // amount octave graph is offset from the top of the main div
+  const octavearray = octavemaker(octavehistogram, octaveHeight, squareWidth, topOffset);
 
   const difficultycolordiffs = utils.colourInterpolator(
-    speeddiff1,
-    speeddiff2,
+    easiestDifficultyColor,
+    hardestDifficultyColor,
     (difficulty - 1) / 8,
   );
-  const usenotecolor = utils.colourInterpolator([220, 220, 220], [34, 34, 34], notes / 5);
+  const noNotesColor = utils.colourInterpolator([220, 220, 220], [34, 34, 34], notes / 5);
 
   return connectDragSource(
     <div
@@ -103,13 +104,13 @@ const Block = props => {
           {difficulty}
         </div>
 
-        <div className="notes" title="Number of Notes" style={{ backgroundColor: usenotecolor }}>
+        <div className="notes" title="Number of Notes" style={{ backgroundColor: noNotesColor }}>
           {notes}
         </div>
 
         <div className="harmonics" title="% of harmonics">
-          <div className="stats" style={{ width: harmonicspread }}>
-            {harmonicspread}
+          <div className="stats" style={{ width: harmonicSpread }}>
+            {harmonicSpread}
           </div>
         </div>
 
@@ -126,11 +127,12 @@ Block.propTypes = {
   connectDragSource: PropTypes.func.isRequired,
   isDragging: PropTypes.bool.isRequired,
   name: PropTypes.string.isRequired,
-  harmonics: PropTypes.number.isRequired,
-  octaves: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
-  swidth: PropTypes.number.isRequired,
-  difficulty: PropTypes.number.isRequired,
-  notes: PropTypes.number.isRequired,
+  chordInfo: PropTypes.shape({
+    difficulty: PropTypes.number.isRequired,
+    notes: PropTypes.number.isRequired,
+    harmonic_ratio: PropTypes.number.isRequired,
+    octavehistogram: PropTypes.arrayOf(PropTypes.number).isRequired,
+  }).isRequired,
   timingRating: PropTypes.number,
   selectedChord: PropTypes.string,
 };
