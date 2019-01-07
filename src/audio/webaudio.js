@@ -9,11 +9,11 @@ class SoundPlayback {
     this.playingFadeout = 0.001;
   }
 
-  play() {
+  play(time) {
     this.source = this.context.createBufferSource();
     this.source.connect(this.gainNode);
     this.source.buffer = this.buffer.getSound(this.bufferIndex);
-    this.source.start();
+    this.source.start(time);
     this.isPlaying = true;
 
     this.source.onended = () => {
@@ -48,7 +48,7 @@ export class AudioNodes {
     this.gainNode.connect(this.audioContext.destination);
   }
 
-  playSample() {
+  playSample(time) {
     this.gainNode.gain.setValueAtTime(0.5, this.audioContext.currentTime);
     const newSample = new SoundPlayback(
       this.audioContext,
@@ -57,7 +57,7 @@ export class AudioNodes {
       this.bufferIndex,
     );
     this.sources = [...this.sources, newSample];
-    newSample.play();
+    newSample.play(time);
   }
 
   stopAllSamples() {

@@ -15,7 +15,6 @@ export default class AudioPlayback extends Component {
     playedChord: 0,
     soundSamples: [],
     audioIsPlaying: false,
-    timerId: 0,
     audioContext: null,
   };
 
@@ -51,41 +50,95 @@ export default class AudioPlayback extends Component {
     }
   };
 
-  playSound = () => {
-    const { selectedChord } = this.props;
-    this.setState({ audioIsPlaying: true }, () => {
-      this.soundLoop(true, selectedChord);
-    });
+  webaudioBasedTimer = (audioContext, interval, targetTime, cb) => {
+    // This syncs the display with the webaudio clock.
+    const intervalTimer = window.setInterval(() => {
+      const { audioIsPlaying } = this.state;
+      if (audioContext.currentTime >= targetTime) {
+        cb();
+      }
+      if (audioContext.currentTime >= targetTime || !audioIsPlaying) {
+        window.clearInterval(intervalTimer);
+      }
+    }, interval);
   };
 
-  soundLoop = (shouldPlay, recursiveCounter) => {
-    const { audioIsPlaying, soundSamples, audioContext } = this.state;
-    const {
-      mainArray, timing, chords, chordPlaying,
-    } = this.props;
-    if (shouldPlay && audioIsPlaying) {
-      const playedChordBuffers = mainArray[recursiveCounter][1];
-      const currentChordBuffer = chords[playedChordBuffers].buffer_reference;
-      currentChordBuffer.forEach(bufferNumber => {
-        soundSamples[bufferNumber].playSample();
-      });
-      const shouldAudioContinue = recursiveCounter + 1 < chords.length;
-      const nextInterval = timing[recursiveCounter][1] * 1000;
-      const timerId = window.setTimeout(() => {
-        console.log('Timer:', nextInterval, 'AudioContext:', audioContext.currentTime);
-        return this.soundLoop(shouldAudioContinue, recursiveCounter + 1);
-      }, nextInterval);
-      chordPlaying(recursiveCounter);
-      this.setState({
-        timerId,
-        playedChord: recursiveCounter,
+  orderChords = (mainArray, chords, timing) => mainArray.map((mainArrayElement, index) => {
+    const orderElement = mainArrayElement[1];
+    return {
+      mainArrayRef: orderElement,
+      mainArrayRest: mainArrayElement[0],
+      time: timing[index],
+      chord: chords[orderElement],
+    };
+  });
+
+  queueMaker = (orderedChords, startingChord, delay) => {
+    const { audioContext } = this.state;
+    const startingAudioTime = audioContext.currentTime;
+    const startingChordTime = orderedChords[startingChord].time[0];
+    return orderedChords.slice(startingChord).reduce((queue, orderedChord, index) => {
+      const obj = {
+        chordNumber: index + startingChord,
+        chordBufferReference: orderedChord.chord.buffer_reference,
+        time: (orderedChord.time[0] - startingChordTime) + startingAudioTime + delay,
+      };
+      queue.push(obj);
+      return queue;
+    }, []);
+  }
+
+  scheduler = (queue, currentChordNumber, noOfChordsToSchedule) => {
+    // This function schedules webaudio sounds noOfChordsToSchedule chords ahead.
+    const { soundSamples } = this.state;
+    if (currentChordNumber === 0) {
+      for (let i = 0; i < noOfChordsToSchedule; i++) {
+        const { chordBufferReference, time } = queue[i];
+        chordBufferReference.forEach(bufferNumber => {
+          soundSamples[bufferNumber].playSample(time);
+        });
+      }
+    } else if (queue[currentChordNumber + noOfChordsToSchedule]) {
+      const { chordBufferReference, time } = queue[currentChordNumber + noOfChordsToSchedule];
+      chordBufferReference.forEach(bufferNumber => {
+        soundSamples[bufferNumber].playSample(time);
       });
     }
   };
 
+  playSound = () => {
+    const {
+      selectedChord, mainArray, chords, timing,
+    } = this.props;
+    const orderedChords = this.orderChords(mainArray, chords, timing);
+    const queue = this.queueMaker(orderedChords, selectedChord, 0.1);
+    this.scheduler(queue, 0, 5);
+    this.setState({ audioIsPlaying: true }, () => {
+      this.playSoundLoop(true, 0, queue);
+    });
+  };
+
+  playSoundLoop = (shouldPlay, recursiveCounter, queue) => {
+    const { audioIsPlaying, audioContext } = this.state;
+    const { chordPlaying } = this.props;
+    if (shouldPlay && audioIsPlaying) {
+      const { chordNumber, time } = queue[recursiveCounter];
+      const nextSchedule = () => {
+        const incrementRecursiveCounter = recursiveCounter + 1;
+        this.scheduler(queue, incrementRecursiveCounter, 5);
+        const shouldAudioContinue = incrementRecursiveCounter < queue.length;
+        this.playSoundLoop(shouldAudioContinue, incrementRecursiveCounter, queue);
+        chordPlaying(chordNumber);
+        this.setState({
+          playedChord: chordNumber,
+        });
+      };
+      this.webaudioBasedTimer(audioContext, 40, time, nextSchedule);
+    }
+  };
+
   stopSound = () => {
-    const { soundSamples, timerId } = this.state;
-    window.clearTimeout(timerId);
+    const { soundSamples } = this.state;
     soundSamples.forEach((bufferNumber, index) => {
       soundSamples[index].stopAllSamples();
     });
