@@ -12,6 +12,7 @@ import AudioPlayback from '../audio/AudioPlayback';
 import idealOrder from '../data/IdealOrder';
 import chords from '../data/chords';
 import timing from '../data/timing';
+import chordImages from '../assets/chordImages';
 
 import '../css/block.css';
 
@@ -106,6 +107,7 @@ class Grid extends Component {
               squareWidth={squareWidth}
               chordHighlighting={chordHighlighting}
               chordInfo={chords[currentIndex]}
+              chordImage={chordImages[currentValue]}
             />
           </GridSquare>
         </div>
@@ -145,11 +147,11 @@ class Grid extends Component {
 }
 
 Grid.propTypes = {
-  blockPosition: PropTypes.arrayOf(PropTypes.number),
+  blockPosition: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.number, PropTypes.string])),
 };
 
 Grid.defaultProps = {
-  blockPosition: PropTypes.number,
+  blockPosition: [null, null],
 };
 
 export default DragDropContext(HTML5Backend)(Grid);

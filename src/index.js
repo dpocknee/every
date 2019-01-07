@@ -21,7 +21,7 @@ const App = props => {
 };
 
 App.propTypes = {
-  blockPosition: PropTypes.arrayOf(PropTypes.number || PropTypes.string),
+  blockPosition: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.number, PropTypes.string])),
 };
 
 App.defaultProps = {

@@ -55,6 +55,7 @@ const Block = props => {
     timingRating,
     squareWidth,
     chordHighlighting,
+    chordImage,
   } = props;
 
   const {
@@ -117,7 +118,7 @@ const Block = props => {
         <div title="Spread of notes over octaves" className="octave">
           {octavearray}
         </div>
-        <img src={require(`../assets/chords/${name}.png`)} alt="notation" />
+        <img src={chordImage} alt="notation" />
       </div>
     </div>,
   );
