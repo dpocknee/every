@@ -1,0 +1,53 @@
+.playbackBox {
+  position: fixed;
+  width: 100px;
+  height: 100px;
+  bottom: 0;
+  right: 0;
+  background-color: #ffecdc;
+  border: 0px solid black;
+  box-shadow: -2px -2px 4px #888888;
+}
+
+.playbackButtonDiv {
+  width: 80px;
+  height: 80px;
+  margin-top: 10px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.playbackButtons {
+  width: 80px;
+  height: 80px;
+  background-color: transparent;
+  border: 0px;
+  transition-duration: 0.4s;
+}
+
+.playbackIcons {
+  font-size: 70px;
+  color: black;
+}
+
+.playbackIcons:hover {
+  color: red;
+}
+
+.fileLoading {
+  text-align: center;
+  display: flex;
+  flex: justify;
+  justify-content: center;
+  font-family: 'Hind', sans-serif;
+}
+
+.fileLoading .noOfFiles {
+  text-align: center;
+  font-size: 16px;
+}
+
+.fileLoading .loadingText {
+  text-align: center;
+  font-size: 10px;
+}

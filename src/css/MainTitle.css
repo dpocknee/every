@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css?family=Hind');
+
+/* This is the intro splash screen */
+.intro {
+  max-width: 800px;
+  font-size: 12px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 10px;
+  position: fixed;
+  top: 30px;
+  left: 0;
+  right: 0;
+  background-color: #ffecdc;
+  z-index: 3;
+  opacity: 0.98;
+  font-family: 'Hind', sans-serif;
+  box-shadow: 5px 10px 8px #888888;
+}
+
+.intro h1 {
+  font-size: 20px;
+}
+
+.intro p {
+  font-size: 12px;
+}
+
+.intro ul li {
+  font-size: 11px;
+}
+
+/* The main page title */
+.maintitle {
+  display: flex;
+  flex-direction: row;
+}
+
+.maintitle h1 {
+  font-family: 'Hind', sans-serif;
+  padding: 10px 0px 0px 0px;
+  margin: 0px;
+}
+
+.maintitle h2 {
+  font-family: 'Hind', sans-serif;
+  padding: 0px 0px 5px 0px;
+  margin: 0px;
+}
+.introButton {
+  border: 0px;
+  color: white;
+  background-color: blue;
+  height: 43px;
+  width: 80px;
+  vertical-align: bottom;
+  margin-left: 20px;
+}

@@ -2,7 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1,
+      shrink-to-fit=no">
     <meta name="theme-color" content="#000000">
     <!--
       manifest.json provides metadata used when your web app is added to the
@@ -10,9 +11,6 @@
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-    <script src="%PUBLIC_URL%/webaudio.js"></script>
-    <script src="%PUBLIC_URL%/timing.js"></script>
-    <script src="%PUBLIC_URL%/chords.js"></script>
 
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
@@ -29,39 +27,12 @@
     <noscript>
       You need to enable JavaScript to run this app.
     </noscript>
-    <script>
-    window.mainArray = [];
-    window.chords = chords;
-    window.timing = timing;
-    </script>
 
     <div id="root"></div>
-    <div style="position: fixed;
-      width: 110px;
-      height: 60px;
-      bottom: 0;
-      right: 0;
-      background-color: #ffecdc;
-      border: 1px solid black;
-      box-shadow: -2px -2px 4px #888888;">
-      <div style="width:100px;">
-        <div style="width:50px; float:left;">
-          <a href="javascript: playSound(document.getElementById('playback').value)">
-            <img src="img/playbutton.png" alt="Play">
-          </a>
-        </div>
-        <div style="width:50px; display:inline;">
-          <a href="javascript: stopSound()">
-            <img src="img/stopbutton.png" alt="Stop">
-          </a>
-        </div>
-      </div>
-    </div>
- 
+
     <!--
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-
   </body>
 </html>
