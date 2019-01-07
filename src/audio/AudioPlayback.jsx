@@ -16,6 +16,7 @@ export default class AudioPlayback extends Component {
     soundSamples: [],
     audioIsPlaying: false,
     timerId: 0,
+    audioContext: null,
   };
 
   componentDidMount() {
@@ -29,6 +30,7 @@ export default class AudioPlayback extends Component {
       soundSamples.push(chordSample);
     });
     return this.setState({
+      audioContext,
       soundSamples,
       noOfFilesToLoad: chordNames.length,
     });
@@ -57,23 +59,22 @@ export default class AudioPlayback extends Component {
   };
 
   soundLoop = (shouldPlay, recursiveCounter) => {
-    const { audioIsPlaying, soundSamples } = this.state;
+    const { audioIsPlaying, soundSamples, audioContext } = this.state;
     const {
       mainArray, timing, chords, chordPlaying,
     } = this.props;
-    const playedChordBuffers = mainArray[recursiveCounter][1];
     if (shouldPlay && audioIsPlaying) {
-      const currentChord = chords[playedChordBuffers];
-      const { buffer_reference } = currentChord;
-      buffer_reference.forEach(bufferNumber => {
+      const playedChordBuffers = mainArray[recursiveCounter][1];
+      const currentChordBuffer = chords[playedChordBuffers].buffer_reference;
+      currentChordBuffer.forEach(bufferNumber => {
         soundSamples[bufferNumber].playSample();
       });
       const shouldAudioContinue = recursiveCounter + 1 < chords.length;
       const nextInterval = timing[recursiveCounter][1] * 1000;
-      const timerId = window.setTimeout(
-        () => this.soundLoop(shouldAudioContinue, recursiveCounter + 1),
-        nextInterval,
-      );
+      const timerId = window.setTimeout(() => {
+        console.log('Timer:', nextInterval, 'AudioContext:', audioContext.currentTime);
+        return this.soundLoop(shouldAudioContinue, recursiveCounter + 1);
+      }, nextInterval);
       chordPlaying(recursiveCounter);
       this.setState({
         timerId,

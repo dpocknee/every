@@ -13,7 +13,7 @@ class SoundPlayback {
     this.source = this.context.createBufferSource();
     this.source.connect(this.gainNode);
     this.source.buffer = this.buffer.getSound(this.bufferIndex);
-    this.source.start(this.playingFadeout + 0.002);
+    this.source.start();
     this.isPlaying = true;
 
     this.source.onended = () => {
