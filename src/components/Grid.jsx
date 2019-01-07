@@ -80,7 +80,6 @@ class Grid extends Component {
   };
 
   render() {
-    console.log('blockPosition:', this.props.blockPosition);
     const { sliderValue, mainArray, chordPlaying } = this.state;
     const squares = mainArray.map((chord, index) => {
       const [currentValue, currentIndex] = mainArray[index];

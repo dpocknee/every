@@ -35,6 +35,11 @@ export default class AudioPlayback extends Component {
     });
   }
 
+  componentWillUnmount() {
+    const { audioContext } = this.state;
+    audioContext.close();
+  }
+
   fileLoadingProgress = (event, progressType) => {
     if (progressType === 'load') {
       this.setState(state => {
