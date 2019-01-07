@@ -1,4 +1,4 @@
-let blockPosition = 0;
+let blockPosition = [null, null];
 let observer = null;
 
 function emitChange() {
@@ -13,7 +13,7 @@ export function observe(o) {
   emitChange();
 }
 
-export function moveBlock(location, name, id) {
-  blockPosition = [location, name, id];
+export function moveBlock(location, name) {
+  blockPosition = [location, name];
   emitChange();
 }

@@ -64,7 +64,7 @@ class Grid extends Component {
     const { mainArray } = this.state;
     const blockId = blockFrom[1];
 
-    const oldPosition = mainArray.findIndex(x => x[0] == blockId);
+    const oldPosition = mainArray.findIndex(x => x[0] === blockId);
     const oldValue = mainArray[oldPosition][1];
     const newPosition = blockPosition[0];
     this.setState(state => {
@@ -80,6 +80,7 @@ class Grid extends Component {
   };
 
   render() {
+    console.log('blockPosition:', this.props.blockPosition);
     const { sliderValue, mainArray, chordPlaying } = this.state;
     const squares = mainArray.map((chord, index) => {
       const [currentValue, currentIndex] = mainArray[index];
