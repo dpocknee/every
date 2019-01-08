@@ -14,7 +14,6 @@ import chords from '../data/chords';
 import timing from '../data/timing';
 import chordImages from '../assets/chordImages';
 import settings from '../css/BlockSettings';
-
 import '../css/block.css';
 
 const squareWidth = 70;

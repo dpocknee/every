@@ -10,6 +10,7 @@ const settings = {
   mainTitle: {
     backgroundColor: yellow,
     color: purple,
+    boxShadow: `2px 0px 5px 2px ${purple}`,
   },
   easiestDifficultyColor: Object.values(converter.HEXtoRGB(green)),
   hardestDifficultyColor: Object.values(converter.HEXtoRGB(red)),
@@ -26,6 +27,7 @@ const settings = {
   buttons: {
     backgroundColor: purple,
     color: 'white',
+    cursor: 'pointer',
   },
   disabledButtons: {
     backgroundColor: blue,

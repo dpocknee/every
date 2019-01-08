@@ -96,6 +96,7 @@ export default class AudioPlayback extends Component {
   scheduler = (queue, currentChordNumber, noOfChordsToSchedule) => {
     // This function schedules webaudio sounds noOfChordsToSchedule chords ahead.
     const { soundSamples } = this.state;
+    const futureChords = currentChordNumber + (noOfChordsToSchedule - 1);
     if (currentChordNumber === 0) {
       for (let i = 0; i < noOfChordsToSchedule; i++) {
         const { chordBufferReference, time } = queue[i];
@@ -103,8 +104,8 @@ export default class AudioPlayback extends Component {
           soundSamples[bufferNumber].playSample(time);
         });
       }
-    } else if (queue[currentChordNumber + noOfChordsToSchedule]) {
-      const { chordBufferReference, time } = queue[currentChordNumber + noOfChordsToSchedule];
+    } else if (queue[futureChords]) {
+      const { chordBufferReference, time } = queue[futureChords];
       chordBufferReference.forEach(bufferNumber => {
         soundSamples[bufferNumber].playSample(time);
       });

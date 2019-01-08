@@ -33,13 +33,15 @@
 .maintitle {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   margin-bottom: 10px;
 }
 
 .maintitle button {
-  padding: 5px 5px 5px 5px;
+  padding: 5px 30px 5px 30px;
   border: 0px;
   cursor: pointer;
+  border-radius: 15px;
 }
 
 .maintitle h1 {
@@ -58,4 +60,8 @@
   width: 80px;
   vertical-align: bottom;
   margin-left: 20px;
+}
+
+.github {
+  margin-right: 30px;
 }
