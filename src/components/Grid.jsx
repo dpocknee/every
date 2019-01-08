@@ -12,6 +12,8 @@ import AudioPlayback from '../audio/AudioPlayback';
 import idealOrder from '../data/IdealOrder';
 import chords from '../data/chords';
 import timing from '../data/timing';
+import chordImages from '../assets/chordImages';
+import settings from '../css/BlockSettings';
 
 import '../css/block.css';
 
@@ -23,8 +25,6 @@ let blockFrom = null;
 export function sourcerer(value, id) {
   blockFrom = [value, id];
 }
-
-// NOTE: The format for the window.mainArray variable is [chord name, chord index]
 
 class Grid extends Component {
   state = {
@@ -64,7 +64,7 @@ class Grid extends Component {
     const { mainArray } = this.state;
     const blockId = blockFrom[1];
 
-    const oldPosition = mainArray.findIndex(x => x[0] == blockId);
+    const oldPosition = mainArray.findIndex(x => x[0] === blockId);
     const oldValue = mainArray[oldPosition][1];
     const newPosition = blockPosition[0];
     this.setState(state => {
@@ -81,11 +81,12 @@ class Grid extends Component {
 
   render() {
     const { sliderValue, mainArray, chordPlaying } = this.state;
+    const { chordHighlightSelect, chordHighlightPlaying } = settings;
     const squares = mainArray.map((chord, index) => {
       const [currentValue, currentIndex] = mainArray[index];
       let chordHighlighting = '0px 0px 0px 0px';
-      if (index === sliderValue) chordHighlighting = '0px 0px 5px 5px #888888';
-      if (index === chordPlaying) chordHighlighting = '0px 0px 5px 5px #c0c0c0';
+      if (index === sliderValue) chordHighlighting = chordHighlightSelect;
+      if (index === chordPlaying) chordHighlighting = chordHighlightPlaying;
       const squareKey = `squares${index}`;
       return (
         <div
@@ -98,6 +99,7 @@ class Grid extends Component {
             value={currentValue}
             squareWidth={squareWidth}
             squareHeight={squareHeight}
+            settings={settings}
           >
             <Block
               id={currentValue}
@@ -106,6 +108,8 @@ class Grid extends Component {
               squareWidth={squareWidth}
               chordHighlighting={chordHighlighting}
               chordInfo={chords[currentIndex]}
+              chordImage={chordImages[currentValue]}
+              settings={settings}
             />
           </GridSquare>
         </div>
@@ -131,6 +135,7 @@ class Grid extends Component {
           updateTheSliderValue={this.updateTheSliderValue}
           sliderValue={sliderValue}
           arrayUpdater={this.arrayUpdater}
+          settings={settings}
         />
         <AudioPlayback
           mainArray={mainArray}
@@ -138,6 +143,7 @@ class Grid extends Component {
           timing={timing}
           selectedChord={sliderValue}
           chordPlaying={this.chordPlaying}
+          settings={settings}
         />
       </>
     );
@@ -145,11 +151,11 @@ class Grid extends Component {
 }
 
 Grid.propTypes = {
-  blockPosition: PropTypes.arrayOf(PropTypes.number),
+  blockPosition: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.number, PropTypes.string])),
 };
 
 Grid.defaultProps = {
-  blockPosition: PropTypes.number,
+  blockPosition: [null, null],
 };
 
 export default DragDropContext(HTML5Backend)(Grid);

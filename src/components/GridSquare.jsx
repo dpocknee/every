@@ -25,7 +25,14 @@ function collect(connect, monitor) {
 
 const GridSquare = props => {
   const {
-    index, value, connectDropTarget, isOver, squareWidth, squareHeight, children,
+    index,
+    value,
+    connectDropTarget,
+    isOver,
+    squareWidth,
+    squareHeight,
+    children,
+    settings,
   } = props;
   return connectDropTarget(
     <div
@@ -48,7 +55,7 @@ const GridSquare = props => {
             width: '100%',
             zIndex: 1,
             opacity: 0.5,
-            backgroundColor: 'yellow',
+            backgroundColor: settings.dragndropColor,
           }}
         />
       )}

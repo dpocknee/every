@@ -21,11 +21,11 @@ const App = props => {
 };
 
 App.propTypes = {
-  blockPosition: PropTypes.arrayOf(PropTypes.number),
+  blockPosition: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.number, PropTypes.string])),
 };
 
 App.defaultProps = {
-  blockPosition: PropTypes.number,
+  blockPosition: [null, null],
 };
 
 observe(blockPosition => ReactDOM.render(<App blockPosition={blockPosition} />, root));
