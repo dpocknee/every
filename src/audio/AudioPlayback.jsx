@@ -178,7 +178,7 @@ export default class AudioPlayback extends Component {
                     onClick={() => this.stopSound()}
                     onKeyDown={() => this.stopSound()}
                   >
-                    <FontAwesomeIcon icon={faStopCircle} className="playbackIcons" alt="Stop" />
+                    <FontAwesomeIcon icon={faStopCircle} className="playbackIcons" style={{ ...settings.playbackIcons }} alt="Stop" />
                   </button>
                   <p>{`Playing chord: #${playedChord + 1}`}</p>
                 </>
@@ -189,7 +189,7 @@ export default class AudioPlayback extends Component {
                   onClick={() => this.playSound()}
                   onKeyDown={() => this.playSound()}
                 >
-                  <FontAwesomeIcon icon={faPlayCircle} className="playbackIcons" alt="Play" />
+                  <FontAwesomeIcon icon={faPlayCircle} className="playbackIcons" style={{ ...settings.playbackIcons }} alt="Play" />
                 </button>
               )}
             </div>

@@ -1,15 +1,15 @@
 const converter = require('rgb-hex-converter');
 
-const red = '#e7717d';
-const green = '#afd275';
-const blue = '#c2cad0';
-const yellow = '#c2b9b0';
-const purple = '#7e685a';
+const red = '#6E0003';
+const green = '#40A33B';
+const blue = '#61A39A';
+const yellow = '#94C6C2';
+const purple = '#00221D';
 
 const settings = {
   mainTitle: {
-    backgroundColor: purple,
-    color: 'white',
+    backgroundColor: yellow,
+    color: purple,
   },
   easiestDifficultyColor: Object.values(converter.HEXtoRGB(green)),
   hardestDifficultyColor: Object.values(converter.HEXtoRGB(red)),
@@ -21,22 +21,23 @@ const settings = {
   chordHighlightPlaying: '0px 0px 5px 5px #c0c0c0',
   dragndropColor: yellow,
   floatingBoxes: { backgroundColor: yellow, border: `0px solid ${purple}`, color: purple },
-  playbackButtons: { color: purple },
+  playbackButtons: { color: purple, boxShadow: purple },
+  playbackIcons: { color: purple },
   buttons: {
     backgroundColor: purple,
     color: 'white',
   },
   disabledButtons: {
     backgroundColor: blue,
-    color: purple,
+    color: yellow,
     border: purple,
   },
   harmonics: {
-    backgroundColor: blue,
+    backgroundColor: yellow,
     color: purple,
   },
   octaves: {
-    backgroundColor: blue,
+    backgroundColor: yellow,
   },
 };
 

@@ -14,7 +14,7 @@
   z-index: 3;
   opacity: 0.98;
   font-family: 'Hind', sans-serif;
-  box-shadow: 5px 10px 8px #888888;
+  box-shadow: 5px 10px 8px;
 }
 
 .intro h1 {
