@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHome } from '@fortawesome/free-solid-svg-icons';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import IntroText from './IntroText';
 import '../css/MainTitle.css';
@@ -27,6 +28,14 @@ class MainTitle extends Component {
             <h1>A Composition Tool for David Pocknee's Guitar Piece "Every"</h1>
           </button>
           <div className="github">
+            <a href="http://www.davidpocknee.com">
+              <FontAwesomeIcon
+                icon={faHome}
+                className="playbackIcons"
+                style={{ ...settings.playbackIcons }}
+                alt="Back to davidpocknee.com"
+              />
+            </a>
             <a href="http://www.github.com/dpocknee/every">
               <FontAwesomeIcon
                 icon={faGithub}
