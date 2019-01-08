@@ -69,7 +69,7 @@ export default class Lilypond extends Component {
     const {
       arrayUsed, phpNotation, invalidArray, alerts,
     } = this.state;
-    const { mainArrayOrder } = this.props;
+    const { mainArrayOrder, settings } = this.props;
     const currentOrderArray = mainArrayOrder.map(element => element + 1);
     const currentOrderString = `[${currentOrderArray.join(', ')}]`;
     return (
@@ -90,6 +90,7 @@ export default class Lilypond extends Component {
           <div className="endbox">
             <button
               className="lilypondButtons"
+              style={{ ...settings.buttons }}
               type="button"
               onClick={() => {
                 this.loadCurrentOrder();
@@ -115,6 +116,7 @@ export default class Lilypond extends Component {
             <button
               type="button"
               className="lilypondButtons"
+              style={{ ...settings.buttons }}
               onClick={() => {
                 this.loadUserOrder();
               }}
@@ -137,6 +139,8 @@ export default class Lilypond extends Component {
               <input
                 type="submit"
                 id="generateButton"
+                className="generationButtons"
+                style={invalidArray ? { ...settings.disabledButtons } : { ...settings.buttons }}
                 name="submit"
                 disabled={invalidArray}
                 value="Generate lilypond file"
@@ -156,4 +160,8 @@ Lilypond.propTypes = {
   mainArrayOrder: PropTypes.arrayOf(PropTypes.number).isRequired,
   arrayUpdater: PropTypes.func.isRequired,
   chords: PropTypes.arrayOf(PropTypes.object).isRequired,
+  settings: PropTypes.shape({
+    backgroundColor: PropTypes.string,
+    border: PropTypes.string,
+  }).isRequired,
 };

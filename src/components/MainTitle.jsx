@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import IntroText from './IntroText';
 import '../css/MainTitle.css';
+import settings from '../css/BlockSettings';
 
 /* eslint react/no-unescaped-entities: 0 */
 
@@ -20,15 +21,8 @@ class MainTitle extends Component {
       <>
         <IntroText aboutOn={aboutOn} introClick={this.introClick} />
         <div className="maintitle">
-          <h1>
-            <a href="http://www.davidpocknee.com/">David Pocknee's</a>
-            {' '}
-            <i>Every</i>
-            {' '}
-Composition Tool
-          </h1>
-          <button className="introButton" type="button" onClick={() => this.introClick()}>
-            about
+          <button style={{ ...settings.mainTitle }} type="button" onClick={() => this.introClick()}>
+            <h1>A Composition Tool for David Pocknee's Guitar Piece "Every"</h1>
           </button>
         </div>
       </>

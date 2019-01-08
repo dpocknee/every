@@ -6,8 +6,6 @@
   height: 150px;
   bottom: 0;
   left: 0;
-  background-color: #ffecdc;
-  color: black;
   border: 1px solid black;
   font-family: 'Hind', sans-serif;
   font-size: 12px;
@@ -18,7 +16,6 @@
 .slider {
   width: 500px;
   height: 12px;
-  color: blue;
   border-radius: 2px;
   margin: 5px 5px 5px 0px;
   outline: none;
@@ -92,9 +89,16 @@
 
 .lilypondButtons {
   width: 140px;
-  height: 20px;
+  height: 25px;
   margin: 2px;
   border: 0px;
-  background-color: blue;
-  color: white;
+}
+
+.generationButtons {
+  width: 200px;
+  height: 30px;
+  margin: 2px;
+  border: 0px;
+  font-size: 14px;
+  font-weight: bold;
 }

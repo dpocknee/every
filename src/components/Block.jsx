@@ -21,13 +21,13 @@ function collect(connect, monitor) {
   };
 }
 
-function octavemaker(arrayin, octaveHeight, graphwidth, topOffset) {
+function octavemaker(arrayin, octaveHeightIn, graphwidth, topOffsetIn, settings) {
   const octoutput = [];
-  const bardivision = octaveHeight / 5;
+  const bardivision = octaveHeightIn / 5;
   const barwidth = graphwidth / 5 - 2;
   for (let x = 0; x < arrayin.length; x++) {
     const barheight = arrayin[x] * bardivision + 1;
-    const topval = octaveHeight - barheight + topOffset;
+    const topval = octaveHeightIn - barheight + topOffsetIn;
     const leftval = x * (barwidth + 2) + 1;
 
     octoutput.push(
@@ -40,6 +40,7 @@ function octavemaker(arrayin, octaveHeight, graphwidth, topOffset) {
           left: `${leftval}px`,
           width: `${barwidth}px`,
           margin: '0px 1px 0px 1px',
+          ...settings.octaves,
         }}
       />,
     );
@@ -56,13 +57,21 @@ const Block = props => {
     squareWidth,
     chordHighlighting,
     chordImage,
+    settings,
   } = props;
 
   const {
     difficulty, notes, harmonic_ratio, octavehistogram,
   } = props.chordInfo;
-  const easiestDifficultyColor = [42, 242, 42];
-  const hardestDifficultyColor = [228, 0, 0];
+
+  const {
+    easiestDifficultyColor,
+    hardestDifficultyColor,
+    noOfNotesMaxColor,
+    noOfNotesMinColor,
+    octaveHeight,
+    topOffset,
+  } = settings;
 
   const speedColour = utils.colourInterpolator(
     easiestDifficultyColor,
@@ -70,16 +79,14 @@ const Block = props => {
     timingRating,
   );
   const harmonicSpread = `${Math.round(harmonic_ratio * 100)}%`;
-  const octaveHeight = 50;
-  const topOffset = 56; // amount octave graph is offset from the top of the main div
-  const octavearray = octavemaker(octavehistogram, octaveHeight, squareWidth, topOffset);
+  const octavearray = octavemaker(octavehistogram, octaveHeight, squareWidth, topOffset, settings);
 
   const difficultycolordiffs = utils.colourInterpolator(
     easiestDifficultyColor,
     hardestDifficultyColor,
     (difficulty - 1) / 8,
   );
-  const noNotesColor = utils.colourInterpolator([220, 220, 220], [34, 34, 34], notes / 5);
+  const noNotesColor = utils.colourInterpolator(noOfNotesMinColor, noOfNotesMaxColor, notes / 5);
 
   return connectDragSource(
     <div
@@ -110,7 +117,7 @@ const Block = props => {
         </div>
 
         <div className="harmonics" title="% of harmonics">
-          <div className="stats" style={{ width: harmonicSpread }}>
+          <div className="stats" style={{ width: harmonicSpread, ...settings.harmonics }}>
             {harmonicSpread}
           </div>
         </div>

@@ -67,9 +67,7 @@
 .block .harmonics .stats {
   height: 11px;
   line-height: 11px;
-  background-color: lightblue;
   font-size: 10px;
-  color: black;
   margin: 0px;
   text-align: center;
 }
@@ -87,7 +85,6 @@
 }
 
 .block .octave .stats {
-  background-color: lightblue;
   position: absolute;
   box-sizing: border-box;
 }

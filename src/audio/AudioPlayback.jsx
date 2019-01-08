@@ -159,9 +159,10 @@ export default class AudioPlayback extends Component {
       loadingError,
       audioIsPlaying,
     } = this.state;
+    const { settings } = this.props;
     return (
       <>
-        <div className="playbackBox">
+        <div className="playbackBox" style={{ ...settings.playbackButtons, ...settings.floatingBoxes }}>
           {loadingError && (
             <div className="fileLoading">
               <p className="loadingText">{loadingError}</p>
@@ -214,4 +215,8 @@ AudioPlayback.propTypes = {
   timing: PropTypes.arrayOf(PropTypes.array).isRequired,
   chordPlaying: PropTypes.func.isRequired,
   selectedChord: PropTypes.number.isRequired,
+  settings: PropTypes.shape({
+    backgroundColor: PropTypes.string,
+    border: PropTypes.string,
+  }).isRequired,
 };

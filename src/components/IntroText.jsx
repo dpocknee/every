@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import settings from '../css/BlockSettings';
 
 const IntroText = props => {
   const { aboutOn, introClick } = props;
@@ -11,6 +12,7 @@ const IntroText = props => {
           tabIndex={0}
           style={{
             display: 'block',
+            ...settings.floatingBoxes,
           }}
           className="intro"
           onKeyDown={() => {

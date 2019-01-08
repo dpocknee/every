@@ -13,6 +13,7 @@ import idealOrder from '../data/IdealOrder';
 import chords from '../data/chords';
 import timing from '../data/timing';
 import chordImages from '../assets/chordImages';
+import settings from '../css/BlockSettings';
 
 import '../css/block.css';
 
@@ -24,8 +25,6 @@ let blockFrom = null;
 export function sourcerer(value, id) {
   blockFrom = [value, id];
 }
-
-// NOTE: The format for the window.mainArray variable is [chord name, chord index]
 
 class Grid extends Component {
   state = {
@@ -82,11 +81,12 @@ class Grid extends Component {
 
   render() {
     const { sliderValue, mainArray, chordPlaying } = this.state;
+    const { chordHighlightSelect, chordHighlightPlaying } = settings;
     const squares = mainArray.map((chord, index) => {
       const [currentValue, currentIndex] = mainArray[index];
       let chordHighlighting = '0px 0px 0px 0px';
-      if (index === sliderValue) chordHighlighting = '0px 0px 5px 5px #888888';
-      if (index === chordPlaying) chordHighlighting = '0px 0px 5px 5px #c0c0c0';
+      if (index === sliderValue) chordHighlighting = chordHighlightSelect;
+      if (index === chordPlaying) chordHighlighting = chordHighlightPlaying;
       const squareKey = `squares${index}`;
       return (
         <div
@@ -99,6 +99,7 @@ class Grid extends Component {
             value={currentValue}
             squareWidth={squareWidth}
             squareHeight={squareHeight}
+            settings={settings}
           >
             <Block
               id={currentValue}
@@ -108,6 +109,7 @@ class Grid extends Component {
               chordHighlighting={chordHighlighting}
               chordInfo={chords[currentIndex]}
               chordImage={chordImages[currentValue]}
+              settings={settings}
             />
           </GridSquare>
         </div>
@@ -133,6 +135,7 @@ class Grid extends Component {
           updateTheSliderValue={this.updateTheSliderValue}
           sliderValue={sliderValue}
           arrayUpdater={this.arrayUpdater}
+          settings={settings}
         />
         <AudioPlayback
           mainArray={mainArray}
@@ -140,6 +143,7 @@ class Grid extends Component {
           timing={timing}
           selectedChord={sliderValue}
           chordPlaying={this.chordPlaying}
+          settings={settings}
         />
       </>
     );
